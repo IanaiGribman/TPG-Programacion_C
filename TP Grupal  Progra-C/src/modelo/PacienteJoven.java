@@ -2,6 +2,11 @@ package modelo;
 
 public class PacienteJoven extends Paciente {
 
+	protected PacienteJoven(String nombre, Domicilio domicilio, String telefono, String dni) {
+		super(nombre, domicilio, telefono, dni);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public boolean tengoPrioridad(Paciente otro) {
 		return !otro.prioridadAnteJoven();

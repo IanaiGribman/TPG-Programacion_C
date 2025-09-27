@@ -17,5 +17,17 @@ public abstract class Entidad implements INombrable {
 	public String getNombre() {
 		return nombre;
 	}
+
+
+	public Domicilio getDomicilio() {
+		return domicilio;
+	}
+
+
+	public String getTelefono() {
+		return telefono;
+	}
+	
+	
 	
 }
