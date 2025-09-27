@@ -1,13 +1,13 @@
 package modelo;
 
-import java.util.HashMap;
-import java.util.Map;
+import modelo.excepciones.DniRepetidoException;
+import modelo.registro.ModuloRegistro;
 
 /**
  * pacientes: hashmap con clave dni del paciente y valor objeto Paciente
  */
 public class Clinica extends Entidad {
-	private HashMap<String, Paciente> pacientes;
+	private ModuloRegistro moduloRegistro;
 
 	/**Pre: los parámetros son distintos de null
 	 * Instancia las listas, además de inicializar los atributos no listas
@@ -16,19 +16,16 @@ public class Clinica extends Entidad {
 	 * @param telefono de la clinica
 	 
 	 */
-	public Clinica(String nombre, Domicilio domicilio, String telefono) {
+	public Clinica(String nombre, Domicilio domicilio, String telefono) 
+	{
 		super(nombre, domicilio, telefono);
-		pacientes = new HashMap<>();
+		moduloRegistro = new ModuloRegistro();
 	}
 	
-	/**
-	 * 
-	 * @param paciente
-	 * @param listaDePacientes
-	 * @return
-	 */
-	private Paciente buscarPaciente(Paciente paciente, Map<String, Paciente> listaDePacientes)
+	
+	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
-		return listaDePacientes.get(paciente.getDni());
+		this.moduloRegistro.registra(paciente);
 	}
+	
 }
