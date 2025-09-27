@@ -9,7 +9,6 @@ public class PacientesFactory {
 		case "mayor": new PacienteMayor(); break;
 		}
 		return paciente;
-		
 	}
 
 }
