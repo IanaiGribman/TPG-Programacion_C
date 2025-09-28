@@ -1,24 +1,40 @@
 package modelo.espera;
 
-import java.util.HashMap;
-
+import java.util.ArrayList;
 import modelo.Paciente;
 
+/**
+ * Esta clase tiene una lista de los pacientes en el patio y tiene métodos para sacarlos o colocarlos en el patio
+ */
+
 public class Patio {
-	private HashMap<String, Paciente> pacientesPatio;
+	private ArrayList<Paciente> pacientesPatio;
 
 	public Patio() {
 		super();
-		pacientesPatio = new HashMap<>();
+		pacientesPatio = new ArrayList<>();
 	}
 	
+	/**
+	 * Pre: el paciente no debe ser null, debe estar en el patio
+	 * Post: el paciente ya no está en el patio
+	 * @param paciente
+	 */
 	public void sacarPaciente(Paciente paciente)
 	{
-		this.pacientesPatio.remove(paciente.getDni());
+		this.pacientesPatio.remove(paciente);
 	}
 	
+	/**
+	 * Pre: el paciente debe estar en la lista de espera y no debe ser null
+	 * Post: el paciente se agrega al patio
+	 * @param paciente
+	 */
 	public void ponerPaciente(Paciente paciente)
 	{
-		this.pacientesPatio.put(paciente.getDni(), paciente);
+		this.pacientesPatio.add(paciente);
+		System.out.println("se ha colocado a " + paciente.getNombre() + " en el patio");
 	}
+	
+	
 }

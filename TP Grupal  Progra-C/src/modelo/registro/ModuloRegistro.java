@@ -37,8 +37,10 @@ public class ModuloRegistro
 	public void registra(Paciente paciente) throws DniRepetidoException
 	{
 		Paciente otro = buscarPaciente(paciente);
-		if (otro == null)
+		if (otro == null) {
 			this.pacientes.put(paciente.getDni(), paciente);
+			System.out.println("se ha registrado a " + paciente.getNombre());
+		}
 		else
 			throw new DniRepetidoException(paciente.getDni());
 	}

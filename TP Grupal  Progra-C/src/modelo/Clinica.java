@@ -1,6 +1,8 @@
 package modelo;
 
+import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
+import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.registro.ModuloRegistro;
 
 /**
@@ -8,6 +10,7 @@ import modelo.registro.ModuloRegistro;
  */
 public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
+	private ModuloEspera moduloEspera;
 
 	/**Pre: los parámetros son distintos de null
 	 * Instancia las listas, además de inicializar los atributos no listas
@@ -16,10 +19,11 @@ public class Clinica extends Entidad {
 	 * @param telefono de la clinica
 	 
 	 */
-	public Clinica(String nombre, Domicilio domicilio, String telefono) 
+	public Clinica(String nombre, Domicilio domicilio, String telefono) //habria que lanzar excepciones si algunos de estos datos es null?
 	{
 		super(nombre, domicilio, telefono);
 		moduloRegistro = new ModuloRegistro();
+		moduloEspera = new ModuloEspera();
 	}
 	
 	
@@ -28,4 +32,10 @@ public class Clinica extends Entidad {
 		this.moduloRegistro.registra(paciente);
 	}
 	
+	
+	//hay que chequear que el paciente ya esté registrado??
+	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException
+	{
+		this.moduloEspera.ingresaPaciente(paciente);
+	}
 }
