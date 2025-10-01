@@ -17,7 +17,7 @@ public class ModuloEspera {
 		salaEsperaPrivada = new SalaEsperaPrivada();
 	}
 	
-	private boolean pacienteEstaEnListaDeEspera(Paciente paciente)
+	protected boolean isEnListaDeEspera(Paciente paciente)
 	{
 		return this.listaDeEspera.contains(paciente);
 	}
@@ -25,13 +25,23 @@ public class ModuloEspera {
 	 * Pre: el paciente no está en la lista de espera
 	 * @param paciente
 	 */
-	private void ponerPacienteEnListaDeEspera(Paciente paciente)
+	protected void ponerEnListaDeEspera(Paciente paciente)
 	{
 		this.listaDeEspera.add(paciente);
 		System.out.println("se ha colocado a " + paciente.getNombre() + " en la lista de espera");
 	}
 	
-	private void ponerPacienteEnSalaOPatio(Paciente paciente)
+	/**
+	 * Pre: el paciente DEBE estar en la lista de espera
+	 * @param paciente
+	 */
+	protected void sacarDeListaDeEspera(Paciente paciente)
+	{
+		System.out.println("se ha sacado a " + paciente.getNombre() + " de la lista de espera");
+		this.listaDeEspera.remove(paciente);
+	}
+	
+	protected void ponerEnSalaOPatio(Paciente paciente)
 	{
 		if (salaEsperaPrivada.isLibre())
 			salaEsperaPrivada.setHuesped(paciente);
@@ -48,6 +58,19 @@ public class ModuloEspera {
 		}
 	}
 	
+	
+	/**
+	 * pre: el paciente simpre está en alguno de los dos lugares
+	 * @param paciente
+	 */
+	protected void sacarDeSalaOPatio(Paciente paciente)
+	{
+		if (!salaEsperaPrivada.isLibre() && salaEsperaPrivada.getHuesped().equals(paciente))
+			salaEsperaPrivada.vaciar();
+		else
+			patio.sacarPaciente(paciente);
+	}
+	
 	/**
 	 * Pre: paciente no es null y debería estar ya registrado en el sitema
 	 * @param paciente
@@ -55,12 +78,22 @@ public class ModuloEspera {
 	 */
 	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException
 	{
-		if (!this.pacienteEstaEnListaDeEspera(paciente))
+		if (!this.isEnListaDeEspera(paciente))
 		{
-			this.ponerPacienteEnListaDeEspera(paciente);
-			this.ponerPacienteEnSalaOPatio(paciente);
+			this.ponerEnListaDeEspera(paciente);
+			this.ponerEnSalaOPatio(paciente);
 		}
 		else
 			throw new PacienteYaIngresadoException(paciente);
+	}
+	
+	/**
+	 * Pre: el paciente esta en el modulo de espera
+	 * @param paciente
+	 */
+	public void sacarDeEspera(Paciente paciente)
+	{
+		this.sacarDeListaDeEspera(paciente);
+		this.sacarDeSalaOPatio(paciente);
 	}
 }

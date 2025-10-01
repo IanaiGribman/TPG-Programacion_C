@@ -29,7 +29,7 @@ public class Clinica extends Entidad {
 	
 	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
-		this.moduloRegistro.registra(paciente);
+		this.moduloRegistro.registraPaciente(paciente);
 	}
 	
 	
@@ -37,5 +37,10 @@ public class Clinica extends Entidad {
 	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException
 	{
 		this.moduloEspera.ingresaPaciente(paciente);
+	}
+	
+	public void sacarDeEspera(Paciente paciente)
+	{
+		this.moduloEspera.sacarDeEspera(paciente);
 	}
 }

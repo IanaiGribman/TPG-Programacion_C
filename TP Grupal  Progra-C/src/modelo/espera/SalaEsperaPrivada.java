@@ -22,6 +22,7 @@ public class SalaEsperaPrivada {
 	
 	public void vaciar()
 	{
+		System.out.println("se ha sacado a " + this.huesped.getNombre() + " de la sala privada");
 		this.huesped = null;
 	}
 	

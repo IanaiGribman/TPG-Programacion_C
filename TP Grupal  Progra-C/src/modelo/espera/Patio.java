@@ -22,6 +22,7 @@ public class Patio {
 	 */
 	public void sacarPaciente(Paciente paciente)
 	{
+		System.out.println("se ha sacado a " + paciente.getNombre() + " del patio");
 		this.pacientesPatio.remove(paciente);
 	}
 	
