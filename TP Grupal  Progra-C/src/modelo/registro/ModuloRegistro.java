@@ -22,9 +22,9 @@ public class ModuloRegistro
 	 * @param paciente
 	 * @return
 	 */
-	private Paciente buscarPaciente(Paciente paciente)
+	private boolean pacienteEstaRegistrado(Paciente paciente)
 	{
-		return this.pacientes.get(paciente.getDni());
+		return this.pacientes.containsKey(paciente.getDni());
 	}
 	
 	
@@ -34,10 +34,9 @@ public class ModuloRegistro
 	 * @param paciente que se quiere registrar
 	 * @throws DniRepetidoException
 	 */
-	public void registra(Paciente paciente) throws DniRepetidoException
+	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
-		Paciente otro = buscarPaciente(paciente);
-		if (otro == null) {
+		if (!pacienteEstaRegistrado(paciente)) {
 			this.pacientes.put(paciente.getDni(), paciente);
 			System.out.println("se ha registrado a " + paciente.getNombre());
 		}
