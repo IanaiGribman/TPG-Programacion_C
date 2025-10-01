@@ -37,5 +37,10 @@ public class Patio {
 		System.out.println("se ha colocado a " + paciente.getNombre() + " en el patio");
 	}
 	
+	public boolean isInPatio(Paciente paciente)
+	{
+		return this.pacientesPatio.contains(paciente);
+	}
+	
 	
 }

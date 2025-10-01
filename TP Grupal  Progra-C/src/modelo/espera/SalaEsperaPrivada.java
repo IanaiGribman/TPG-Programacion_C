@@ -1,4 +1,6 @@
 package modelo.espera;
+import java.util.Objects;
+
 import modelo.Paciente;
 
 /**
@@ -39,5 +41,16 @@ public class SalaEsperaPrivada {
 	{
 		this.huesped = paciente;
 		System.out.println("se ha colocado a " + paciente.getNombre() + " en la sala de espera privada");
+	}
+	
+	
+	/**
+	 * pre: huesped no debe ser null (tampoco paciente)
+	 * @param paciente
+	 * @return
+	 */
+	public boolean isInSalaPrivada(Paciente paciente)
+	{
+		return Objects.equals(this.huesped, paciente);
 	}
 }
