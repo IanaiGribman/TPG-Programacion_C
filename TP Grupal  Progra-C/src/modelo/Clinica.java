@@ -39,8 +39,5 @@ public class Clinica extends Entidad {
 		this.moduloEspera.ingresaPaciente(paciente);
 	}
 	
-	public void sacarDeEspera(Paciente paciente)
-	{
-		this.moduloEspera.sacarDeEspera(paciente);
-	}
+	
 }
