@@ -1,16 +1,15 @@
 package modelo;
 
-public abstract class Persona extends Entidad{
+public abstract class Persona extends Entidad implements IPersona{
 	private String dni;
 
 	protected Persona(String nombre, Domicilio domicilio, String telefono, String dni) {
 		super(nombre, domicilio, telefono);
 		this.dni = dni;
-		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public String getDni() {
 		return dni;
 	}
-
 }
