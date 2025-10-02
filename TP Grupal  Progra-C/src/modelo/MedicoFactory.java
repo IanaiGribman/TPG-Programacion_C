@@ -3,7 +3,7 @@ package modelo;
 import modelo.excepciones.MedicoInvalidoException;
 
 /**
- * Clase que crea un medico con especialidad, doctorado y contrato de acuerdo a su decorator
+ * Clase que crea un medico con especialidad, posgrado y contrato de acuerdo a su decorator
  */
 public class MedicoFactory {
 	/**
@@ -39,16 +39,16 @@ public class MedicoFactory {
 	
 	
 	/**
-	 * Con un medico ya creado crea un decorator con este encapsulado que le agrega el doctorado
+	 * Con un medico ya creado crea un decorator con este encapsulado que le agrega el posgrado
 	 * @param medico (medico base)
-	 * @param doctorado
-	 * @return decorator con medico encapsulado con doctorado agregado
-	 * @throws MedicoInvalidoException (cuando el doctorado es invalido)
+	 * @param posgrado
+	 * @return decorator con medico encapsulado con posgrado agregado
+	 * @throws MedicoInvalidoException (cuando el posgrado es invalido)
 	 */
-	private IMedico crearMedicoDoctorado(IMedico medico, String doctorado) throws MedicoInvalidoException {
+	private IMedico crearMedicoPosgrado(IMedico medico, String posgrado) throws MedicoInvalidoException {
 		IMedico retorno = null;
 		
-		switch(doctorado.toLowerCase()) {
+		switch(posgrado.toLowerCase()) {
 		case "Doctorado":
 			retorno = new DecoratorDoctorado(medico);
 			break;
@@ -56,17 +56,17 @@ public class MedicoFactory {
 			retorno = new DecoratorMagister(medico);
 			break;
 		default:
-			throw new MedicoInvalidoException("Doctorado invalido: " + doctorado);
+			throw new MedicoInvalidoException("Posgrado invalido: " + posgrado);
 		}
 		
 		return retorno;
 	}
 	
 	/**
-	 * Crea un decorator con un decorator con doctorado como encapsulado, agregandole un tipo de contrato
-	 * @param medico (decorator con doctorado con medico encapsulado)
+	 * Crea un decorator con un decorator con posgrado como encapsulado, agregandole un tipo de contrato
+	 * @param medico (decorator con posgrado con medico encapsulado)
 	 * @param contrato
-	 * @return Un decorator con un decorator con doctorado como encapsulado, agregado el tipo de contrato
+	 * @return Un decorator con un decorator con posgrado como encapsulado, agregado el tipo de contrato
 	 * @throws MedicoInvalidoException (cuando el contrato es invalido)
 	 */
 	private IMedico crearMedicoContrato(IMedico medico, String contrato) throws MedicoInvalidoException {
@@ -87,22 +87,22 @@ public class MedicoFactory {
 	}
 	
 	/**
-	 * Crea un medico segun el decorator con especialidad, doctorado y contrato
+	 * Crea un medico segun el decorator con especialidad, posgrado y contrato
 	 * @param nombre != ""
 	 * @param domicilio != ""
 	 * @param telefono != ""
 	 * @param dni != ""
 	 * @param nroMatricula != ""
 	 * @param especialidad
-	 * @param doctorado
+	 * @param posgrado
 	 * @param contrato
-	 * @throws MedicoInvalidoException (cuando la especialidad, el doctorado o el contrato son invalidos) 
+	 * @throws MedicoInvalidoException (cuando la especialidad, el posgrado o el contrato son invalidos) 
 	 */
 	public IMedico crearMedico(String nombre, Domicilio domicilio, String telefono, String dni, String nroMatricula,
-			String especialidad, String doctorado, String contrato) throws MedicoInvalidoException{
+			String especialidad, String posgrado, String contrato) throws MedicoInvalidoException{
 		IMedico medicoEspecialidad = crearMedicoEspecialidad(nombre, domicilio, telefono, dni, nroMatricula, especialidad);
-		IMedico medicoDoctorado = crearMedicoDoctorado(medicoEspecialidad, doctorado);
-		IMedico medicoContrato = crearMedicoContrato(medicoDoctorado, contrato);
+		IMedico medicoposgrado = crearMedicoPosgrado(medicoEspecialidad, posgrado);
+		IMedico medicoContrato = crearMedicoContrato(medicoposgrado, contrato);
 		
 		return medicoContrato;
 	}
