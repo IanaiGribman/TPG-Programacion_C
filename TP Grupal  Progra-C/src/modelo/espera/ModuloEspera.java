@@ -14,7 +14,7 @@ public class ModuloEspera {
 		salaEsperaPrivada = new SalaEsperaPrivada();
 	}
 	
-	protected boolean isEnEspera(Paciente paciente)
+	public boolean isEnEspera(Paciente paciente)
 	{
 		return salaEsperaPrivada.isInSalaPrivada(paciente) || patio.isInPatio(paciente);
 	}

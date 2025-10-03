@@ -3,8 +3,8 @@ package modelo.excepciones;
 public class DniRepetidoException extends Exception {
 	private String dni;
 
-	public DniRepetidoException(String dni) {
-		super("no se pueden registrar a la clinica 2 personas con el mismo DNI");
+	public DniRepetidoException(String mensaje, String dni) {
+		super(mensaje);
 		this.dni = dni;
 	}
 
