@@ -21,13 +21,13 @@ public class MedicoFactory {
 			String especialidad) throws MedicoInvalidoException {
 		IMedico retorno = null;
 		switch (especialidad.toLowerCase()) {
-		case "Clinica":
+		case "clinica":
 			retorno = new MedicoClinico(nombre, domicilio, telefono, dni, nroMatricula);
 			break;
-		case "Cirujia":
+		case "cirujia":
 			retorno = new MedicoCirujano(nombre, domicilio, telefono, dni, nroMatricula);
 			break;
-		case "Pediatria":
+		case "pediatria":
 			retorno = new MedicoPediatra(nombre, domicilio, telefono, dni, nroMatricula);
 			break;
 		default:
@@ -49,10 +49,10 @@ public class MedicoFactory {
 		IMedico retorno = null;
 		
 		switch(posgrado.toLowerCase()) {
-		case "Doctorado":
+		case "doctorado":
 			retorno = new DecoratorDoctorado(medico);
 			break;
-		case "Magister":
+		case "magister":
 			retorno = new DecoratorMagister(medico);
 			break;
 		default:
@@ -73,10 +73,10 @@ public class MedicoFactory {
 		IMedico retorno = null;
 		
 		switch(contrato.toLowerCase()) {
-		case "Residente":
+		case "residente":
 			retorno = new DecoratorMagister(medico);
 			break;
-		case "Permanente":
+		case "permanente":
 			retorno = new DecoratorPermanente(medico);
 			break;
 		default:
