@@ -30,8 +30,6 @@ public class Factura {
 		this.nroFactura = sigNum;
 		sigNum++;
 	}
-<<<<<<< HEAD
-=======
 
 	@Override
 	public String toString() {
@@ -84,11 +82,6 @@ public class Factura {
 	public int getCantDias() {
 		return cantDias;
 	}
-	
->>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
-	
-	
-	
 }
 	
 	
