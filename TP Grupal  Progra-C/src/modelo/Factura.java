@@ -30,6 +30,9 @@ public class Factura {
 		this.nroFactura = sigNum;
 		sigNum++;
 	}
+	
+	
+	
 }
 	
 	
