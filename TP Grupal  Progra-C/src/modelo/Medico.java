@@ -8,7 +8,7 @@ package modelo;
  */
 public abstract class Medico extends Persona implements IMedico {
 	private String nroMatricula;
-	public static double HonorarioBasico = 20000;
+	protected static double HonorarioBasico = 20000;
 	
 	/**
 	 * 

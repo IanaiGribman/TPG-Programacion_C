@@ -14,7 +14,7 @@ import modelo.registro.ModuloRegistro;
 public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
 	private ModuloEspera moduloEspera;
-	private static int sigNum = 0;
+	private int sigNumHistoriaClinica = 0;
 
 	/**Pre: los parámetros son distintos de null
 	 * Instancia las listas, además de inicializar los atributos no listas
@@ -34,8 +34,8 @@ public class Clinica extends Entidad {
 	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
 		this.moduloRegistro.registraPaciente(paciente);
-		paciente.setNroHistoriaClinica(Clinica.sigNum);
-		Clinica.sigNum++;
+		paciente.setNroHistoriaClinica(this.sigNumHistoriaClinica);
+		this.sigNumHistoriaClinica++;
 	}
 	
 	/**
