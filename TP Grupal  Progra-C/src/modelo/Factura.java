@@ -82,10 +82,6 @@ public class Factura {
 	public int getCantDias() {
 		return cantDias;
 	}
-	
-	
-	
-	
 }
 	
 	
