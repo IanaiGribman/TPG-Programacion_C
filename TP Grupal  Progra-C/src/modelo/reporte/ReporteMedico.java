@@ -1,8 +1,7 @@
-package modelo;
+package modelo.reporte;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Clase que representa un reporte medico, contiene una lista de consultas a

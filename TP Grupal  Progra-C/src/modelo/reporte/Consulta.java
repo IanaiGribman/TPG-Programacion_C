@@ -1,4 +1,4 @@
-package modelo;
+package modelo.reporte;
 
 import java.time.LocalDate;
 
