@@ -47,7 +47,7 @@ public class Factura {
 		}
 		texto = texto.concat("");
 		for (IMedico medico : medicosConsultados) {
-			double honorario = medico.getHonorario();
+			double honorario = medico.getHonorario() * 1.2;
 			costoTotal += honorario;
 			texto = texto.concat("Nombre Médico: " + medico.getNombre() + "       Especialidad: " + medico.getEspecialidad() + "      Subtotal:     $" + honorario + "\n");
 		}
