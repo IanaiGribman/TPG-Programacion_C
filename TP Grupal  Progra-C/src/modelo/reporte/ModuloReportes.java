@@ -39,7 +39,7 @@ public class ModuloReportes {
 	 * @param fecha
 	 * @param nombrePaciente
 	 */
-	public void agregarConsultas(ArrayList<IMedico> medicosConsultados, LocalDate fecha, String nombrePaciente)
+	public void agregarConsultasPaciente(ArrayList<IMedico> medicosConsultados, LocalDate fecha, String nombrePaciente)
 	{
 		Consulta nuevaConsulta;
 		for (IMedico medico: medicosConsultados)

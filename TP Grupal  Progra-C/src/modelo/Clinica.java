@@ -13,17 +13,20 @@ import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.registro.ModuloRegistro;
+import modelo.reporte.ModuloReportes;
 
 /**
- * pacientes: hashmap con clave dni del paciente y valor objeto Paciente
+ * Clase que porporciona una interfaz para el acceso de las funcionalidades que el cliente tiene permitido
+ * acceder.
  */
 public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
 	private ModuloEspera moduloEspera;
+	private ModuloReportes moduloReportes;
 	private int sigNumHistoriaClinica = 0;
 
 	/**Pre: los parámetros son distintos de null
-	 * Instancia las listas, además de inicializar los atributos no listas
+	 * Instancia los módulos
 	 * @param nombre de la clinica
 	 * @param domicilio de la clinica
 	 * @param telefono de la clinica
@@ -34,9 +37,16 @@ public class Clinica extends Entidad {
 		super(nombre, domicilio, telefono);
 		moduloRegistro = new ModuloRegistro();
 		moduloEspera = new ModuloEspera();
+		moduloReportes = new ModuloReportes();
 	}
 	
 	
+	/**
+	 * * Agrega al paciente al hashmap de todos los pacientes de la clínica si ya no estaba previamente registrado.
+	 * Pre: paciente no es null.
+	 * @param paciente
+	 * @throws DniRepetidoException
+	 */
 	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
 		this.moduloRegistro.registraPaciente(paciente);
@@ -45,8 +55,9 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * 
-	 * @param medico no es null
+	 * Agrega al médico al hashmap de todos los médicos de la clínica si ya no estaba previamente registrado.
+	 * Pre: medico no es null.
+	 * @param medico
 	 * @throws DniRepetidoException
 	 */
 	public void registraMedico(IMedico medico) throws DniRepetidoException
@@ -56,9 +67,11 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * 
-	 * @param paciente no es nul
+	 * Pone al paciente en el módulo de espera si está registrado y no se encontraba ya esperando.
+	 * Pre: paciente no es null.
+	 * @param paciente
 	 * @throws PacienteYaIngresadoException
+	 * @throws PacienteNoRegistradoException
 	 */
 	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException, PacienteNoRegistradoException
 	{
@@ -73,16 +86,20 @@ public class Clinica extends Entidad {
 		
 	}
 	
+
 	/**
-	 * 
-	 * @param medico no es null
-	 * @param paciente no es null
+	 * El paciente guarda la referencia al médico que lo atendió si es que estaba en la lista de espera o ya fue
+	 * atendido por un médico ("lista de atención"). Si estaba en la lista de espera, se lo quita de ella.
+	 * Pre: medico no es null y paciente no es null
+	 * @param medico
+	 * @param paciente
+	 * @throws PacienteNoIngresadoException
+	 * @throws MedicoNoRegistradoException
 	 */
 	public void atiendePaciente(IMedico medico, Paciente paciente) throws PacienteNoIngresadoException, MedicoNoRegistradoException
 	{
 		if (this.moduloRegistro.medicoIsRegistrado(medico))
 		{
-			//si el paciente esta en espera o tuvo una consulta (lista de atencion implicita)
 			if (this.moduloEspera.isEnEspera(paciente) || paciente.fueAtendidoPorMedico())
 			{
 				if (!paciente.fueAtendidoPorMedico())
@@ -98,7 +115,9 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * 
+	 * El paciente guarda la referencia a la habitación donde se queda y la ocupación de la habitación se incrementa,
+	 * si esta tiene espacio disponible y el paciente fue atendido por un médico previamente.
+	 * Pre: paciente no es null y habitación no es null.
 	 * @param paciente
 	 * @param habitacion
 	 * @throws InternacionSinMedicoException
@@ -116,10 +135,13 @@ public class Clinica extends Entidad {
 		paciente.setHabitacion(habitacion);
 	}
 	
+	
 	/**
-	 * 
-	 * @param paciente no es null
+	 * Sobrecarga de la función egresaPaciente. Esta se usa cuando su estadía duró 0 días.
+	 * Pre: paciente no es null.
+	 * @param paciente
 	 * @return
+	 * @throws EgresoSinMedicoException
 	 */
 	public Factura egresaPaciente(Paciente paciente) throws EgresoSinMedicoException
 	{
@@ -127,20 +149,29 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * 
-	 * @param paciente no es null
+	 * Genera la factura, libera la habitación si es que el paciente se alojaba en una y hace que el paciente olvide
+	 * las consultas que tuvo con médicos, la habitación donde se alojó y le fecha de ingreso.
+	 * Pre: paciente no es null.
+	 * @param paciente
 	 * @param cantDias
-	 * @return
+	 * @return factura de la estadía del paciente
+	 * @throws EgresoSinMedicoException
 	 */
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException
 	{
 		if (!paciente.fueAtendidoPorMedico())
-			throw new EgresoSinMedicoException("el paciente no puede ser egresado porque no has sido atendido por ningun mendico", paciente.getDni());
+			throw new EgresoSinMedicoException("el paciente no puede ser egresado porque no ha sido atendido por ningun medico", paciente.getDni());
 	
-		Factura nuevaFactura = new Factura(paciente.getNombre(), paciente.getFechaIngreso(), paciente.getMedicosConsultados(), paciente.getHabitacion(), cantDias);
+		Habitacion habitacionPaciente = paciente.getHabitacion();
+		if (habitacionPaciente != null)
+			habitacionPaciente.sacarHuesped();
+		
+		Factura nuevaFactura = new Factura(paciente.getNombre(), paciente.getFechaIngreso(), paciente.getMedicosConsultados(), habitacionPaciente, cantDias);
+		
+		this.moduloReportes.agregarConsultasPaciente(paciente.getMedicosConsultados(), nuevaFactura.getFechaEgreso(), paciente.getNombre());
+		
 		paciente.olvidarIngreso();
-		//FALTA PONER LAS CONSULTAS EN UNA LISTA DE TODAS LAS CONSULTAS DE LA CLINICA
-		//HAY QUE HACER UNA CLASE ATENCION QUE TENGA FECHA DE EGRESO, MEDICO Y PACIENTE
+		
 		return nuevaFactura;
 	}
 	
