@@ -1,6 +1,7 @@
 package modelo.reporte;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import modelo.IMedico;
@@ -10,10 +11,10 @@ import modelo.IMedico;
  * agregando consultas para ellos y obteniendolos cuando son solicitados
  * Inv: reportes != null && el medico debe tener al menos una consulta registrada para tener un reporte
  */
-public class Reportes {
+public class ModuloReportes {
 	private HashMap<String, ReporteMedico> reportes;
 	
-	public Reportes() {
+	public ModuloReportes() {
 		reportes = new HashMap<String, ReporteMedico>();
 	}
 	
@@ -28,6 +29,24 @@ public class Reportes {
 		if(!this.reportes.containsKey(medico.getDni()))
 			this.reportes.put(medico.getDni(), new ReporteMedico(medico.getNombre()));
 		this.reportes.get(medico.getDni()).agregarConsulta(consulta);
+	}
+	
+	
+	/**
+	 * Agrega la lista de medicos consultados de un paciente al hashmap de reportes
+	 * pre: medicosComsultados != null && fecha != null && nombrePaciente != null
+	 * @param medicosConsultados
+	 * @param fecha
+	 * @param nombrePaciente
+	 */
+	public void agregarConsultas(ArrayList<IMedico> medicosConsultados, LocalDate fecha, String nombrePaciente)
+	{
+		Consulta nuevaConsulta;
+		for (IMedico medico: medicosConsultados)
+		{
+			nuevaConsulta = new Consulta(nombrePaciente, fecha, medico.getHonorario());
+			this.agregarConsulta(medico, nuevaConsulta);
+		}
 	}
 	
 	/**

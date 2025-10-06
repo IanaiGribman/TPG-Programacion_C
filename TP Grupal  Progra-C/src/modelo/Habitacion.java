@@ -43,6 +43,21 @@ public abstract class Habitacion {
 	public int getOcupacion() {
 		return ocupacion;
 	}
+	
+	public boolean hayEspacio()
+	{
+		return this.ocupacion < this.capacidad;
+	}
+	
+	public void agregarHuesped()
+	{
+		this.ocupacion++;
+	}
+	
+	public void sacarHuesped()
+	{
+		this.ocupacion--;
+	}
 
 	/**
 	 * 

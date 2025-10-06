@@ -69,6 +69,11 @@ public abstract class Paciente extends Persona {
 		this.medicosConsultados.clear();
 		this.habitacion = null;
 	}
+	
+	public boolean fueAtendidoPorMedico() 
+	{
+		return !this.medicosConsultados.isEmpty();
+	}
 
 	/**
 	 * Precondiciones: El otro paciente no debe ser nulo

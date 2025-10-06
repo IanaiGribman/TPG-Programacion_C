@@ -62,7 +62,7 @@ public class ModuloEspera {
 			this.ponerEnSalaOPatio(paciente);
 		}
 		else
-			throw new PacienteYaIngresadoException(paciente);
+			throw new PacienteYaIngresadoException("el paciente ya esta en espera", paciente.getDni());
 	}
 	
 	/**

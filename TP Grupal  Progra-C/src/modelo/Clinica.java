@@ -5,6 +5,12 @@ import java.time.LocalDate;
 
 import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
+import modelo.excepciones.EgresoSinMedicoException;
+import modelo.excepciones.HabitacionLlenaException;
+import modelo.excepciones.InternacionSinMedicoException;
+import modelo.excepciones.MedicoNoRegistradoException;
+import modelo.excepciones.PacienteNoIngresadoException;
+import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.registro.ModuloRegistro;
 
@@ -54,7 +60,7 @@ public class Clinica extends Entidad {
 	 * @param paciente no es nul
 	 * @throws PacienteYaIngresadoException
 	 */
-	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException
+	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException, PacienteNoRegistradoException
 	{
 		if (this.moduloRegistro.pacienteIsRegistrado(paciente))
 		{
@@ -62,7 +68,8 @@ public class Clinica extends Entidad {
 			paciente.setFechaIngreso(fechaIngreso);
 			this.moduloEspera.ingresaPaciente(paciente);
 		}
-		//else el paciente no esta registrado
+		else
+			throw new PacienteNoRegistradoException("el paciente no ha sido registrado", paciente.getDni());
 		
 	}
 	
@@ -71,25 +78,42 @@ public class Clinica extends Entidad {
 	 * @param medico no es null
 	 * @param paciente no es null
 	 */
-	public void atiendePaciente(IMedico medico, Paciente paciente)
+	public void atiendePaciente(IMedico medico, Paciente paciente) throws PacienteNoIngresadoException, MedicoNoRegistradoException
 	{
 		if (this.moduloRegistro.medicoIsRegistrado(medico))
 		{
 			//si el paciente esta en espera o tuvo una consulta (lista de atencion implicita)
-			if (this.moduloEspera.isEnEspera(paciente) || !paciente.getMedicosConsultados().isEmpty())
+			if (this.moduloEspera.isEnEspera(paciente) || paciente.fueAtendidoPorMedico())
 			{
-				if (paciente.getMedicosConsultados().isEmpty())
+				if (!paciente.fueAtendidoPorMedico())
 					this.moduloEspera.sacarDeEspera(paciente);
 				paciente.agregarConsulta(medico);
 			}	
-			//else el paciente no esta ingresdo
+			else
+				throw new PacienteNoIngresadoException("el paciente no ha sido ingresado", paciente.getDni());
 		}
-		//else el medico no es parte de la clinica
+		else
+			throw new MedicoNoRegistradoException("el medico no ha sido registrado", medico.getDni());
 	}
 	
-	public void internaPaciente(Paciente paciente, Habitacion habitacion)
+	
+	/**
+	 * 
+	 * @param paciente
+	 * @param habitacion
+	 * @throws InternacionSinMedicoException
+	 * @throws HabitacionLlenaException
+	 */
+	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws InternacionSinMedicoException, HabitacionLlenaException
 	{
+		if (!paciente.fueAtendidoPorMedico())
+			throw new InternacionSinMedicoException("no se puede internar a un paciente sin justificacion medica", paciente.getDni());
 		
+		if (!habitacion.hayEspacio())
+			throw new HabitacionLlenaException("la habitacion esta llena", habitacion.getOcupacion(), habitacion.getCapacidad());
+		
+		habitacion.agregarHuesped();
+		paciente.setHabitacion(habitacion);
 	}
 	
 	/**
@@ -97,7 +121,7 @@ public class Clinica extends Entidad {
 	 * @param paciente no es null
 	 * @return
 	 */
-	public Factura egresaPaciente(Paciente paciente)
+	public Factura egresaPaciente(Paciente paciente) throws EgresoSinMedicoException
 	{
 		return this.egresaPaciente(paciente, 0);
 	}
@@ -108,17 +132,16 @@ public class Clinica extends Entidad {
 	 * @param cantDias
 	 * @return
 	 */
-	public Factura egresaPaciente(Paciente paciente, int cantDias)
+	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException
 	{
-		if (!paciente.getMedicosConsultados().isEmpty())
-		{
-			Factura nuevaFactura = new Factura(paciente.getNombre(), paciente.getFechaIngreso(), paciente.getMedicosConsultados(), paciente.getHabitacion(), cantDias);
-			paciente.olvidarIngreso();
-			//FALTA PONER LAS CONSULTAS EN UNA LISTA DE TODAS LAS CONSULTAS DE LA CLINICA
-			//HAY QUE HACER UNA CLASE ATENCION QUE TENGA FECHA DE EGRESO, MEDICO Y PACIENTE
-			return nuevaFactura;
-		}
-		//else el paciente no fue atendido
+		if (!paciente.fueAtendidoPorMedico())
+			throw new EgresoSinMedicoException("el paciente no puede ser egresado porque no has sido atendido por ningun mendico", paciente.getDni());
+	
+		Factura nuevaFactura = new Factura(paciente.getNombre(), paciente.getFechaIngreso(), paciente.getMedicosConsultados(), paciente.getHabitacion(), cantDias);
+		paciente.olvidarIngreso();
+		//FALTA PONER LAS CONSULTAS EN UNA LISTA DE TODAS LAS CONSULTAS DE LA CLINICA
+		//HAY QUE HACER UNA CLASE ATENCION QUE TENGA FECHA DE EGRESO, MEDICO Y PACIENTE
+		return nuevaFactura;
 	}
 	
 	
