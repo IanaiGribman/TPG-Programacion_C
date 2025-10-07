@@ -1,13 +1,13 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-
+import modelo.atencion.ModuloAtencion;
 import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
 import modelo.excepciones.EgresoSinMedicoException;
 import modelo.excepciones.HabitacionLlenaException;
-import modelo.excepciones.InternacionSinMedicoException;
 import modelo.excepciones.MedicoNoRegistradoException;
 import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteNoRegistradoException;
@@ -25,6 +25,7 @@ public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
 	private ModuloEspera moduloEspera;
 	private ModuloReportes moduloReportes;
+	private ModuloAtencion moduloAtencion;
 	private int sigNumHistoriaClinica = 0;
 
 	/**Pre: los par�metros son distintos de null
@@ -40,6 +41,7 @@ public class Clinica extends Entidad {
 		moduloRegistro = new ModuloRegistro();
 		moduloEspera = new ModuloEspera();
 		moduloReportes = new ModuloReportes();
+		moduloAtencion = new ModuloAtencion();
 	}
 	
 	
@@ -70,17 +72,17 @@ public class Clinica extends Entidad {
 	
 	/**
 	 * Pone al paciente en el m�dulo de espera si est� registrado y no se encontraba ya esperando.
-	 * Pre: paciente no es null.
+	 * Pre: paciente no es null, fechaIngreso no es null
 	 * @param paciente
+	 * @param fechaIngreso
 	 * @throws PacienteYaIngresadoException
 	 * @throws PacienteNoRegistradoException
 	 */
-	public void ingresaPaciente(Paciente paciente) throws PacienteYaIngresadoException, PacienteNoRegistradoException
+	public void ingresaPaciente(Paciente paciente, LocalDate fechaIngreso) throws PacienteYaIngresadoException, PacienteNoRegistradoException
 	{
 		if (this.moduloRegistro.pacienteIsRegistrado(paciente))
 		{
-			LocalDate fechaIngreso = LocalDate.now();
-			paciente.setFechaIngreso(fechaIngreso);
+			this.moduloAtencion.agregarPaciente(paciente.getDni(), fechaIngreso);
 			this.moduloEspera.ingresaPaciente(paciente);
 		}
 		else
@@ -102,11 +104,10 @@ public class Clinica extends Entidad {
 	{
 		if (this.moduloRegistro.medicoIsRegistrado(medico))
 		{
-			if (this.moduloEspera.isEnEspera(paciente) || paciente.fueAtendidoPorMedico())
-			{
-				if (!paciente.fueAtendidoPorMedico())
+			if(this.moduloAtencion.isPacienteEnAtencion(paciente.getDni())) {
+				if(!this.moduloEspera.isEnEspera(paciente))
 					this.moduloEspera.sacarDeEspera(paciente);
-				paciente.agregarConsulta(medico);
+				this.moduloAtencion.agregarConsultaMedica(paciente.getDni(), medico);
 			}	
 			else
 				throw new PacienteNoIngresadoException("el paciente no ha sido ingresado", paciente.getDni());
@@ -116,25 +117,8 @@ public class Clinica extends Entidad {
 	}
 	
 	
-	/**
-	 * El paciente guarda la referencia a la habitaci�n donde se queda y la ocupaci�n de la habitaci�n se incrementa,
-	 * si esta tiene espacio disponible y el paciente fue atendido por un m�dico previamente.
-	 * Pre: paciente no es null y habitaci�n no es null.
-	 * @param paciente
-	 * @param habitacion
-	 * @throws InternacionSinMedicoException
-	 * @throws HabitacionLlenaException
-	 */
-	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws InternacionSinMedicoException, HabitacionLlenaException
-	{
-		if (!paciente.fueAtendidoPorMedico())
-			throw new InternacionSinMedicoException("no se puede internar a un paciente sin justificacion medica", paciente.getDni());
-		
-		if (!habitacion.hayEspacio())
-			throw new HabitacionLlenaException("la habitacion esta llena", habitacion.getOcupacion(), habitacion.getCapacidad());
-		
-		habitacion.agregarHuesped();
-		paciente.setHabitacion(habitacion);
+	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException {
+		this.moduloAtencion.internaPaciente(paciente.getDni(), habitacion);
 	}
 	
 	
@@ -161,20 +145,11 @@ public class Clinica extends Entidad {
 	 */
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException
 	{
-		if (!paciente.fueAtendidoPorMedico())
-			throw new EgresoSinMedicoException("el paciente no puede ser egresado porque no ha sido atendido por ningun medico", paciente.getDni());
-	
-		Habitacion habitacionPaciente = paciente.getHabitacion();
-		if (habitacionPaciente != null)
-			habitacionPaciente.sacarHuesped();
+		ArrayList<IMedico> medicos = this.moduloAtencion.getMedicosAtencion(paciente.getDni());
+		Factura factura = this.moduloAtencion.egresaPaciente(paciente, cantDias);
+		this.moduloReportes.agregarConsultasPaciente(medicos, factura.getFechaEgreso(), paciente.getNombre());
 		
-		Factura nuevaFactura = new Factura(paciente.getNombre(), paciente.getFechaIngreso(), paciente.getMedicosConsultados(), habitacionPaciente, cantDias);
-		
-		this.moduloReportes.agregarConsultasPaciente(paciente.getMedicosConsultados(), nuevaFactura.getFechaEgreso(), paciente.getNombre());
-		
-		paciente.olvidarIngreso();
-		
-		return nuevaFactura;
+		return factura;
 	}
 	
 	
