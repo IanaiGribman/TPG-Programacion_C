@@ -1,5 +1,7 @@
-package modelo;
+package modelo.medicos;
 
+import modelo.Domicilio;
+import modelo.IMedico;
 import modelo.excepciones.MedicoInvalidoException;
 
 /**

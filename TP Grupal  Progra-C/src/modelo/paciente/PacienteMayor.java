@@ -1,4 +1,6 @@
-package modelo;
+package modelo.paciente;
+
+import modelo.Domicilio;
 
 public class PacienteMayor extends Paciente {
 

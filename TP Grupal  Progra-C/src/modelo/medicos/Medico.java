@@ -1,5 +1,8 @@
-package modelo;
+package modelo.medicos;
 
+import modelo.Domicilio;
+import modelo.IMedico;
+import modelo.Persona;
 
 /**
  * Clase abstracta que representa al Medico mas generico de todos, 

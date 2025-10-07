@@ -1,4 +1,6 @@
-package modelo;
+package modelo.paciente;
+
+import modelo.Domicilio;
 
 public class PacientesFactory {
 	public Paciente creaPaciente(String rangoEtario, Domicilio domicilio, String dni, String nombre, String apellido, String telefono) {

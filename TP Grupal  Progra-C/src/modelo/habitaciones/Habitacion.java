@@ -1,4 +1,4 @@
-package modelo;
+package modelo.habitaciones;
 
 public abstract class Habitacion {
 	private static double costoAsignacion;

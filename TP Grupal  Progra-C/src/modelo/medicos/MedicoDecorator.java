@@ -1,4 +1,6 @@
-package modelo;
+package modelo.medicos;
+
+import modelo.IMedico;
 
 public abstract class MedicoDecorator implements IMedico {
 	private IMedico encapsulado;

@@ -3,8 +3,8 @@ package modelo.registro;
 import java.util.HashMap;
 
 import modelo.IMedico;
-import modelo.Paciente;
 import modelo.excepciones.DniRepetidoException;
+import modelo.paciente.Paciente;
 
 public class ModuloRegistro 
 {

@@ -1,6 +1,6 @@
 package modelo.excepciones;
 
-import modelo.Paciente;
+import modelo.paciente.Paciente;
 
 public class PacienteYaIngresadoException extends DniException {
 

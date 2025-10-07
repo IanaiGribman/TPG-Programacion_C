@@ -1,11 +1,11 @@
 package modelo.espera;
 import java.util.Objects;
 
-import modelo.Paciente;
+import modelo.paciente.Paciente;
 
 /**
  * Esta clase tiene una atributo huesped que representa al paciente que se encuentra en la sala privada, es null si no hay nadie
- * quedándose
+ * quedï¿½ndose
  */
 
 public class SalaEsperaPrivada {

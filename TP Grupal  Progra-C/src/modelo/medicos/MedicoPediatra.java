@@ -1,4 +1,6 @@
-package modelo;
+package modelo.medicos;
+
+import modelo.Domicilio;
 
 /**
  * Clase concreta que representa al medico de especialidad pediatria

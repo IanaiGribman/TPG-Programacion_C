@@ -1,7 +1,12 @@
-package modelo;
+package modelo.paciente;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import modelo.Domicilio;
+import modelo.IMedico;
+import modelo.Persona;
+import modelo.habitaciones.Habitacion;
 
 public abstract class Paciente extends Persona {
 
@@ -94,7 +99,7 @@ public abstract class Paciente extends Persona {
 
 	/**
 	 * @return devuelve que tipo de prioridad tiene el paciente ante otro paciente
-	 *         niño
+	 *         niï¿½o
 	 */
 	public abstract boolean prioridadAnteNinio();
 

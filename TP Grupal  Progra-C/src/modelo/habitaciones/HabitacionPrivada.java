@@ -1,4 +1,4 @@
-package modelo;
+package modelo.habitaciones;
 
 public class HabitacionPrivada extends Habitacion {
 	private static double costoHabitacionPrivada;

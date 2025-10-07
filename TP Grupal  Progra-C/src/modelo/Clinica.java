@@ -12,6 +12,8 @@ import modelo.excepciones.MedicoNoRegistradoException;
 import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
+import modelo.habitaciones.Habitacion;
+import modelo.paciente.Paciente;
 import modelo.registro.ModuloRegistro;
 import modelo.reporte.ModuloReportes;
 
@@ -25,8 +27,8 @@ public class Clinica extends Entidad {
 	private ModuloReportes moduloReportes;
 	private int sigNumHistoriaClinica = 0;
 
-	/**Pre: los parámetros son distintos de null
-	 * Instancia los módulos
+	/**Pre: los parï¿½metros son distintos de null
+	 * Instancia los mï¿½dulos
 	 * @param nombre de la clinica
 	 * @param domicilio de la clinica
 	 * @param telefono de la clinica
@@ -42,7 +44,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * * Agrega al paciente al hashmap de todos los pacientes de la clínica si ya no estaba previamente registrado.
+	 * * Agrega al paciente al hashmap de todos los pacientes de la clï¿½nica si ya no estaba previamente registrado.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @throws DniRepetidoException
@@ -55,7 +57,7 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * Agrega al médico al hashmap de todos los médicos de la clínica si ya no estaba previamente registrado.
+	 * Agrega al mï¿½dico al hashmap de todos los mï¿½dicos de la clï¿½nica si ya no estaba previamente registrado.
 	 * Pre: medico no es null.
 	 * @param medico
 	 * @throws DniRepetidoException
@@ -67,7 +69,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * Pone al paciente en el módulo de espera si está registrado y no se encontraba ya esperando.
+	 * Pone al paciente en el mï¿½dulo de espera si estï¿½ registrado y no se encontraba ya esperando.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @throws PacienteYaIngresadoException
@@ -88,8 +90,8 @@ public class Clinica extends Entidad {
 	
 
 	/**
-	 * El paciente guarda la referencia al médico que lo atendió si es que estaba en la lista de espera o ya fue
-	 * atendido por un médico ("lista de atención"). Si estaba en la lista de espera, se lo quita de ella.
+	 * El paciente guarda la referencia al mï¿½dico que lo atendiï¿½ si es que estaba en la lista de espera o ya fue
+	 * atendido por un mï¿½dico ("lista de atenciï¿½n"). Si estaba en la lista de espera, se lo quita de ella.
 	 * Pre: medico no es null y paciente no es null
 	 * @param medico
 	 * @param paciente
@@ -115,9 +117,9 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * El paciente guarda la referencia a la habitación donde se queda y la ocupación de la habitación se incrementa,
-	 * si esta tiene espacio disponible y el paciente fue atendido por un médico previamente.
-	 * Pre: paciente no es null y habitación no es null.
+	 * El paciente guarda la referencia a la habitaciï¿½n donde se queda y la ocupaciï¿½n de la habitaciï¿½n se incrementa,
+	 * si esta tiene espacio disponible y el paciente fue atendido por un mï¿½dico previamente.
+	 * Pre: paciente no es null y habitaciï¿½n no es null.
 	 * @param paciente
 	 * @param habitacion
 	 * @throws InternacionSinMedicoException
@@ -137,7 +139,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * Sobrecarga de la función egresaPaciente. Esta se usa cuando su estadía duró 0 días.
+	 * Sobrecarga de la funciï¿½n egresaPaciente. Esta se usa cuando su estadï¿½a durï¿½ 0 dï¿½as.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @return
@@ -149,12 +151,12 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * Genera la factura, libera la habitación si es que el paciente se alojaba en una y hace que el paciente olvide
-	 * las consultas que tuvo con médicos, la habitación donde se alojó y le fecha de ingreso.
+	 * Genera la factura, libera la habitaciï¿½n si es que el paciente se alojaba en una y hace que el paciente olvide
+	 * las consultas que tuvo con mï¿½dicos, la habitaciï¿½n donde se alojï¿½ y le fecha de ingreso.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @param cantDias
-	 * @return factura de la estadía del paciente
+	 * @return factura de la estadï¿½a del paciente
 	 * @throws EgresoSinMedicoException
 	 */
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException

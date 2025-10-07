@@ -1,8 +1,8 @@
 package modelo.espera;
 
 
-import modelo.Paciente;
 import modelo.excepciones.PacienteYaIngresadoException;
+import modelo.paciente.Paciente;
 
 public class ModuloEspera {
 	private Patio patio;
@@ -39,7 +39,7 @@ public class ModuloEspera {
 	
 	
 	/**
-	 * pre: el paciente simpre está en alguno de los dos lugares
+	 * pre: el paciente simpre estï¿½ en alguno de los dos lugares
 	 * @param paciente
 	 */
 	protected void sacarDeSalaOPatio(Paciente paciente)
@@ -51,7 +51,7 @@ public class ModuloEspera {
 	}
 	
 	/**
-	 * Pre: paciente no es null y debería estar ya registrado en el sitema
+	 * Pre: paciente no es null y deberï¿½a estar ya registrado en el sitema
 	 * @param paciente
 	 * @throws PacienteYaIngresadoException
 	 */

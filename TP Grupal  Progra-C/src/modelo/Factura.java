@@ -3,6 +3,8 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import modelo.habitaciones.Habitacion;
+
 public class Factura {
 	private Habitacion habitacion;
 	private ArrayList<IMedico> medicosConsultados;
@@ -35,7 +37,7 @@ public class Factura {
 	public String toString() {
 		String texto = "";
 		double costoTotal = 0;
-		texto = texto.concat("N° Factura: " + this.nroFactura + "\n");
+		texto = texto.concat("Nï¿½ Factura: " + this.nroFactura + "\n");
 		texto = texto.concat("Nombre Paciente: " + this.nombrePaciente + "\n");
 		texto = texto.concat("Fecha Ingreso: " + this.fechaIngreso.toString() + "\n");
 		texto = texto.concat("Fecha Egreso: " + getFechaEgreso().toString() + "\n");
@@ -49,7 +51,7 @@ public class Factura {
 		for (IMedico medico : medicosConsultados) {
 			double honorario = medico.getHonorario() * 1.2;
 			costoTotal += honorario;
-			texto = texto.concat("Nombre Médico: " + medico.getNombre() + "       Especialidad: " + medico.getEspecialidad() + "      Subtotal:     $" + honorario + "\n");
+			texto = texto.concat("Nombre Mï¿½dico: " + medico.getNombre() + "       Especialidad: " + medico.getEspecialidad() + "      Subtotal:     $" + honorario + "\n");
 		}
 		texto = texto.concat("                                         Total:       $" + costoTotal);
 		return texto;

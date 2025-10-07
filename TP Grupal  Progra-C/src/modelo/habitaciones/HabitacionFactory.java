@@ -1,4 +1,4 @@
-package modelo;
+package modelo.habitaciones;
 
 import modelo.excepciones.HabitacionInvalidaException;
 

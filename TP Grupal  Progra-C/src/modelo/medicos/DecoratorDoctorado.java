@@ -1,4 +1,6 @@
-package modelo;
+package modelo.medicos;
+
+import modelo.IMedico;
 
 /**
  * Clase concreta que representa a un doctor doctorado
