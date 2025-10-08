@@ -28,8 +28,8 @@ public class Clinica extends Entidad {
 	private ModuloAtencion moduloAtencion;
 	private int sigNumHistoriaClinica = 0;
 
-	/**Pre: los par�metros son distintos de null
-	 * Instancia los m�dulos
+	/**Pre: los parametros son distintos de null
+	 * Instancia los modulos
 	 * @param nombre de la clinica
 	 * @param domicilio de la clinica
 	 * @param telefono de la clinica
@@ -46,7 +46,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * * Agrega al paciente al hashmap de todos los pacientes de la cl�nica si ya no estaba previamente registrado.
+	 * * Agrega al paciente al hashmap de todos los pacientes de la clinica si ya no estaba previamente registrado.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @throws DniRepetidoException
@@ -59,7 +59,7 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * Agrega al m�dico al hashmap de todos los m�dicos de la cl�nica si ya no estaba previamente registrado.
+	 * Agrega al medico al hashmap de todos los medicos de la cl�nica si ya no estaba previamente registrado.
 	 * Pre: medico no es null.
 	 * @param medico
 	 * @throws DniRepetidoException
