@@ -2,6 +2,7 @@ package modelo.atenciones;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import modelo.IMedico;
@@ -19,7 +20,8 @@ public class Atencion implements Comparable<Atencion>
 	private LocalDate fechaEgreso;
 	private Habitacion habitacion;
 	private Paciente paciente;
-	private List<IMedico> medicosConsultados;
+	private int cantDias;
+	private List<MedicoHonorario> medicosConsultados;
 	
 	
 	/**
@@ -27,11 +29,11 @@ public class Atencion implements Comparable<Atencion>
 	 *  -paciente != null.
 	 *  -fechaIngreso != null.
 	 *  -medicosConsultados != null.
-	 * @param paciente que recibira¡ algun tipo de atencion.
+	 * @param paciente que recibiraï¿½ algun tipo de atencion.
 	 * @param fechaIngreso fecha que ingresa el paciente a la clinica.
 	 * @param medicosConsultados lista vacia.
 	 */
-	public Atencion(Paciente paciente, LocalDate fechaIngreso, List<IMedico> medicosConsultados)
+	public Atencion(Paciente paciente, LocalDate fechaIngreso, List<MedicoHonorario> medicosConsultado)
 	{
 		this.paciente = paciente;
 		this.fechaIngreso = fechaIngreso;
@@ -40,7 +42,7 @@ public class Atencion implements Comparable<Atencion>
 	
 	public Atencion(Paciente paciente, LocalDate fechaIngreso)
 	{
-		this(paciente, fechaIngreso, new ArrayList<IMedico>());
+		this(paciente, fechaIngreso, new ArrayList<MedicoHonorario>());
 	}
 	
 	/**
@@ -50,7 +52,8 @@ public class Atencion implements Comparable<Atencion>
 	 */
 	public void agregarConsulta(IMedico medico)
 	{
-		this.medicosConsultados.add(medico);
+		MedicoHonorario medHon = new MedicoHonorario(medico);
+		this.medicosConsultados.add(medHon);
 	}
 	
 	/**
@@ -70,6 +73,7 @@ public class Atencion implements Comparable<Atencion>
 	 */
 	public void setFechaEgreso(int cantDias)
 	{
+		this.cantDias = cantDias;
 		this.fechaEgreso = this.fechaIngreso.plusDays(cantDias);
 	}
 
@@ -89,7 +93,7 @@ public class Atencion implements Comparable<Atencion>
 		return paciente;
 	}
 
-	public List<IMedico> getMedicosConsultados() {
+	public List<MedicoHonorario> getMedicosConsultados() {
 		return medicosConsultados;
 	}
 	
@@ -101,7 +105,13 @@ public class Atencion implements Comparable<Atencion>
 	
 	public boolean fueAtendidoPorMedicoX(IMedico medico)
 	{
-		return medicosConsultados.contains(medico);
+		Iterator<MedicoHonorario> it = this.medicosConsultados.iterator();
+		boolean encontrado = false;
+		while (it.hasNext() && !encontrado)
+		{
+			encontrado = it.next().getMedico().equals(medico);
+		}
+		return encontrado;
 	}
 	
 	@Override
@@ -121,4 +131,12 @@ public class Atencion implements Comparable<Atencion>
 					comparacion = this.fechaEgreso.compareTo(otro.fechaEgreso);
 		return comparacion;		
 	}
+
+	@Override
+	public String toString() {
+		return "Atencion [fechaIngreso=" + fechaIngreso + ", fechaEgreso=" + fechaEgreso + ", paciente=" + paciente
+				+ ", medicosConsultados=" + medicosConsultados + "]";
+	}
+	
+	
 }

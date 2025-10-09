@@ -33,7 +33,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, fechaIngreso != null.
-	 * Post: la lista atenciones contendra¡ una nueva atencion.
+	 * Post: la lista atenciones contendraï¿½ una nueva atencion.
 	 * @param paciente que sera atendido.
 	 * @param fechaIngreso fecha cuando ingresa el paciente.
 	 */
@@ -81,9 +81,9 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, habitacion != null.
-	 * @param paciente que se interna¡.
+	 * @param paciente que se internaï¿½.
 	 * @param habitacion en la que se internara el paciente.
-	 * @throws HabitacionLlenaException si la habitacion esta¡ llena.
+	 * @throws HabitacionLlenaException si la habitacion estaï¿½ llena.
 	 * @throws PacienteNoIngresadoException 
 	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */
@@ -113,7 +113,7 @@ public class ModuloAtenciones {
 	 * @throws PacienteNoIngresadoException si el paciente no esta ingresado.
 	 * @throws EgresoSinMedicoException si el paciente no fue atendido por ningun medico.
 	 */
-	public Factura egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
+	public Atencion egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
 	{
 		Atencion ultAtencion = this.getAtencionActualPaciente(paciente);
 		Factura nuevaFactura;
@@ -128,14 +128,13 @@ public class ModuloAtenciones {
 			ultAtencion.getHabitacion().sacarHuesped();
 		ultAtencion.setFechaEgreso(cantDias);
 		Collections.sort(atenciones);
-		nuevaFactura = new Factura(ultAtencion.getMedicosConsultados(), ultAtencion.getHabitacion(), paciente.getNombre(), ultAtencion.getFechaIngreso(), ultAtencion.getFechaEgreso());
 		
-		return nuevaFactura;
+		return ultAtencion;
 	}
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones esta¡ ordenada por fecha de egreso, desde <= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones estaï¿½ ordenada por fecha de egreso, desde <= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -178,4 +177,6 @@ public class ModuloAtenciones {
 		
 		return pacientesAtendidosPorMedicoX;
 	}
+	
+	
 }
