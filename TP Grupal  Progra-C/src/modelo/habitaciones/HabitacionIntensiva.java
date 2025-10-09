@@ -36,5 +36,6 @@ public class HabitacionIntensiva extends Habitacion {
 	public static void setCostoHabitacionIntensiva(double costoHabitacionIntensiva) {
 		HabitacionIntensiva.costoHabitacionIntensiva = costoHabitacionIntensiva;
 	}
-
+	
+	
 }

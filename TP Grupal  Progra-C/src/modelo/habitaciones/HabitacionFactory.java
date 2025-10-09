@@ -13,7 +13,7 @@ public class HabitacionFactory {
 	 * @return habitacion con tipo (base del decorator)
 	 */
 	@SuppressWarnings("unused")
-	private Habitacion crearHabitacion(String tipo) throws HabitacionInvalidaException {
+	public Habitacion crearHabitacion(String tipo) throws HabitacionInvalidaException {
 		Habitacion retorno = null;
 		switch (tipo.toLowerCase()) {
 		case "privada":
