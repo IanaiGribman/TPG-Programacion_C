@@ -15,5 +15,11 @@ public class DecoratorResidente extends MedicoDecorator {
 	public double getHonorario() {
 		return super.getHonorario() * 1.05;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ", contrato=residente";
+	}
+	
 	
 }

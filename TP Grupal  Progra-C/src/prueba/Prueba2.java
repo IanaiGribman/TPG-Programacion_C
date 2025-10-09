@@ -37,6 +37,12 @@ public class Prueba2 {
 			pJoven = pf.creaPaciente("joven", new Domicilio("Mar del plata", "San martin", 1243), "15326614", "Maria", "Gimenez", "2233522352");
 			pMayor = pf.creaPaciente("mayor", new Domicilio("Mar del plata", "Luro", 1123), "1250631", "Martin", "Prat", "22363026521");
 			
+			System.out.println(med1.toString());
+			System.out.println(med2.toString());
+			System.out.println(pJoven.toString());
+			System.out.println(pNinio.toString());
+			System.out.println(pMayor.toString());
+			
 			clin.registraMedico(med1);
 			clin.registraMedico(med2);
 			
@@ -55,6 +61,9 @@ public class Prueba2 {
 			
 			f2 = clin.egresaPaciente(pMayor);
 			System.out.println(f2);
+			
+			
+			
 		}
 		catch(Exception e)
 		{

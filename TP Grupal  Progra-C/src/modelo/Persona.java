@@ -31,5 +31,11 @@ public abstract class Persona extends Entidad implements IPersona{
 		Persona other = (Persona) obj;
 		return Objects.equals(dni, other.dni);
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ", dni=" + dni;
+	}
+	
 	
 }
