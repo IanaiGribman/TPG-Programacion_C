@@ -1,5 +1,9 @@
 package modelo.excepciones;
 
+/**
+ * Excepcion lanzada cuando se quiere asignar un paciente en una habitacion que ya completo su capacidad
+ */
+
 public class HabitacionLlenaException extends Exception {
 	private int ocupacion;
 	private int capacidad;

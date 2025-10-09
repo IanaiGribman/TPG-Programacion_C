@@ -1,5 +1,9 @@
 package modelo.excepciones;
 
+/**
+ * Excepcion referida a errores con el DNI (invalidez, repeticion)
+ */
+
 public class DniException extends Exception{
 	private String dni;
 
