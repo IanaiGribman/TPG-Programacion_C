@@ -7,10 +7,15 @@ import modelo.Clinica;
 import modelo.Domicilio;
 import modelo.IMedico;
 import modelo.excepciones.DniRepetidoException;
+import modelo.excepciones.EgresoSinMedicoException;
 import modelo.excepciones.HabitacionInvalidaException;
+import modelo.excepciones.HabitacionLlenaException;
 import modelo.excepciones.MedicoInvalidoException;
+import modelo.excepciones.MedicoNoRegistradoException;
+import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
+import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
 import modelo.habitaciones.HabitacionFactory;
 import modelo.medicos.MedicoFactory;
@@ -34,31 +39,32 @@ public class Prueba {
 			System.out.println(e.getMensaje());
 		}
 		try {
-			cirujanoMagisterResidente = medicoFactory.crearMedico("Raul", todos, "123", "567", "1", "cirujia", "magister", "residente");
+			cirujanoMagisterResidente = medicoFactory.crearMedico("Raul", todos, "123", "568", "1", "cirujia", "magister", "residente");
 		} catch (MedicoInvalidoException e) {
 			System.out.println(e.getMensaje());
 		}
 		try {
-			pediatraMagisterPermanente = medicoFactory.crearMedico("Raul", todos, "123", "567", "1", "pediatria", "magister", "permanente");
+			pediatraMagisterPermanente = medicoFactory.crearMedico("Raul", todos, "123", "569", "1", "pediatria", "magister", "permanente");
 		} catch (MedicoInvalidoException e) {
 			System.out.println(e.getMensaje());
 		}
 		try {
-			clinicoDoctoradoResidente = medicoFactory.crearMedico("Raul", todos, "123", "567", "1", "clinica", "magister", "residente");
+			clinicoDoctoradoResidente = medicoFactory.crearMedico("Raul", todos, "123", "560", "1", "clinica", "magister", "residente");
 		} catch (MedicoInvalidoException e) {
 			System.out.println(e.getMensaje());
 		}
 		
 		PacientesFactory pacientesFactory = new PacientesFactory();
 		
-		Paciente pacienteJoven = pacientesFactory.creaPaciente("joven", todos, "123", "Pablo", "Tartaria", "678");
-		Paciente pacienteMayor = pacientesFactory.creaPaciente("mayor", todos, "123", "Pablo", "Tartaria", "678");
-		Paciente pacienteNinio = pacientesFactory.creaPaciente("ninio", todos, "123", "Pablo", "Tartaria", "678");
+		Paciente pacienteJoven = pacientesFactory.creaPaciente("joven", todos, "123", "Pablojoven", "Tartaria", "678");
+		Paciente pacienteMayor = pacientesFactory.creaPaciente("mayor", todos, "124", "Pablomayor", "Tartaria", "678");
+		Paciente pacienteNinio = pacientesFactory.creaPaciente("ninio", todos, "125", "Pablopetit", "Tartaria", "678");
 		
 		HabitacionFactory habitacionFactory = new HabitacionFactory();
 		Habitacion habitacionCompartida = null;
 		Habitacion habitacionPrivada = null;
 		Habitacion habitacionIntensiva = null;
+		
 		
 		
 		try {
@@ -145,7 +151,66 @@ public class Prueba {
 		
 		
 		
+		try {
+			clinica.atiendePaciente(pediatraMagisterPermanente, pacienteNinio);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getDni());
+		}
 		
+		
+		try {
+			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteNinio);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.internaPaciente(pacienteNinio, habitacionIntensiva);
+		} catch (PacienteNoIngresadoException | PacienteYaInternadoException | HabitacionLlenaException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.egresaPaciente(pacienteNinio, 2);
+		} catch (EgresoSinMedicoException | PacienteNoIngresadoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteJoven);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.egresaPaciente(pacienteJoven);
+		} catch (EgresoSinMedicoException | PacienteNoIngresadoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteMayor);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.internaPaciente(pacienteNinio, habitacionCompartida);
+		} catch (PacienteNoIngresadoException | PacienteYaInternadoException | HabitacionLlenaException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.internaPaciente(pacienteMayor, habitacionCompartida);
+		} catch (PacienteNoIngresadoException | PacienteYaInternadoException | HabitacionLlenaException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			clinica.egresaPaciente(pacienteMayor);
+		} catch (EgresoSinMedicoException | PacienteNoIngresadoException e) {
+			System.out.println(e.getMessage());
+		}
 		
 		
 		

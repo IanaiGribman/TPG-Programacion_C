@@ -33,7 +33,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, fechaIngreso != null.
-	 * Post: la lista atenciones contendra¡ una nueva atencion.
+	 * Post: la lista atenciones contendraï¿½ una nueva atencion.
 	 * @param paciente que sera atendido.
 	 * @param fechaIngreso fecha cuando ingresa el paciente.
 	 */
@@ -81,9 +81,9 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, habitacion != null.
-	 * @param paciente que se interna¡.
+	 * @param paciente que se internaï¿½.
 	 * @param habitacion en la que se internara el paciente.
-	 * @throws HabitacionLlenaException si la habitacion esta¡ llena.
+	 * @throws HabitacionLlenaException si la habitacion estaï¿½ llena.
 	 * @throws PacienteNoIngresadoException 
 	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */
@@ -135,7 +135,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones esta¡ ordenada por fecha de egreso, desde <= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones estaï¿½ ordenada por fecha de egreso, desde <= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -167,7 +167,7 @@ public class ModuloAtenciones {
 	 * @param hasta
 	 * @return lista con los pacientes que atendio en un periodo de tiempo
 	 */
-	public List<Paciente> getPacientesAtendidosPorMedicoXDesdeHssta(IMedico medico, LocalDate desde, LocalDate hasta)
+	public List<Paciente> getPacientesAtendidosPorMedicoXDesdeHasta(IMedico medico, LocalDate desde, LocalDate hasta)
 	{
 		List<Atencion> atencionesPeriodo = this.getAtencionesDesdeHasta(desde, hasta);
 		List<Paciente> pacientesAtendidosPorMedicoX = new ArrayList<>();
