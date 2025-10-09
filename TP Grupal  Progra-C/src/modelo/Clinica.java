@@ -14,9 +14,6 @@ import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
-import modelo.habitaciones.HabitacionCompartida;
-import modelo.habitaciones.HabitacionIntensiva;
-import modelo.habitaciones.HabitacionPrivada;
 import modelo.paciente.Paciente;
 import modelo.registro.ModuloRegistro;
 
@@ -29,6 +26,7 @@ public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
 	private ModuloEspera moduloEspera;
 	private ModuloAtenciones moduloAtenciones;
+	private ModuloGestionCostos moduloGestionCostos;
 	private int sigNumHistoriaClinica = 0;
 
 	/**Pre: los parametros son distintos de null
@@ -44,6 +42,7 @@ public class Clinica extends Entidad {
 		moduloRegistro = new ModuloRegistro();
 		moduloEspera = new ModuloEspera();
 		moduloAtenciones = new ModuloAtenciones();
+		moduloGestionCostos = new ModuloGestionCostos();
 	}
 	
 	
@@ -150,7 +149,7 @@ public class Clinica extends Entidad {
 	 */
 	public void setCostoAsignacionHabitacion(double costo)
 	{
-		Habitacion.setCostoAsignacion(costo);
+		this.moduloGestionCostos.setCostoAsignacionHabitacion(costo);
 	}
 	/**
 	 * Se debe llamar a este metodo por cada tipo distinto de habitacion al menos una vez antes de egresar a un paciente, ya que sino no hay forma de saber cuanto cobrarle
@@ -160,20 +159,14 @@ public class Clinica extends Entidad {
 	 */
 	public void setCostoHabitacion(String tipoHabitacion, double costo) throws HabitacionInvalidaException
 	{
-		switch (tipoHabitacion.toLowerCase()) {
-		case "privada":
-			HabitacionPrivada.setCostoHabitacionPrivada(costo);
-			break;
-		case "intensiva":
-			HabitacionIntensiva.setCostoAsignacion(costo);
-			break;
-		case "compartida":
-			HabitacionCompartida.setCostoHabitacionCompartida(costo);
-			break;
-		default:
-			throw new HabitacionInvalidaException(tipoHabitacion);
-		}
-		
+		this.moduloGestionCostos.setCostoHabitacion(tipoHabitacion, costo);
+	}
+	/**
+	 * De no llamarse a este metodo por defecto los medicos tienen un honorario basico de 20.000$
+	 * @param honorario pre: debe ser valido
+	 */
+	public void setHonorarioBasicoMedico(double honorario) {
+		this.moduloGestionCostos.setHonorarioBasicoMedico(honorario);
 	}
 	
 	
