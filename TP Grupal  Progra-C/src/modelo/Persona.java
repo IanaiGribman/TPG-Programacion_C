@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Objects;
+
 public abstract class Persona extends Entidad implements IPersona{
 	private String dni;
 
@@ -12,4 +14,22 @@ public abstract class Persona extends Entidad implements IPersona{
 	public String getDni() {
 		return dni;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(dni);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Persona other = (Persona) obj;
+		return Objects.equals(dni, other.dni);
+	}
+	
 }
