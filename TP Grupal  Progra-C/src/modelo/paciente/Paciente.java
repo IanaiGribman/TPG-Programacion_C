@@ -1,12 +1,7 @@
 package modelo.paciente;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-
 import modelo.Domicilio;
-import modelo.IMedico;
 import modelo.Persona;
-import modelo.habitaciones.Habitacion;
 
 public abstract class Paciente extends Persona {
 
