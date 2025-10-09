@@ -15,5 +15,11 @@ public class DecoratorDoctorado extends MedicoDecorator {
 	public double getHonorario() {
 		return super.getHonorario() * 1.1;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ", posgrado=doctorado";
+	}
+	
 	
 }

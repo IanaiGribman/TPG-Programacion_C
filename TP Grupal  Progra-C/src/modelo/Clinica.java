@@ -44,6 +44,29 @@ public class Clinica extends Entidad {
 		moduloAtenciones = new ModuloAtenciones();
 		moduloGestionCostos = new ModuloGestionCostos();
 	}
+	/**
+	 * constructor sobrecargado que permite inicializar los costos de las habitaciones
+	 * @param nombre
+	 * @param domicilio
+	 * @param telefono
+	 * @param costoAsignacionHab
+	 * @param costoCompartida
+	 * @param costoPrivada
+	 * @param costoIntensiva
+	 */
+	public Clinica(String nombre, Domicilio domicilio, String telefono, double costoAsignacionHab, double costoCompartida, double costoPrivada,double costoIntensiva){
+		this(nombre,domicilio,telefono);
+		this.setCostoAsignacionHabitacion(costoAsignacionHab);
+		try {
+		this.setCostoHabitacion("compartida", costoCompartida);
+		this.setCostoHabitacion("privada", costoPrivada);
+		this.setCostoHabitacion("intensiva", costoIntensiva);
+		}
+		catch(HabitacionInvalidaException e) {
+			e.printStackTrace(); //esto no se deberia ejecutar nunca
+			
+		}
+	}
 	
 	
 	/**

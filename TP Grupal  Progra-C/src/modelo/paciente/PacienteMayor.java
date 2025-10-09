@@ -28,5 +28,10 @@ public class PacienteMayor extends Paciente {
 	public boolean prioridadAnteMayor() {
 		return false; // la sala queda para el que ya estaba
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + ", rangoEtario=Mayor";
+	}
 
 }

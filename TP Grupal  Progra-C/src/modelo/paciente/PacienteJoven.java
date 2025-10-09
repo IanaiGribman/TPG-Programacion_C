@@ -29,4 +29,8 @@ public class PacienteJoven extends Paciente {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + ", rangoEtario=Mayor";
+	}
 }

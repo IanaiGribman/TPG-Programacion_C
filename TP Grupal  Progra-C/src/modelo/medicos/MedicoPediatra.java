@@ -25,4 +25,9 @@ public class MedicoPediatra extends Medico {
 	public String getEspecialidad() {
 		return this.especialidad;
 	}	
+	
+	@Override
+	public String toString() {
+		return super.toString() + ", especialidad=" + especialidad;
+	}	
 }
