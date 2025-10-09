@@ -62,7 +62,7 @@ public class Prueba2 {
 			f2 = clin.egresaPaciente(pMayor);
 			System.out.println(f2);
 			
-			
+			System.out.print(0);
 			
 		}
 		catch(Exception e)
