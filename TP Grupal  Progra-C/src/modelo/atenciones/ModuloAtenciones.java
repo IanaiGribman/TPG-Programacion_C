@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import modelo.ConsultaPacienteReporte;
 import modelo.Factura;
 import modelo.IMedico;
+import modelo.ReporteMedico;
 import modelo.excepciones.EgresoSinMedicoException;
 import modelo.excepciones.HabitacionLlenaException;
 import modelo.excepciones.PacienteNoIngresadoException;
@@ -164,7 +166,7 @@ public class ModuloAtenciones {
 	 * @param medico del cual se desea buscar los pacientes que atendio en un periodo de tiempo.
 	 * @param desde
 	 * @param hasta
-	 * @return lista con los pacientes que atendio en un periodo de tiempo
+	 * @return lista con los pacientes que atendio en un periodo de tiempo (cronologicamente)
 	 */
 	public List<Paciente> getPacientesAtendidosPorMedicoXDesdeHasta(IMedico medico, LocalDate desde, LocalDate hasta)
 	{
@@ -178,5 +180,34 @@ public class ModuloAtenciones {
 		return pacientesAtendidosPorMedicoX;
 	}
 	
+	/**
+	 * medico != null, desde != null, hasta != null, desde <= hasta
+	 * @param medico del cual se precisa buscar las consultas que brindo
+	 * @param desde
+	 * @param hasta
+	 * @return lista con la informacion de cada consulta que dio un medico desde una fecha a otra
+	 */
+	public List<ConsultaPacienteReporte> getConsultasPacientePorMedicoXDesdeHasta(IMedico medico, LocalDate desde, LocalDate hasta){
+		List<Atencion> atencionesPeriodo = this.getAtencionesDesdeHasta(desde, hasta);
+		List<ConsultaPacienteReporte> consultasPacientePorMedicoX = new ArrayList<>();
+		
+		for(Atencion atencion : atencionesPeriodo)
+			for(MedicoHonorario consulta : atencion.getMedicosConsultados())
+				if(consulta.getMedico().equals(medico))
+					consultasPacientePorMedicoX.add(new ConsultaPacienteReporte(atencion.getPaciente(), atencion.getFechaEgreso(), consulta.getHonorario()));
+		
+		return consultasPacientePorMedicoX;
+	}
 	
+	
+	/**
+	 * medico != null, desde != null, hasta != null, desde <= hasta
+	 * @param medico
+	 * @param desde
+	 * @param hasta
+	 * @return reporte medico de las consultas que realizo desde una fecha hasta otra
+	 */
+	public ReporteMedico getReporteMedico(IMedico medico, LocalDate desde, LocalDate hasta) {
+		return new ReporteMedico(medico, getConsultasPacientePorMedicoXDesdeHasta(medico, desde, hasta));
+	}
 }
