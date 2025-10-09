@@ -108,4 +108,13 @@ public class MedicoFactory {
 		
 		return medicoContrato;
 	}
+	/**
+	 * sobrecarga del constructor para crear medicos sin posgrado
+	 */
+	public IMedico crearMedico(String nombre, Domicilio domicilio, String telefono, String dni, String nroMatricula,
+			String especialidad, String contrato) throws MedicoInvalidoException{
+		IMedico medicoEspecialidad = crearMedicoEspecialidad(nombre, domicilio, telefono, dni, nroMatricula, especialidad);
+		IMedico medicoContrato = crearMedicoContrato(medicoEspecialidad, contrato);
+		return medicoContrato;
+	}
 }

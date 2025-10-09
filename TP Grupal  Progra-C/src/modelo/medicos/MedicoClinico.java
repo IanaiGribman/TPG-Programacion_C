@@ -24,5 +24,13 @@ public class MedicoClinico extends Medico {
 	@Override
 	public String getEspecialidad() {
 		return this.especialidad;
-	}	
+	}
+
+
+	@Override
+	public String toString() {
+		return super.toString() + ", especialidad=" + especialidad;
+	}		
+	
+	
 }

@@ -113,7 +113,7 @@ public class ModuloAtenciones {
 	 * @throws PacienteNoIngresadoException si el paciente no esta ingresado.
 	 * @throws EgresoSinMedicoException si el paciente no fue atendido por ningun medico.
 	 */
-	public Factura egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
+	public Atencion egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
 	{
 		Atencion ultAtencion = this.getAtencionActualPaciente(paciente);
 		Factura nuevaFactura;
@@ -128,9 +128,8 @@ public class ModuloAtenciones {
 			ultAtencion.getHabitacion().sacarHuesped();
 		ultAtencion.setFechaEgreso(cantDias);
 		Collections.sort(atenciones);
-		nuevaFactura = new Factura(ultAtencion.getMedicosConsultados(), ultAtencion.getHabitacion(), paciente.getNombre(), ultAtencion.getFechaIngreso(), ultAtencion.getFechaEgreso());
 		
-		return nuevaFactura;
+		return ultAtencion;
 	}
 	
 	
@@ -178,4 +177,6 @@ public class ModuloAtenciones {
 		
 		return pacientesAtendidosPorMedicoX;
 	}
+	
+	
 }

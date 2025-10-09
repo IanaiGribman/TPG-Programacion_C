@@ -38,5 +38,12 @@ public abstract class Medico extends Persona implements IMedico {
 	public static void setHonorarioBasico(double honorarioBasico) {
 		HonorarioBasico = honorarioBasico;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ", nroMatricula:" + nroMatricula;
+	}
+	
+	
 	
 }

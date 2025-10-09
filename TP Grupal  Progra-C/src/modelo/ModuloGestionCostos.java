@@ -19,7 +19,7 @@ public class ModuloGestionCostos {
 			HabitacionPrivada.setCostoHabitacionPrivada(costo);
 			break;
 		case "intensiva":
-			HabitacionIntensiva.setCostoAsignacion(costo);
+			HabitacionIntensiva.setCostoHabitacionIntensiva(costo);
 			break;
 		case "compartida":
 			HabitacionCompartida.setCostoHabitacionCompartida(costo);

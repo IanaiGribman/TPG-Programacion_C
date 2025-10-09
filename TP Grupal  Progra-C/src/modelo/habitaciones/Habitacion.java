@@ -70,6 +70,13 @@ public abstract class Habitacion {
 		this.ocupacion = ocupacion;
 	}
 	
+	@Override
+	public String toString() {
+		int capacidad = this.getCapacidad();
+		int lugarLibre = capacidad-this.getOcupacion();
+		return this.getTipoHabitacion() + " Capacidad:" + lugarLibre + "/" + capacidad;
+	}
+	
 	
 	
 	

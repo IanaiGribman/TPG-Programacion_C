@@ -33,4 +33,11 @@ public abstract class MedicoDecorator implements IMedico {
 	public double getHonorario() {
 		return this.encapsulado.getHonorario();
 	}
+
+	@Override
+	public String toString() {
+		return encapsulado.toString();
+	}
+	
+	
 }
