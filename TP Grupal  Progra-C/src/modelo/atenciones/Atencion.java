@@ -98,6 +98,10 @@ public class Atencion implements Comparable<Atencion>
 	}
 	
 	
+	public int getCantDias() {
+		return cantDias;
+	}
+
 	public boolean fueInternado()
 	{
 		return this.habitacion != null;
