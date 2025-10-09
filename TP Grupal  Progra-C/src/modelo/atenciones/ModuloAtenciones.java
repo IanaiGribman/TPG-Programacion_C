@@ -118,7 +118,6 @@ public class ModuloAtenciones {
 	public Atencion egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
 	{
 		Atencion ultAtencion = this.getAtencionActualPaciente(paciente);
-		Factura nuevaFactura;
 		
 		if (ultAtencion == null)
 			throw new PacienteNoIngresadoException("el paciente no fue ingresado", paciente.getDni());
