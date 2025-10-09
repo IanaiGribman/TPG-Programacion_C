@@ -54,4 +54,11 @@ public abstract class Paciente extends Persona {
 	 *         mayor
 	 */
 	public abstract boolean prioridadAnteMayor();
+
+	@Override
+	public String toString() {
+		return super.toString() + ", nroHistoriaClinica=" + nroHistoriaClinica;
+	}
+	
+	
 }

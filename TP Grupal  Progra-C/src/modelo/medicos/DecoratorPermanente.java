@@ -16,4 +16,9 @@ public class DecoratorPermanente extends MedicoDecorator {
 		return super.getHonorario() * 1.1;
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString() + ", contrato=permanente";
+	}
+	
 }
