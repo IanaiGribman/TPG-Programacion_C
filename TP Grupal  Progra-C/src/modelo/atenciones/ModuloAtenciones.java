@@ -19,7 +19,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: atenciones != null.
-	 * @param atenciones lista vacía.
+	 * @param atenciones lista vacia.
 	 */
 	public ModuloAtenciones(List<Atencion> atenciones)
 	{
@@ -33,9 +33,9 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, fechaIngreso != null.
-	 * Post: la lista atenciones contendrá una nueva atención.
-	 * @param paciente que será atendido.
-	 * @param fechaIngreso fecha cuando ingresó el paciente.
+	 * Post: la lista atenciones contendra� una nueva atencion.
+	 * @param paciente que sera atendido.
+	 * @param fechaIngreso fecha cuando ingresa el paciente.
 	 */
 	public void agregarAtencion(Paciente paciente, LocalDate fechaIngreso)
 	{
@@ -47,7 +47,7 @@ public class ModuloAtenciones {
 	/**
 	 * Pre: paciente != null, todas las atenciones con fecha de egreso null van al final.
 	 * @param paciente
-	 * @return atención del paciente con fecha de egreso nula o null si no se encuentra.
+	 * @return atencion del paciente con fecha de egreso nula o null si no se encuentra.
 	 */
 	protected Atencion getAtencionActualPaciente(Paciente paciente)
 	{
@@ -62,10 +62,10 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, medico != null.
-	 * Post: a la atención del paciente se le agrega un médico consultado.
+	 * Post: a la atencion del paciente se le agrega un medico consultado.
 	 * @param paciente 
-	 * @param medico que atendió al paciente.
-	 * @throws PacienteNoIngresadoException si no hay ninguna atención en la lista de atenciones que contenga a 
+	 * @param medico que atendio al paciente.
+	 * @throws PacienteNoIngresadoException si no hay ninguna atencion en la lista de atenciones que contenga a 
 	 * 		   ese paciente y tenga fecha de egreso null.
 	 */
 	public void agregarConsulta(Paciente paciente, IMedico medico) throws PacienteNoIngresadoException
@@ -81,11 +81,11 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, habitacion != null.
-	 * @param paciente que se internará.
-	 * @param habitacion en la que se internará el paciente.
-	 * @throws HabitacionLlenaException si la habitación está llena.
+	 * @param paciente que se interna�.
+	 * @param habitacion en la que se internara el paciente.
+	 * @throws HabitacionLlenaException si la habitacion esta� llena.
 	 * @throws PacienteNoIngresadoException 
-	 * @throws PacienteYaInternadoException si la atención ya contiene una habitación.
+	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */
 	public void setHabitacion(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
 	{
@@ -107,11 +107,11 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, cantDias >= 0.
-	 * @param paciente que egresará.
+	 * @param paciente que egresara.
 	 * @param cantDias que estuvo internado.
-	 * @return factura de la estadía del paciente (desde que ingresó hasta que egresó).
-	 * @throws PacienteNoIngresadoException si el paciente no está ingresado.
-	 * @throws EgresoSinMedicoException si el paciente no fue atendido por ningún médico.
+	 * @return factura de la estadia del paciente (desde que ingresa hasta que egresa).
+	 * @throws PacienteNoIngresadoException si el paciente no esta ingresado.
+	 * @throws EgresoSinMedicoException si el paciente no fue atendido por ningun medico.
 	 */
 	public Factura egresarPaciente(Paciente paciente, int cantDias) throws PacienteNoIngresadoException, EgresoSinMedicoException
 	{
@@ -135,7 +135,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones está ordenada por fecha de egreso, desde <= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde <= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -162,10 +162,10 @@ public class ModuloAtenciones {
 	
 	/**
 	 * desde != null, hasta != null, desde <= hasta.
-	 * @param medico del cual se desea buscar los pacientes que atendió en un periodo de tiempo.
+	 * @param medico del cual se desea buscar los pacientes que atendio en un periodo de tiempo.
 	 * @param desde
 	 * @param hasta
-	 * @return lista con los pacientes que atendió en un periodo de tiempo
+	 * @return lista con los pacientes que atendio en un periodo de tiempo
 	 */
 	public List<Paciente> getPacientesAtendidosPorMedicoXDesdeHssta(IMedico medico, LocalDate desde, LocalDate hasta)
 	{

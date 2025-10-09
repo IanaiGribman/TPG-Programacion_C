@@ -3,9 +3,14 @@ package modelo.habitaciones;
 public class HabitacionCompartida extends Habitacion {
 	private static double costoHabitacionCompartida;
 
+	/**
+	 * este constructor no es usado por el factory pero lo dejo por si en un futuro se quiere extender el factory
+	 */
+	public HabitacionCompartida(int capacidad) {
+		super(capacidad);
+	}
 	public HabitacionCompartida() {
-		super(3);
-		// TODO Auto-generated constructor stub
+		this(3);
 	}
 
 	public static double getCostoHabitacionCompartida() {

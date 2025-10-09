@@ -9,8 +9,8 @@ import modelo.habitaciones.Habitacion;
 import modelo.paciente.Paciente;
 
 /**
- * Almacena la fecha de ingreso, egreso, habitación de internación, médicos consultados de un paciente
- * en una estadía (desde que ingresa hasta que egresa) y gestiona la inserción de dichos datos.
+ * Almacena la fecha de ingreso, egreso, habitacion de internacion, medicos consultados de un paciente
+ * en una estada (desde que ingresa hasta que egresa) y gestiona la insercion de dichos datos.
  */
 
 public class Atencion implements Comparable<Atencion> 
@@ -27,9 +27,9 @@ public class Atencion implements Comparable<Atencion>
 	 *  -paciente != null.
 	 *  -fechaIngreso != null.
 	 *  -medicosConsultados != null.
-	 * @param paciente que recibirá algún tipo de atención.
-	 * @param fechaIngreso fecha que ingresó el paciente a la clínica.
-	 * @param medicosConsultados lista vacía.
+	 * @param paciente que recibira� algun tipo de atencion.
+	 * @param fechaIngreso fecha que ingresa el paciente a la clinica.
+	 * @param medicosConsultados lista vacia.
 	 */
 	public Atencion(Paciente paciente, LocalDate fechaIngreso, List<IMedico> medicosConsultados)
 	{
@@ -45,7 +45,7 @@ public class Atencion implements Comparable<Atencion>
 	
 	/**
 	 * Pre: medico != null.
-	 * Post: la lista medicosConsultados contiene a medico después de la ejecución.
+	 * Post: la lista medicosConsultados contiene a medico despues de la ejecucipn.
 	 * @param medico que tuvo una consulta con el paciente referencia por el campo paciente.
 	 */
 	public void agregarConsulta(IMedico medico)
@@ -55,7 +55,7 @@ public class Atencion implements Comparable<Atencion>
 	
 	/**
 	 * Pre: habitacion != null, tiene espacio disponible y this.habitacion == null
-	 * Post: el campo habitacion contiene la misma referencia que el parámetro habitacion.
+	 * Post: el campo habitacion contiene la misma referencia que el parametro habitacion.
 	 * @param habitacion donde se interna el paciente.
 	 */
 	public void setHabitacion(Habitacion habitacion)

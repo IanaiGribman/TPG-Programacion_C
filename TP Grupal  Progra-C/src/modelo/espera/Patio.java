@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import modelo.paciente.Paciente;
 
 /**
- * Esta clase tiene una lista de los pacientes en el patio y tiene m�todos para sacarlos o colocarlos en el patio
+ * Esta clase tiene una lista de los pacientes en el patio y tiene metodos para sacarlos o colocarlos en el patio
  */
 
 public class Patio {
@@ -18,7 +18,7 @@ public class Patio {
 	
 	/**
 	 * Pre: el paciente no debe ser null, debe estar en el patio
-	 * Post: el paciente ya no est� en el patio
+	 * Post: el paciente ya no esta en el patio
 	 * @param paciente
 	 */
 	public void sacarPaciente(Paciente paciente)

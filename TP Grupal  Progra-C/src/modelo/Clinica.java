@@ -31,8 +31,8 @@ public class Clinica extends Entidad {
 	private ModuloAtenciones moduloAtenciones;
 	private int sigNumHistoriaClinica = 0;
 
-	/**Pre: los par�metros son distintos de null
-	 * Instancia los m�dulos
+	/**Pre: los parametros son distintos de null
+	 * Instancia los modulos
 	 * @param nombre de la clinica
 	 * @param domicilio de la clinica
 	 * @param telefono de la clinica
@@ -48,7 +48,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * * Agrega al paciente al hashmap de todos los pacientes de la cl�nica si ya no estaba previamente registrado.
+	 * * Agrega al paciente al hashmap de todos los pacientes de la clinica si ya no estaba previamente registrado.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @throws DniRepetidoException
@@ -61,7 +61,7 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * Agrega al m�dico al hashmap de todos los m�dicos de la cl�nica si ya no estaba previamente registrado.
+	 * Agrega al medico al hashmap de todos los medicos de la clinica si ya no estaba previamente registrado.
 	 * Pre: medico no es null.
 	 * @param medico
 	 * @throws DniRepetidoException
@@ -73,7 +73,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * Pone al paciente en el m�dulo de espera si est� registrado y no se encontraba ya esperando.
+	 * Pone al paciente en el modulo de espera si esta registrado y no se encontraba ya esperando.
 	 * Pre: paciente != null, fechaIngreso != null
 	 * @param paciente
 	 * @param fechaIngreso
@@ -120,7 +120,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * Sobrecarga de la funci�n egresaPaciente. Esta se usa cuando su estad�a dur� 0 d�as.
+	 * Sobrecarga de la funcion egresaPaciente. Esta se usa cuando su estadia durp 0 dias.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @return
@@ -136,7 +136,7 @@ public class Clinica extends Entidad {
 	 * Pre: paciente != null, cantDias >= 0
 	 * @param paciente
 	 * @param cantDias
-	 * @return factura de la estad�a del paciente
+	 * @return factura de la estadia del paciente
 	 * @throws EgresoSinMedicoException
 	 * @throws PacienteNoIngresadoException 
 	 */

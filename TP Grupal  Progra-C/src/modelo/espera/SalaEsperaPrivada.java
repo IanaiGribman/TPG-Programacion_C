@@ -5,7 +5,7 @@ import modelo.paciente.Paciente;
 
 /**
  * Esta clase tiene una atributo huesped que representa al paciente que se encuentra en la sala privada, es null si no hay nadie
- * qued�ndose
+ * quedandose
  */
 
 public class SalaEsperaPrivada {
@@ -25,6 +25,7 @@ public class SalaEsperaPrivada {
 	public void vaciar()
 	{
 		System.out.println("se ha sacado a " + this.huesped.getNombre() + " de la sala privada");
+		//TODO sacar esta salida por pantalla
 		this.huesped = null;
 	}
 	
@@ -40,6 +41,7 @@ public class SalaEsperaPrivada {
 	public void setHuesped(Paciente paciente)
 	{
 		this.huesped = paciente;
+		// TODO sacar salida por pantalla
 		System.out.println("se ha colocado a " + paciente.getNombre() + " en la sala de espera privada");
 	}
 	

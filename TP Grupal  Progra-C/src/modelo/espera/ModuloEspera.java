@@ -19,7 +19,11 @@ public class ModuloEspera {
 		return salaEsperaPrivada.isInSalaPrivada(paciente) || patio.isInPatio(paciente);
 	}
 	
-	
+	/**
+	 * metodo de uso interno del modulo de espera para decidir donde mandar a los pacientes.
+	 * este metodo es el que aplica el doble dispatch de los pacientes
+	 * @param paciente pre: este paciente no es null
+	 */
 	protected void ponerEnSalaOPatio(Paciente paciente)
 	{
 		if (salaEsperaPrivada.isLibre())
@@ -39,7 +43,7 @@ public class ModuloEspera {
 	
 	
 	/**
-	 * pre: el paciente simpre est� en alguno de los dos lugares
+	 * pre: el paciente simpre esta en alguno de los dos lugares y es no null
 	 * @param paciente
 	 */
 	protected void sacarDeSalaOPatio(Paciente paciente)
@@ -51,7 +55,7 @@ public class ModuloEspera {
 	}
 	
 	/**
-	 * Pre: paciente no es null y deber�a estar ya registrado en el sitema
+	 * Pre: paciente no es null y deberia estar ya registrado en el sistema
 	 * @param paciente
 	 * @throws PacienteYaIngresadoException
 	 */
