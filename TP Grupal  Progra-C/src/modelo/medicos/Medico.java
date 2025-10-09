@@ -11,7 +11,7 @@ import modelo.Persona;
  */
 public abstract class Medico extends Persona implements IMedico {
 	private String nroMatricula;
-	protected static double HonorarioBasico = 20000;
+	protected static double HonorarioBasico = 20000; //honorario comun a todos los medicos
 	
 	/**
 	 * 
@@ -30,4 +30,13 @@ public abstract class Medico extends Persona implements IMedico {
 	public String getNroMatricula(){
 		return this.nroMatricula;
 	}
+
+	public static double getHonorarioBasico() {
+		return HonorarioBasico;
+	}
+
+	public static void setHonorarioBasico(double honorarioBasico) {
+		HonorarioBasico = honorarioBasico;
+	}
+	
 }

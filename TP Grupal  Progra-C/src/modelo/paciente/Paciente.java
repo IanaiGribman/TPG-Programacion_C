@@ -40,7 +40,7 @@ public abstract class Paciente extends Persona {
 
 	/**
 	 * @return devuelve que tipo de prioridad tiene el paciente ante otro paciente
-	 *         ni�o
+	 *         ninio
 	 */
 	public abstract boolean prioridadAnteNinio();
 

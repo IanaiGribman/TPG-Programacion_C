@@ -16,11 +16,14 @@ public class HabitacionIntensiva extends Habitacion {
 	}
 
 	/**
-	 * precondicion: los dias son mayores a 0 precondicion: se han asignado valores
+	 * precondicion: se han asignado valores
 	 * al costo de la habitacion y a la asignacion
+	 * @param si un paciente se queda menos de un dia se le cobra un dia entero
 	 */
 	@Override
 	public double getCostoTotal(int dias) {
+		if (dias <= 0)
+			dias = 1;
 		double costoTotal = Math.pow(costoHabitacionIntensiva, dias);
 		costoTotal += Habitacion.getCostoAsignacion();
 		return costoTotal;
