@@ -41,6 +41,7 @@ public class Factura {
 			this.tipoHabitacion = null;
 			this.costoHabitacion = 0;
 		}
+		this.consultasMedicas = new ArrayList<>();
 		for (IMedico medico : medicosConsultados) {
 			this.consultasMedicas.add(new ConsultaMedicaFactura(medico));
 		}
