@@ -23,6 +23,8 @@ public class HabitacionCompartida extends Habitacion {
 
 	@Override
 	public double getCostoTotal(int dias) {
+		if (dias <= 0)
+			dias = 1;
 		double costoTotal = dias * costoHabitacionCompartida;
 		costoTotal += Habitacion.getCostoAsignacion();
 		return costoTotal;

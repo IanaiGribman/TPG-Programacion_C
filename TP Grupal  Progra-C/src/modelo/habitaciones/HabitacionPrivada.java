@@ -15,12 +15,10 @@ public class HabitacionPrivada extends Habitacion {
 		return "Habitacion Privada";
 	}
 
-	/**
-	 * precondicion: los dias son mayores a 0 precondicion: se han asignado valores
-	 * al costo de la habitacion y a la asignacion
-	 */
 	@Override
 	public double getCostoTotal(int dias) {
+		if (dias <= 0)
+			dias = 1;
 		double costoTotal = dias * costoHabitacionPrivada;
 		if (dias >= 2)
 			if (dias >= 6)
