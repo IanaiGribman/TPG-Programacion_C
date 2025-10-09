@@ -8,7 +8,7 @@ public class ConsultaMedicaFactura {
 	public ConsultaMedicaFactura(IMedico medico) {
 		this.nombreMedico = medico.getNombre();
 		this.especialidadMedico = medico.getEspecialidad();
-		this.honorario = medico.getHonorario() * incrementoHonorario;
+		this.honorario = Math.round(medico.getHonorario() * incrementoHonorario * 100.0) / 100.0 ;
 	}
 
 	public String getNombreMedico() {
