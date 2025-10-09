@@ -3,6 +3,8 @@ package modelo;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
+
 import modelo.habitaciones.Habitacion;
 
 /**
@@ -25,7 +27,7 @@ public class Factura {
 	 * @param fechaIngreso distinto de null
 	 * @param fechaEgreso distindo de null 
 	 */
-	public Factura(ArrayList<IMedico> medicosConsultados, Habitacion habitacion, String nombrePaciente,
+	public Factura(List<IMedico> medicosConsultados, Habitacion habitacion, String nombrePaciente,
 			LocalDate fechaIngreso, LocalDate fechaEgreso) {
 		this.fechaIngreso = fechaIngreso;
 		this.fechaEgreso = fechaEgreso;

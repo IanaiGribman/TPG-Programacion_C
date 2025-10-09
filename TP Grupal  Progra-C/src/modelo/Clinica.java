@@ -1,9 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-
-import modelo.atencion.ModuloAtencion;
+import modelo.atenciones.ModuloAtenciones;
 import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
 import modelo.excepciones.EgresoSinMedicoException;
@@ -12,10 +10,10 @@ import modelo.excepciones.MedicoNoRegistradoException;
 import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
+import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
 import modelo.paciente.Paciente;
 import modelo.registro.ModuloRegistro;
-import modelo.reporte.ModuloReportes;
 
 /**
  * Clase que porporciona una interfaz para el acceso de las funcionalidades que el cliente tiene permitido
@@ -24,12 +22,11 @@ import modelo.reporte.ModuloReportes;
 public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
 	private ModuloEspera moduloEspera;
-	private ModuloReportes moduloReportes;
-	private ModuloAtencion moduloAtencion;
+	private ModuloAtenciones moduloAtenciones;
 	private int sigNumHistoriaClinica = 0;
 
-	/**Pre: los parametros son distintos de null
-	 * Instancia los modulos
+	/**Pre: los par�metros son distintos de null
+	 * Instancia los m�dulos
 	 * @param nombre de la clinica
 	 * @param domicilio de la clinica
 	 * @param telefono de la clinica
@@ -40,13 +37,12 @@ public class Clinica extends Entidad {
 		super(nombre, domicilio, telefono);
 		moduloRegistro = new ModuloRegistro();
 		moduloEspera = new ModuloEspera();
-		moduloReportes = new ModuloReportes();
-		moduloAtencion = new ModuloAtencion();
+		moduloAtenciones = new ModuloAtenciones();
 	}
 	
 	
 	/**
-	 * * Agrega al paciente al hashmap de todos los pacientes de la clinica si ya no estaba previamente registrado.
+	 * * Agrega al paciente al hashmap de todos los pacientes de la cl�nica si ya no estaba previamente registrado.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @throws DniRepetidoException
@@ -59,7 +55,7 @@ public class Clinica extends Entidad {
 	}
 	
 	/**
-	 * Agrega al medico al hashmap de todos los medicos de la cl�nica si ya no estaba previamente registrado.
+	 * Agrega al m�dico al hashmap de todos los m�dicos de la cl�nica si ya no estaba previamente registrado.
 	 * Pre: medico no es null.
 	 * @param medico
 	 * @throws DniRepetidoException
@@ -72,7 +68,7 @@ public class Clinica extends Entidad {
 	
 	/**
 	 * Pone al paciente en el m�dulo de espera si est� registrado y no se encontraba ya esperando.
-	 * Pre: paciente no es null, fechaIngreso no es null
+	 * Pre: paciente != null, fechaIngreso != null
 	 * @param paciente
 	 * @param fechaIngreso
 	 * @throws PacienteYaIngresadoException
@@ -82,8 +78,8 @@ public class Clinica extends Entidad {
 	{
 		if (this.moduloRegistro.pacienteIsRegistrado(paciente))
 		{
-			this.moduloAtencion.agregarPaciente(paciente.getDni(), fechaIngreso);
 			this.moduloEspera.ingresaPaciente(paciente);
+			this.moduloAtenciones.agregarAtencion(paciente, fechaIngreso);
 		}
 		else
 			throw new PacienteNoRegistradoException("el paciente no ha sido registrado", paciente.getDni());
@@ -92,9 +88,7 @@ public class Clinica extends Entidad {
 	
 
 	/**
-	 * El paciente guarda la referencia al m�dico que lo atendi� si es que estaba en la lista de espera o ya fue
-	 * atendido por un m�dico ("lista de atenci�n"). Si estaba en la lista de espera, se lo quita de ella.
-	 * Pre: medico no es null y paciente no es null
+	 * Pre: medico != null y paciente != null
 	 * @param medico
 	 * @param paciente
 	 * @throws PacienteNoIngresadoException
@@ -102,23 +96,20 @@ public class Clinica extends Entidad {
 	 */
 	public void atiendePaciente(IMedico medico, Paciente paciente) throws PacienteNoIngresadoException, MedicoNoRegistradoException
 	{
-		if (this.moduloRegistro.medicoIsRegistrado(medico))
-		{
-			if(this.moduloAtencion.isPacienteEnAtencion(paciente.getDni())) {
-				if(!this.moduloEspera.isEnEspera(paciente))
-					this.moduloEspera.sacarDeEspera(paciente);
-				this.moduloAtencion.agregarConsultaMedica(paciente.getDni(), medico);
-			}	
-			else
-				throw new PacienteNoIngresadoException("el paciente no ha sido ingresado", paciente.getDni());
-		}
-		else
-			throw new MedicoNoRegistradoException("el medico no ha sido registrado", medico.getDni());
+		if (!this.moduloRegistro.medicoIsRegistrado(medico))
+			throw new MedicoNoRegistradoException("el medico no esta registrado", medico.getDni());
+		
+		if (this.moduloEspera.isEnEspera(paciente))
+			this.moduloEspera.sacarDeEspera(paciente);
+		
+		this.moduloAtenciones.agregarConsulta(paciente, medico);
+		
 	}
 	
 	
-	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException {
-		this.moduloAtencion.internaPaciente(paciente.getDni(), habitacion);
+	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
+	{
+		this.moduloAtenciones.setHabitacion(paciente, habitacion);
 	}
 	
 	
@@ -128,28 +119,24 @@ public class Clinica extends Entidad {
 	 * @param paciente
 	 * @return
 	 * @throws EgresoSinMedicoException
+	 * @throws PacienteNoIngresadoException 
 	 */
-	public Factura egresaPaciente(Paciente paciente) throws EgresoSinMedicoException
+	public Factura egresaPaciente(Paciente paciente) throws EgresoSinMedicoException, PacienteNoIngresadoException
 	{
 		return this.egresaPaciente(paciente, 0);
 	}
 	
 	/**
-	 * Genera la factura, libera la habitaci�n si es que el paciente se alojaba en una y hace que el paciente olvide
-	 * las consultas que tuvo con m�dicos, la habitaci�n donde se aloj� y le fecha de ingreso.
-	 * Pre: paciente no es null.
+	 * Pre: paciente != null, cantDias >= 0
 	 * @param paciente
 	 * @param cantDias
 	 * @return factura de la estad�a del paciente
 	 * @throws EgresoSinMedicoException
+	 * @throws PacienteNoIngresadoException 
 	 */
-	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException
+	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException, PacienteNoIngresadoException
 	{
-		ArrayList<IMedico> medicos = this.moduloAtencion.getMedicosAtencion(paciente.getDni());
-		Factura factura = this.moduloAtencion.egresaPaciente(paciente, cantDias);
-		this.moduloReportes.agregarConsultasPaciente(medicos, factura.getFechaEgreso(), paciente.getNombre());
-		
-		return factura;
+		return this.moduloAtenciones.egresarPaciente(paciente, cantDias);
 	}
 	
 	

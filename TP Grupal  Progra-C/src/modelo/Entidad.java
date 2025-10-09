@@ -27,6 +27,12 @@ public abstract class Entidad implements INombrable {
 	public String getTelefono() {
 		return telefono;
 	}
+
+
+	@Override
+	public String toString() {
+		return "nombre=" + nombre + ", domicilio=" + domicilio + ", telefono=" + telefono;
+	}
 	
 	
 	
