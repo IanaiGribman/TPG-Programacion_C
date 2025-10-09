@@ -1,10 +1,12 @@
 package modelo;
 
 import java.time.LocalDate;
+
 import modelo.atenciones.ModuloAtenciones;
 import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
 import modelo.excepciones.EgresoSinMedicoException;
+import modelo.excepciones.HabitacionInvalidaException;
 import modelo.excepciones.HabitacionLlenaException;
 import modelo.excepciones.MedicoNoRegistradoException;
 import modelo.excepciones.PacienteNoIngresadoException;
@@ -12,12 +14,16 @@ import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
+import modelo.habitaciones.HabitacionCompartida;
+import modelo.habitaciones.HabitacionIntensiva;
+import modelo.habitaciones.HabitacionPrivada;
 import modelo.paciente.Paciente;
 import modelo.registro.ModuloRegistro;
 
 /**
  * Clase que porporciona una interfaz para el acceso de las funcionalidades que el cliente tiene permitido
- * acceder.
+ * acceder.}
+ * La clase posee metodos para la asignacion de costo para las habitaciones que deben ser llamados al menos una vez antes de internar pacientes
  */
 public class Clinica extends Entidad {
 	private ModuloRegistro moduloRegistro;
@@ -137,6 +143,37 @@ public class Clinica extends Entidad {
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException, PacienteNoIngresadoException
 	{
 		return this.moduloAtenciones.egresarPaciente(paciente, cantDias);
+	}
+	/**
+	 * Se debe llamar a este metodo al menos una vez para saber cuanto cobrarle a un paciente por la asignacion de una habitacion
+	 * @param costo precondicion: el costo debe ser positivo
+	 */
+	public void setCostoAsignacionHabitacion(double costo)
+	{
+		Habitacion.setCostoAsignacion(costo);
+	}
+	/**
+	 * Se debe llamar a este metodo por cada tipo distinto de habitacion al menos una vez antes de egresar a un paciente, ya que sino no hay forma de saber cuanto cobrarle
+	 * @param tipoHabitacion tipos soportados: privada, intensiva, compartida
+	 * @param costo precondicion: el costo será mayor a 0
+	 * @throws HabitacionInvalidaException de ser ingresado un tipo invalido se lanza esta excepcion
+	 */
+	public void setCostoHabitacion(String tipoHabitacion, double costo) throws HabitacionInvalidaException
+	{
+		switch (tipoHabitacion.toLowerCase()) {
+		case "privada":
+			HabitacionPrivada.setCostoHabitacionPrivada(costo);
+			break;
+		case "intensiva":
+			HabitacionIntensiva.setCostoAsignacion(costo);
+			break;
+		case "compartida":
+			HabitacionCompartida.setCostoHabitacionCompartida(costo);
+			break;
+		default:
+			throw new HabitacionInvalidaException(tipoHabitacion);
+		}
+		
 	}
 	
 	
