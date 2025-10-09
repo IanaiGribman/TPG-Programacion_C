@@ -165,7 +165,9 @@ public class Clinica extends Entidad {
 	 */
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException, PacienteNoIngresadoException
 	{
-		Atencion atencion = this.moduloAtenciones.egresarPaciente(paciente, cantDias);
+		Atencion ultAtencion = this.moduloAtenciones.egresarPaciente(paciente, cantDias);
+		Factura nuevaFactura = new Factura(ultAtencion);
+		return nuevaFactura;
 	}
 	/**
 	 * Se debe llamar a este metodo al menos una vez para saber cuanto cobrarle a un paciente por la asignacion de una habitacion
@@ -193,10 +195,7 @@ public class Clinica extends Entidad {
 		this.moduloGestionCostos.setHonorarioBasicoMedico(honorario);
 	}
 	
-	
 	public ReporteMedico getReporteMedico(IMedico medico, LocalDate desde, LocalDate hasta) {
 		return this.moduloAtenciones.getReporteMedico(medico, desde, hasta);
 	}
-	
-	
 }

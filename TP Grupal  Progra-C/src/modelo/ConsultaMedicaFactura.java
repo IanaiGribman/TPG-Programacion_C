@@ -1,14 +1,16 @@
 package modelo;
 
+import modelo.atenciones.MedicoHonorario;
+
 public class ConsultaMedicaFactura {
 	private String nombreMedico, especialidadMedico;
 	private double honorario;
 	private static double incrementoHonorario = 1.2;
 	
-	public ConsultaMedicaFactura(IMedico medico) {
-		this.nombreMedico = medico.getNombre();
-		this.especialidadMedico = medico.getEspecialidad();
-		this.honorario =medico.getHonorario() * incrementoHonorario ;
+	public ConsultaMedicaFactura(MedicoHonorario medHon) {
+		this.nombreMedico = medHon.getMedico().getNombre();
+		this.especialidadMedico = medHon.getMedico().getEspecialidad();
+		this.honorario = medHon.getHonorario();
 	}
 
 	public String getNombreMedico() {

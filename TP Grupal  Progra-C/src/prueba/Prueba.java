@@ -18,7 +18,10 @@ import modelo.excepciones.PacienteNoRegistradoException;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
+import modelo.habitaciones.HabitacionCompartida;
 import modelo.habitaciones.HabitacionFactory;
+import modelo.habitaciones.HabitacionIntensiva;
+import modelo.habitaciones.HabitacionPrivada;
 import modelo.medicos.MedicoFactory;
 import modelo.paciente.Paciente;
 import modelo.paciente.PacientesFactory;
@@ -99,7 +102,10 @@ public class Prueba {
 			System.out.println(e.getMensaje());
 		}
 		
-		
+		HabitacionPrivada.setCostoHabitacionPrivada(10);
+		HabitacionIntensiva.setCostoHabitacionIntensiva(3);
+		Habitacion.setCostoAsignacion(2000);
+		HabitacionCompartida.setCostoHabitacionCompartida(700);
 		
 		try {
 			clinica.registraMedico(clinicoDoctoradoResidente);
@@ -187,6 +193,13 @@ public class Prueba {
 		}
 		
 		try {
+			clinica.atiendePaciente(cirujanoDoctoradoPermanente, pacienteNinio);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		try {
 			System.out.println(clinica.egresaPaciente(pacienteNinio, 2));
 		} catch (EgresoSinMedicoException | PacienteNoIngresadoException e) {
 			System.out.println(e.getMessage());
@@ -223,15 +236,22 @@ public class Prueba {
 		}
 		
 		try {
-			System.out.println(clinica.egresaPaciente(pacienteMayor));
+			clinica.atiendePaciente(cirujanoMagisterResidente, pacienteMayor);
+		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		try {
+			System.out.println(clinica.egresaPaciente(pacienteMayor, 7));
 		} catch (EgresoSinMedicoException | PacienteNoIngresadoException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		System.out.println(clinica.getReporteMedico(clinicoDoctoradoResidente, LocalDate.now(), LocalDate.now().plusDays(1)));
-		System.out.println(clinica.getReporteMedico(cirujanoDoctoradoPermanente, LocalDate.now(), LocalDate.now().plusDays(1)));
-		System.out.println(clinica.getReporteMedico(cirujanoMagisterResidente, LocalDate.now(), LocalDate.now().plusDays(1)));
-		System.out.println(clinica.getReporteMedico(pediatraMagisterPermanente, LocalDate.now(), LocalDate.now().plusDays(1)));
+		System.out.println(clinica.getReporteMedico(clinicoDoctoradoResidente, LocalDate.now(), LocalDate.now().plusDays(2)));
+		System.out.println(clinica.getReporteMedico(cirujanoDoctoradoPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
+		System.out.println(clinica.getReporteMedico(cirujanoMagisterResidente, LocalDate.now(), LocalDate.now().plusDays(10)));
+		System.out.println(clinica.getReporteMedico(pediatraMagisterPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
 		
 		
 		
