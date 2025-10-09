@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 
+import modelo.atenciones.Atencion;
 import modelo.atenciones.ModuloAtenciones;
 import modelo.espera.ModuloEspera;
 import modelo.excepciones.DniRepetidoException;
@@ -164,7 +165,9 @@ public class Clinica extends Entidad {
 	 */
 	public Factura egresaPaciente(Paciente paciente, int cantDias) throws EgresoSinMedicoException, PacienteNoIngresadoException
 	{
-		return this.moduloAtenciones.egresarPaciente(paciente, cantDias);
+		Atencion ultAtencion = this.moduloAtenciones.egresarPaciente(paciente, cantDias);
+		Factura nuevaFactura = new Factura(ultAtencion);
+		return nuevaFactura;
 	}
 	/**
 	 * Se debe llamar a este metodo al menos una vez para saber cuanto cobrarle a un paciente por la asignacion de una habitacion
@@ -177,7 +180,7 @@ public class Clinica extends Entidad {
 	/**
 	 * Se debe llamar a este metodo por cada tipo distinto de habitacion al menos una vez antes de egresar a un paciente, ya que sino no hay forma de saber cuanto cobrarle
 	 * @param tipoHabitacion tipos soportados: privada, intensiva, compartida
-	 * @param costo precondicion: el costo será mayor a 0
+	 * @param costo precondicion: el costo serï¿½ mayor a 0
 	 * @throws HabitacionInvalidaException de ser ingresado un tipo invalido se lanza esta excepcion
 	 */
 	public void setCostoHabitacion(String tipoHabitacion, double costo) throws HabitacionInvalidaException

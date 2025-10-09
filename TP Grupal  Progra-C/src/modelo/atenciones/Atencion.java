@@ -33,7 +33,7 @@ public class Atencion implements Comparable<Atencion>
 	 * @param fechaIngreso fecha que ingresa el paciente a la clinica.
 	 * @param medicosConsultados lista vacia.
 	 */
-	public Atencion(Paciente paciente, LocalDate fechaIngreso, List<MedicoHonorario> medicosConsultado)
+	public Atencion(Paciente paciente, LocalDate fechaIngreso, List<MedicoHonorario> medicosConsultados)
 	{
 		this.paciente = paciente;
 		this.fechaIngreso = fechaIngreso;
@@ -52,6 +52,7 @@ public class Atencion implements Comparable<Atencion>
 	 */
 	public void agregarConsulta(IMedico medico)
 	{
+		
 		MedicoHonorario medHon = new MedicoHonorario(medico);
 		this.medicosConsultados.add(medHon);
 	}

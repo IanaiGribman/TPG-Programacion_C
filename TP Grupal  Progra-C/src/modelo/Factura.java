@@ -1,11 +1,10 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.List;
 
-import modelo.habitaciones.Habitacion;
+import modelo.atenciones.Atencion;
+import modelo.atenciones.MedicoHonorario;
 
 /**
  * todos los datos de una factura son inmutables
@@ -27,23 +26,25 @@ public class Factura {
 	 * @param fechaIngreso distinto de null
 	 * @param fechaEgreso distindo de null 
 	 */
-	public Factura(List<IMedico> medicosConsultados, Habitacion habitacion, String nombrePaciente,
-			LocalDate fechaIngreso, LocalDate fechaEgreso) {
-		this.fechaIngreso = fechaIngreso;
-		this.fechaEgreso = fechaEgreso;
-		this.cantDias = (int) ChronoUnit.DAYS.between(fechaIngreso, fechaEgreso);
-		this.nombrePaciente = nombrePaciente;
-		if (habitacion != null) {
-			this.tipoHabitacion = habitacion.getTipoHabitacion();
-			this.costoHabitacion = habitacion.getCostoTotal(cantDias);
+	public Factura(Atencion atencion) 
+	{
+		this.fechaIngreso = atencion.getFechaIngreso();
+		this.fechaEgreso = atencion.getFechaEgreso();
+		this.cantDias = atencion.getCantDias();
+		this.nombrePaciente = atencion.getPaciente().getNombre();
+		if (atencion.fueInternado()) {
+			this.tipoHabitacion = atencion.getHabitacion().getTipoHabitacion();
+			this.costoHabitacion = atencion.getHabitacion().getCostoTotal(this.cantDias);
 		}
 		else {
 			this.tipoHabitacion = null;
 			this.costoHabitacion = 0;
 		}
 		this.consultasMedicas = new ArrayList<>();
-		for (IMedico medico : medicosConsultados) {
-			this.consultasMedicas.add(new ConsultaMedicaFactura(medico));
+		
+		for (MedicoHonorario medHon : atencion.getMedicosConsultados()) 
+		{
+			this.consultasMedicas.add(new ConsultaMedicaFactura(medHon));
 		}
 		this.nroFactura = sigNum;
 		sigNum++;

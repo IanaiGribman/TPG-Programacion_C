@@ -67,6 +67,7 @@ public class Prueba2 {
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			System.out.println(e.getMessage());		
 		}
 		

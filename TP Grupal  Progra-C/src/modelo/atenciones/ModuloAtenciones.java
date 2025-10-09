@@ -42,7 +42,8 @@ public class ModuloAtenciones {
 	public void agregarAtencion(Paciente paciente, LocalDate fechaIngreso)
 	{
 		Atencion nuevaAtencion = new Atencion(paciente, fechaIngreso);
-			atenciones.add(nuevaAtencion);
+		assert nuevaAtencion != null;
+		atenciones.add(nuevaAtencion);
 	}
 	
 	
