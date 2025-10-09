@@ -119,7 +119,7 @@ public class Clinica extends Entidad {
 	
 	
 	/**
-	 * Sobrecarga de la funcion egresaPaciente. Esta se usa cuando su estadia durp 0 dias.
+	 * Sobrecarga de la funcion egresaPaciente. Esta se usa cuando su estadia duro 0 dias.
 	 * Pre: paciente no es null.
 	 * @param paciente
 	 * @return
