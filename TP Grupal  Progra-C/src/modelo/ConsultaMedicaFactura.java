@@ -8,7 +8,7 @@ public class ConsultaMedicaFactura {
 	public ConsultaMedicaFactura(IMedico medico) {
 		this.nombreMedico = medico.getNombre();
 		this.especialidadMedico = medico.getEspecialidad();
-		this.honorario = Math.round(medico.getHonorario() * incrementoHonorario * 100.0) / 100.0 ;
+		this.honorario =medico.getHonorario() * incrementoHonorario ;
 	}
 
 	public String getNombreMedico() {
@@ -25,7 +25,7 @@ public class ConsultaMedicaFactura {
 
 	@Override
 	public String toString() {
-		return"Nombre Medico: " + this.nombreMedico + "       Especialidad: " + this.especialidadMedico + "      Subtotal:     $" + this.honorario;
+		return"Nombre Medico: " + this.nombreMedico + "       Especialidad: " + this.especialidadMedico + "      Subtotal:     $" + String.format("%.2f",this.honorario);
 	}
 	
 	

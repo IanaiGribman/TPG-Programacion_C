@@ -61,13 +61,13 @@ public class Factura {
 		if (this.tipoHabitacion != null) {
 			costoTotal += this.costoHabitacion;
 			texto = texto.concat("Habitacion tipo: " + this.tipoHabitacion + "         Costo:         $"
-					+ this.costoHabitacion + "\n");
+					+ String.format("%.2f", this.costoHabitacion)  + "\n");
 		}
 		for (ConsultaMedicaFactura consulta : this.consultasMedicas) {
 			costoTotal += consulta.getHonorario();
 			texto = texto.concat(consulta.toString() + "\n");
 		}
-		texto = texto.concat("                                         Total:       $" + costoTotal);
+		texto = texto.concat("                                         Total:       $" + String.format("%.2f",costoTotal));
 		return texto;
 	}
 
