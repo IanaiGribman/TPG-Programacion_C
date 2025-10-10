@@ -139,8 +139,8 @@ public class Atencion implements Comparable<Atencion>
 
 	@Override
 	public String toString() {
-		return "Atencion [fechaIngreso=" + fechaIngreso + ", fechaEgreso=" + fechaEgreso + ", paciente=" + paciente
-				+ ", medicosConsultados=" + medicosConsultados + "]";
+		return "fechaIngreso=" + fechaIngreso + ", fechaEgreso=" + fechaEgreso + ", paciente=" + paciente
+				+ ", medicosConsultados=" + medicosConsultados;
 	}
 	
 	
