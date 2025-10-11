@@ -36,7 +36,8 @@ public class Prueba1 {
 			System.out.println(med1);
 
 			med2 = mf.crearMedico("Mario2", new Domicilio("Argentina", "Av avenida", 123), "22353235390", "123523573",
-					"1215", "cirujia", "doctorado", "permanente");
+					"1215", "cirujia", "permanente");
+			System.out.println(med2); //medico sin postgrado
 
 			pNinio = pf.creaPaciente("ninio", new Domicilio("Mar del plata", "San Luis", 123), "46029714", "Juan",
 					"Gomez", "---");
@@ -66,9 +67,10 @@ public class Prueba1 {
 			clin.atiendePaciente(med2, pNinio);
 
 			Factura f1 = null;
-			Habitacion h1 = hf.crearHabitacion("compartida");
+			Habitacion h1 = hf.crearHabitacion("privada");
 			System.out.println(h1);
 			clin.internaPaciente(pNinio, h1);
+			//clin.internaPaciente(pMayor, h1); //si esto se descomenta lanza excepcion por habitacion llena
 			System.out.println(h1);
 
 

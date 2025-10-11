@@ -36,7 +36,7 @@ public class Prueba {
 		IMedico cirujanoDoctoradoPermanente = null;
 		IMedico cirujanoMagisterResidente = null;
 		IMedico pediatraMagisterPermanente = null;
-		IMedico clinicoDoctoradoResidente = null;
+		IMedico clinicoSinPostgradoResidente = null;
 		try {
 			cirujanoDoctoradoPermanente = medicoFactory.crearMedico("RaulCirujanoDoctorado", todos, "123", "567", "1", "cirujia", "doctorado", "permanente");
 		} catch (MedicoInvalidoException e) {
@@ -53,7 +53,7 @@ public class Prueba {
 			System.out.println(e.getMensaje());
 		}
 		try {
-			clinicoDoctoradoResidente = medicoFactory.crearMedico("RaulClinicoDoctorado", todos, "123", "560", "1", "clinica", "magister", "residente");
+			clinicoSinPostgradoResidente = medicoFactory.crearMedico("RaulClinicoSinPostGrado", todos, "123", "560", "1", "clinica", "residente");
 		} catch (MedicoInvalidoException e) {
 			System.out.println(e.getMensaje());
 		}
@@ -113,7 +113,7 @@ public class Prueba {
 
 		
 		try {
-			clinica.registraMedico(clinicoDoctoradoResidente);
+			clinica.registraMedico(clinicoSinPostgradoResidente);
 		} catch (DniRepetidoException e) {
 			System.out.println(e.getDni());
 		}
@@ -186,7 +186,7 @@ public class Prueba {
 		
 		
 		try {
-			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteNinio);
+			clinica.atiendePaciente(clinicoSinPostgradoResidente, pacienteNinio);
 		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
 			System.out.println(e.getMessage());
 		}
@@ -211,7 +211,7 @@ public class Prueba {
 		}
 		
 		try {
-			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteJoven);
+			clinica.atiendePaciente(clinicoSinPostgradoResidente, pacienteJoven);
 		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
 			System.out.println(e.getMessage());
 		}
@@ -223,7 +223,7 @@ public class Prueba {
 		}
 		
 		try {
-			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteMayor);
+			clinica.atiendePaciente(clinicoSinPostgradoResidente, pacienteMayor);
 		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
 			System.out.println(e.getMessage());
 		}
@@ -253,7 +253,7 @@ public class Prueba {
 			System.out.println(e.getMessage());
 		}
 		
-		System.out.println(clinica.getReporteMedico(clinicoDoctoradoResidente, LocalDate.now(), LocalDate.now().plusDays(2)));
+		System.out.println(clinica.getReporteMedico(clinicoSinPostgradoResidente, LocalDate.now(), LocalDate.now().plusDays(2)));
 		System.out.println(clinica.getReporteMedico(cirujanoDoctoradoPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
 		System.out.println(clinica.getReporteMedico(cirujanoMagisterResidente, LocalDate.now(), LocalDate.now().plusDays(10)));
 		System.out.println(clinica.getReporteMedico(pediatraMagisterPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
