@@ -23,7 +23,7 @@ public class Patio {
 	 */
 	public void sacarPaciente(Paciente paciente)
 	{
-		System.out.println("se ha sacado a " + paciente.getNombre() + " del patio");
+		//System.out.println("se ha sacado a " + paciente.getNombre() + " del patio");
 		this.pacientesPatio.remove(paciente);
 	}
 	
@@ -35,7 +35,7 @@ public class Patio {
 	public void ponerPaciente(Paciente paciente)
 	{
 		this.pacientesPatio.add(paciente);
-		System.out.println("se ha colocado a " + paciente.getNombre() + " en el patio");
+		//System.out.println("se ha colocado a " + paciente.getNombre() + " en el patio");
 	}
 	
 	public boolean isInPatio(Paciente paciente)
