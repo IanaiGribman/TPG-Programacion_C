@@ -138,6 +138,8 @@ public class Clinica extends Entidad {
 	
 	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
 	{
+		if (!habitacion.hayEspacio())
+			throw new HabitacionLlenaException("la habitacion esta llena", habitacion.getOcupacion(), habitacion.getCapacidad());
 		this.moduloAtenciones.setHabitacion(paciente, habitacion);
 	}
 	

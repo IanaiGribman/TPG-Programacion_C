@@ -90,10 +90,8 @@ public class ModuloAtenciones {
 	 * @throws PacienteNoIngresadoException 
 	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */
-	public void setHabitacion(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
+	public void setHabitacion(Paciente paciente, Habitacion habitacion) throws PacienteNoIngresadoException, PacienteYaInternadoException
 	{
-		if (!habitacion.hayEspacio())
-			throw new HabitacionLlenaException("la habitacion esta llena", habitacion.getOcupacion(), habitacion.getCapacidad());
 		
 		Atencion ultAtencion = this.getAtencionActualPaciente(paciente);
 		
