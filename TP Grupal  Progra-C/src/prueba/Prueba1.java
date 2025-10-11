@@ -30,8 +30,10 @@ public class Prueba1 {
 			IMedico med1 = null, med2 = null;
 			Paciente pJoven = null, pNinio = null, pMayor = null;
 
+
 			med1 = mf.crearMedico("Mario", new Domicilio("Argentina", "Av avenida", 123), "22353245390", "123456573",
 					"1235", "pediatria", "doctorado", "residente");
+			System.out.println(med1);
 
 			med2 = mf.crearMedico("Mario2", new Domicilio("Argentina", "Av avenida", 123), "22353235390", "123523573",
 					"1215", "cirujia", "doctorado", "permanente");
@@ -42,6 +44,10 @@ public class Prueba1 {
 					"Gimenez", "2233522352");
 			pMayor = pf.creaPaciente("mayor", new Domicilio("Mar del plata", "Luro", 1123), "1250631", "Martin", "Prat",
 					"22363026521");
+			System.out.println(pNinio);
+			System.out.println(pJoven);
+			System.out.println(pMayor);
+			
 
 			clin.registraMedico(med1);
 

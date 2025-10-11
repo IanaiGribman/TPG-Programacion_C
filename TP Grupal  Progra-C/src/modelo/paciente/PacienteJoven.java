@@ -31,6 +31,6 @@ public class PacienteJoven extends Paciente {
 
 	@Override
 	public String toString() {
-		return super.toString() + ", rangoEtario=Mayor";
+		return super.toString() + ", rangoEtario=Joven";
 	}
 }
