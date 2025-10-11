@@ -102,10 +102,15 @@ public class Prueba {
 			System.out.println(e.getMensaje());
 		}
 		
-		HabitacionPrivada.setCostoHabitacionPrivada(10);
-		HabitacionIntensiva.setCostoHabitacionIntensiva(3);
-		Habitacion.setCostoAsignacion(2000);
-		HabitacionCompartida.setCostoHabitacionCompartida(700);
+		try {
+			clinica.setCostoAsignacionHabitacion(2000);
+			clinica.setCostoHabitacion("privada", 10);
+			clinica.setCostoHabitacion("intensiva", 3);
+			clinica.setCostoHabitacion("compartida", 700);
+		} catch(HabitacionInvalidaException e) {
+			System.out.println("Habitacion invalida: " + e.getMessage());
+		}
+
 		
 		try {
 			clinica.registraMedico(clinicoDoctoradoResidente);
