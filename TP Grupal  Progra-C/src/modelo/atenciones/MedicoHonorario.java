@@ -2,6 +2,9 @@ package modelo.atenciones;
 
 import modelo.IMedico;
 
+/**
+ * Almacena una referencia a un medico y su honorario en el momento de instanciarse el objeto.
+ */
 public class MedicoHonorario {
 	private IMedico medico;
 	private double honorario;

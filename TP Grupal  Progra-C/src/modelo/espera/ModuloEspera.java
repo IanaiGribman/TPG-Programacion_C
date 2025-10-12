@@ -4,6 +4,9 @@ package modelo.espera;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.paciente.Paciente;
 
+/**
+ * Gestiona el alojamiento de los pacientes en el patio o en la sala de espera.
+ */
 public class ModuloEspera {
 	private Patio patio;
 	private SalaEsperaPrivada salaEsperaPrivada;

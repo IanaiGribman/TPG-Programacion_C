@@ -45,7 +45,8 @@ public class Atencion implements Comparable<Atencion>
 		this(paciente, fechaIngreso, new ArrayList<MedicoHonorario>());
 	}
 	
-	/**
+	
+	/**Agrega la referencia al medico y su honorario en ese momento a la lista de medicos consultados.
 	 * Pre: medico != null.
 	 * Post: la lista medicosConsultados contiene a medico despues de la ejecucion.
 	 * @param medico que tuvo una consulta con el paciente referenciado por el campo paciente.

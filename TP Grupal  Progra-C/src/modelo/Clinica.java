@@ -136,6 +136,14 @@ public class Clinica extends Entidad {
 	}
 	
 	
+	/**
+	 * Agrega la habitacion a la atencion actual del paciente.
+	 * @param paciente
+	 * @param habitacion
+	 * @throws HabitacionLlenaException si la habitacion esta llena.
+	 * @throws PacienteNoIngresadoException
+	 * @throws PacienteYaInternadoException 
+	 */
 	public void internaPaciente(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
 	{
 		if (!habitacion.hayEspacio())
@@ -157,7 +165,7 @@ public class Clinica extends Entidad {
 		return this.egresaPaciente(paciente, 0);
 	}
 	
-	/**
+	/**Devuelve factura de la estadia del paciente.
 	 * Pre: paciente != null, cantDias >= 0
 	 * @param paciente
 	 * @param cantDias

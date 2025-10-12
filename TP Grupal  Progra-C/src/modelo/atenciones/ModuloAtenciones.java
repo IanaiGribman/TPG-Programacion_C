@@ -137,7 +137,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde &lt= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde &lt;= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -163,7 +163,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * desde != null, hasta != null, desde &lt= hasta.
+	 * desde != null, hasta != null, desde &lt;= hasta.
 	 * @param medico del cual se desea buscar los pacientes que atendio en un periodo de tiempo.
 	 * @param desde
 	 * @param hasta
@@ -182,7 +182,7 @@ public class ModuloAtenciones {
 	}
 	
 	/**
-	 * medico != null, desde != null, hasta != null, desde <= hasta
+	 * medico != null, desde != null, hasta != null, desde &lt;= hasta
 	 * @param medico del cual se precisa buscar las consultas que brindo
 	 * @param desde
 	 * @param hasta
@@ -201,7 +201,7 @@ public class ModuloAtenciones {
 	}
 	
 	
-	/**
+	/**Devuelve un reporte medico.
 	 * medico != null, desde != null, hasta != null, desde <= hasta
 	 * @param medico
 	 * @param desde
