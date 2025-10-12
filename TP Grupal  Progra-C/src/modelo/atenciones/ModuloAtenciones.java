@@ -35,7 +35,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, fechaIngreso != null.
-	 * Post: la lista atenciones contendra� una nueva atencion.
+	 * Post: la lista atenciones contendra una nueva atencion.
 	 * @param paciente que sera atendido.
 	 * @param fechaIngreso fecha cuando ingresa el paciente.
 	 */
@@ -65,7 +65,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, medico != null.
-	 * Post: a la atencion del paciente se le agrega un medico consultado.
+	 * Post: a la atencion del paciente se le agrega un medico consultado y su honorario en ese momento.
 	 * @param paciente 
 	 * @param medico que atendio al paciente.
 	 * @throws PacienteNoIngresadoException si no hay ninguna atencion en la lista de atenciones que contenga a 
@@ -84,9 +84,8 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, habitacion != null.
-	 * @param paciente que se interna�.
+	 * @param paciente que se interna.
 	 * @param habitacion en la que se internara el paciente.
-	 * @throws HabitacionLlenaException si la habitacion esta� llena.
 	 * @throws PacienteNoIngresadoException 
 	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */

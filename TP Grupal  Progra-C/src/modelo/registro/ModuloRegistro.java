@@ -38,7 +38,7 @@ public class ModuloRegistro
 	 *Pre: paciente no es null ni su dni
 	 *Post: se agrega el paciente a la lista de pacientes
 	 * @param paciente que se quiere registrar
-	 * @throws DniRepetidoException
+	 * @throws DniRepetidoException si ya existe un paciente registrado con ese dni.
 	 */
 	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
@@ -50,6 +50,13 @@ public class ModuloRegistro
 			throw new DniRepetidoException("no se pueden registrar 2 pacientes con el mismo DNI", paciente.getDni());
 	}
 	
+	
+	/**
+	 * Pre: medico != null, medico.getDni() != null.
+	 * Post: el medico se agrega a la lista de medicos,
+	 * @param medico que se quiere registrar
+	 * @throws DniRepetidoException si ya existe un medico registrado con ese dni.
+	 */
 	public void registraMedico(IMedico medico) throws DniRepetidoException
 	{
 		if (!medicoIsRegistrado(medico))

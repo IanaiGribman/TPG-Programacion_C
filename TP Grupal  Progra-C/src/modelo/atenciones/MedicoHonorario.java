@@ -6,6 +6,10 @@ public class MedicoHonorario {
 	private IMedico medico;
 	private double honorario;
 	
+	/**
+	 * Pre: medico != null
+	 * @param medico
+	 */
 	public MedicoHonorario(IMedico medico)
 	{
 		this.medico = medico;

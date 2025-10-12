@@ -47,8 +47,8 @@ public class Atencion implements Comparable<Atencion>
 	
 	/**
 	 * Pre: medico != null.
-	 * Post: la lista medicosConsultados contiene a medico despues de la ejecucipn.
-	 * @param medico que tuvo una consulta con el paciente referencia por el campo paciente.
+	 * Post: la lista medicosConsultados contiene a medico despues de la ejecucion.
+	 * @param medico que tuvo una consulta con el paciente referenciado por el campo paciente.
 	 */
 	public void agregarConsulta(IMedico medico)
 	{
@@ -69,7 +69,7 @@ public class Atencion implements Comparable<Atencion>
 	
 	/**
 	 * Pre: fechaIngreso != null, cantDias >= 0
-	 * Post: el campo fechaEgreso queda con fechaIngreso + cantDias.
+	 * Post: el campo fechaEgreso queda con fechaIngreso + cantDias y  cantDias se inicializa.
 	 * @param cantDias que el paciente estuvo internado.
 	 */
 	public void setFechaEgreso(int cantDias)
@@ -108,6 +108,11 @@ public class Atencion implements Comparable<Atencion>
 		return this.habitacion != null;
 	}
 	
+	/**
+	 * 
+	 * @param medico
+	 * @return true si medico está en la lista de medicos consultados. 
+	 */
 	public boolean fueAtendidoPorMedicoX(IMedico medico)
 	{
 		Iterator<MedicoHonorario> it = this.medicosConsultados.iterator();
