@@ -7,6 +7,7 @@ import modelo.atenciones.Atencion;
 import modelo.atenciones.MedicoHonorario;
 
 /**
+ * Clase que representa a la factura, hecha para un paciente
  * todos los datos de una factura son inmutables
  */
 public class Factura {

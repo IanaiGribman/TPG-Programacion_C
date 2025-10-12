@@ -1,7 +1,6 @@
 package prueba;
 
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 
 import modelo.Clinica;
 import modelo.Domicilio;
@@ -22,6 +21,7 @@ import modelo.habitaciones.HabitacionCompartida;
 import modelo.habitaciones.HabitacionFactory;
 import modelo.habitaciones.HabitacionIntensiva;
 import modelo.habitaciones.HabitacionPrivada;
+import modelo.medicos.Medico;
 import modelo.medicos.MedicoFactory;
 import modelo.paciente.Paciente;
 import modelo.paciente.PacientesFactory;
@@ -152,6 +152,8 @@ public class Prueba {
 		}
 		
 		
+		Medico.setHonorarioBasico(10);
+		
 		
 		try {
 			clinica.ingresaPaciente(pacienteNinio, LocalDate.now());
@@ -217,6 +219,8 @@ public class Prueba {
 			System.out.println(e.getMessage());
 		}
 		
+		Medico.setHonorarioBasico(10000);
+		
 		try {
 			clinica.atiendePaciente(clinicoDoctoradoResidente, pacienteMayor);
 		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
@@ -248,10 +252,10 @@ public class Prueba {
 			System.out.println(e.getMessage());
 		}
 		
-		System.out.println(clinica.getReporteMedico(clinicoDoctoradoResidente, LocalDate.now(), LocalDate.now().plusDays(2)));
-		System.out.println(clinica.getReporteMedico(cirujanoDoctoradoPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
+		System.out.println(clinica.getReporteMedico(clinicoDoctoradoResidente, LocalDate.now(), LocalDate.now().plusDays(10)));
+		System.out.println(clinica.getReporteMedico(cirujanoDoctoradoPermanente, LocalDate.now(), LocalDate.now().plusDays(10)));
 		System.out.println(clinica.getReporteMedico(cirujanoMagisterResidente, LocalDate.now(), LocalDate.now().plusDays(10)));
-		System.out.println(clinica.getReporteMedico(pediatraMagisterPermanente, LocalDate.now(), LocalDate.now().plusDays(2)));
+		System.out.println(clinica.getReporteMedico(pediatraMagisterPermanente, LocalDate.now(), LocalDate.now().plusDays(10)));
 		
 		
 		

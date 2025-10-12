@@ -2,6 +2,9 @@ package modelo;
 
 import java.util.Objects;
 
+/**
+ * Clase que representa a una persona
+ */
 public abstract class Persona extends Entidad implements IPersona{
 	private String dni;
 

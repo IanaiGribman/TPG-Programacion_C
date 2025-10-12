@@ -3,6 +3,9 @@ package modelo.paciente;
 import modelo.Domicilio;
 import modelo.Persona;
 
+/**
+ * Clase que representa al paciente en la clinica, es generica, luego se especializa segun su rango etario en clases hijas
+ */
 public abstract class Paciente extends Persona {
 
 	private int nroHistoriaClinica;

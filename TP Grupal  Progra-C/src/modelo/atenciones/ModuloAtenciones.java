@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import modelo.ConsultaPacienteReporte;
-import modelo.Factura;
 import modelo.IMedico;
 import modelo.ReporteMedico;
 import modelo.excepciones.EgresoSinMedicoException;
@@ -16,6 +15,10 @@ import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
 import modelo.paciente.Paciente;
 
+/**
+ * Modulo que encapsula la solucion a almacenar las atenciones de cada paciente historicamente
+ * De tales atenciones se generan las facturas y los reportes medicos cuando se los solicita
+ */
 public class ModuloAtenciones {
 	private List<Atencion> atenciones;
 	

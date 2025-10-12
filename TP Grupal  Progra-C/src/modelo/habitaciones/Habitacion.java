@@ -1,5 +1,9 @@
 package modelo.habitaciones;
 
+
+/**
+ * Clase que representa una habitacion generica
+ */
 public abstract class Habitacion {
 	private static double costoAsignacion;
 	private int capacidad,ocupacion;

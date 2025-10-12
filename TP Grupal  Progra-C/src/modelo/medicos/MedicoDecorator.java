@@ -2,6 +2,10 @@ package modelo.medicos;
 
 import modelo.IMedico;
 
+/**
+ * Clase que representa a un medico con propiedades (decorado),
+ * ya sea con un posgrado o no, y con un contrato, permitiendo con el patron Decorator calcular su honorario
+ */
 public abstract class MedicoDecorator implements IMedico {
 	private IMedico encapsulado;
 	

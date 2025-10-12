@@ -6,6 +6,9 @@ import modelo.IMedico;
 import modelo.excepciones.DniRepetidoException;
 import modelo.paciente.Paciente;
 
+/**
+ * Clase que encapsula el registro y almacen de los pacientes y medicos que ingresan y estan en la clinica
+ */
 public class ModuloRegistro 
 {
 	private HashMap<String, Paciente> pacientes;

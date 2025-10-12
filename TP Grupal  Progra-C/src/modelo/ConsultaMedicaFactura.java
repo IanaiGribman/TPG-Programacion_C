@@ -2,11 +2,19 @@ package modelo;
 
 import modelo.atenciones.MedicoHonorario;
 
+/**
+ * Clase que representa a una consulta medica para un paciente dentro de la factura
+ * Es utilizada para encapsular el formato de una consulta medica para un paciente
+ */
 public class ConsultaMedicaFactura {
 	private String nombreMedico, especialidadMedico;
 	private double honorario;
 	private static double incrementoHonorario = 1.2;
 	
+	/**
+	 * medHon != null
+	 * @param medHon
+	 */
 	public ConsultaMedicaFactura(MedicoHonorario medHon) {
 		this.nombreMedico = medHon.getMedico().getNombre();
 		this.especialidadMedico = medHon.getMedico().getEspecialidad();

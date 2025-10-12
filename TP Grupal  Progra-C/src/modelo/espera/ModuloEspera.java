@@ -4,6 +4,9 @@ package modelo.espera;
 import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.paciente.Paciente;
 
+/**
+ * Clase que encapsula la solucion para las salas de espera, permite manipular los pacientes en estas y resolver sus conflictos al llegar
+ */
 public class ModuloEspera {
 	private Patio patio;
 	private SalaEsperaPrivada salaEsperaPrivada;

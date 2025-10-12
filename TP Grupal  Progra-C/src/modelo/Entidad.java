@@ -1,5 +1,10 @@
 package modelo;
 
+
+/**
+ * Clase que representa a una entidad, ya sea un paciente, un medico, etc
+ * Tiene los atributos que todos tendran en comun
+ */
 public abstract class Entidad implements INombrable {
 	private String nombre;
 	private Domicilio domicilio;

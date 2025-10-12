@@ -2,6 +2,9 @@ package modelo.atenciones;
 
 import modelo.IMedico;
 
+/**
+ * Clase que encapsula el formato de un medico junto a su honorario en el momento de realizar la consulta (el egreso del paciente)
+ */
 public class MedicoHonorario {
 	private IMedico medico;
 	private double honorario;

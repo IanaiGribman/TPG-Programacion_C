@@ -2,6 +2,10 @@ package modelo;
 
 import java.util.List;
 
+/**
+ * Clase que representa a un reporte medico hecho para un periodo de tiempo,
+ * sus atributos son inmutables
+ */
 public class ReporteMedico {
 	private List<ConsultaPacienteReporte> consultasPacientes;
 	private IMedico medico;

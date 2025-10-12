@@ -7,6 +7,10 @@ import modelo.habitaciones.HabitacionIntensiva;
 import modelo.habitaciones.HabitacionPrivada;
 import modelo.medicos.Medico;
 
+/**
+ * Clase que encapsula la solucion a realizar cambios en los costos de la clinica,
+ * ya sean de habitaciones o honorarios de los medicos
+ */
 public class ModuloGestionCostos {
 
 	public void setCostoAsignacionHabitacion(double costo) {
