@@ -1,5 +1,7 @@
 #Trabajo Practico Grupal (Parte 1) - Programacion C 2025
 
+#Grupo: 5
+
 #Integrantes:
 	- Ianai Gribman
 	- Dante Gregorini
