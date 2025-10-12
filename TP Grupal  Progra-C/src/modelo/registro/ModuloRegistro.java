@@ -44,7 +44,7 @@ public class ModuloRegistro
 	{
 		if (!pacienteIsRegistrado(paciente)) {
 			this.pacientes.put(paciente.getDni(), paciente);
-			System.out.println("se ha registrado al paciente " + paciente.getNombre());
+			//System.out.println("se ha registrado al paciente " + paciente.getNombre());
 		}
 		else
 			throw new DniRepetidoException("no se pueden registrar 2 pacientes con el mismo DNI", paciente.getDni());
@@ -55,7 +55,7 @@ public class ModuloRegistro
 		if (!medicoIsRegistrado(medico))
 		{
 			this.medicos.put(medico.getDni(), medico);
-			System.out.println("se ha registrado al medico " + medico.getNombre());
+			//System.out.println("se ha registrado al medico " + medico.getNombre());
 		}
 		else
 			throw new DniRepetidoException("no se pueden registrar 2 medicos con el mismo DNI", medico.getDni());

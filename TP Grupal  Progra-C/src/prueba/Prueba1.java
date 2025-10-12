@@ -30,11 +30,14 @@ public class Prueba1 {
 			IMedico med1 = null, med2 = null;
 			Paciente pJoven = null, pNinio = null, pMayor = null;
 
+
 			med1 = mf.crearMedico("Mario", new Domicilio("Argentina", "Av avenida", 123), "22353245390", "123456573",
 					"1235", "pediatria", "doctorado", "residente");
+			System.out.println(med1);
 
 			med2 = mf.crearMedico("Mario2", new Domicilio("Argentina", "Av avenida", 123), "22353235390", "123523573",
-					"1215", "cirujia", "doctorado", "permanente");
+					"1215", "cirujia", "permanente");
+			System.out.println(med2); //medico sin postgrado
 
 			pNinio = pf.creaPaciente("ninio", new Domicilio("Mar del plata", "San Luis", 123), "46029714", "Juan",
 					"Gomez", "---");
@@ -42,6 +45,10 @@ public class Prueba1 {
 					"Gimenez", "2233522352");
 			pMayor = pf.creaPaciente("mayor", new Domicilio("Mar del plata", "Luro", 1123), "1250631", "Martin", "Prat",
 					"22363026521");
+			System.out.println(pNinio);
+			System.out.println(pJoven);
+			System.out.println(pMayor);
+			
 
 			clin.registraMedico(med1);
 
@@ -60,9 +67,10 @@ public class Prueba1 {
 			clin.atiendePaciente(med2, pNinio);
 
 			Factura f1 = null;
-			Habitacion h1 = hf.crearHabitacion("compartida");
+			Habitacion h1 = hf.crearHabitacion("privada");
 			System.out.println(h1);
 			clin.internaPaciente(pNinio, h1);
+			//clin.internaPaciente(pMayor, h1); //si esto se descomenta lanza excepcion por habitacion llena
 			System.out.println(h1);
 
 
