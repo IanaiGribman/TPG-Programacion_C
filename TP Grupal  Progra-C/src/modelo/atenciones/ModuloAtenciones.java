@@ -16,6 +16,10 @@ import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;
 import modelo.paciente.Paciente;
 
+/**
+ * Clase que almacena todas las atenciones de los pacientes. Se encarga de actualizar las
+ * atenciones y utilizar la información para generar el reporte medico.
+ */
 public class ModuloAtenciones {
 	private List<Atencion> atenciones;
 	
@@ -133,7 +137,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde <= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde &lt= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -159,7 +163,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * desde != null, hasta != null, desde <= hasta.
+	 * desde != null, hasta != null, desde &lt= hasta.
 	 * @param medico del cual se desea buscar los pacientes que atendio en un periodo de tiempo.
 	 * @param desde
 	 * @param hasta
