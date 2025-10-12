@@ -227,13 +227,11 @@ public class Prueba {
 		} catch (PacienteNoIngresadoException | MedicoNoRegistradoException e) {
 			System.out.println(e.getMessage());
 		}
-		
 		try {
 			clinica.internaPaciente(pacienteNinio, habitacionCompartida);
 		} catch (PacienteNoIngresadoException | PacienteYaInternadoException | HabitacionLlenaException e) {
 			System.out.println(e.getMessage());
 		}
-		
 		try {
 			clinica.internaPaciente(pacienteMayor, habitacionCompartida);
 		} catch (PacienteNoIngresadoException | PacienteYaInternadoException | HabitacionLlenaException e) {
