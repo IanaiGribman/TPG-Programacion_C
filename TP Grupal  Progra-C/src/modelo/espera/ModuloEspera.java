@@ -6,6 +6,7 @@ import modelo.paciente.Paciente;
 
 /**
  * Clase que encapsula la solucion para las salas de espera, permite manipular los pacientes en estas y resolver sus conflictos al llegar
+ * Gestiona el alojamiento de los pacientes en el patio o en la sala de espera.
  */
 public class ModuloEspera {
 	private Patio patio;

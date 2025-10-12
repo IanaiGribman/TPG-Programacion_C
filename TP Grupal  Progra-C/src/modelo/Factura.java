@@ -92,6 +92,7 @@ public class Factura {
 	public int getCantDias() {
 		return cantDias;
 	}
+	
 
 	public ArrayList<ConsultaMedicaFactura> getConsultasMedicas() {
 		return consultasMedicas;

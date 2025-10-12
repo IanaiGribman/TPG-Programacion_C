@@ -24,8 +24,7 @@ public class SalaEsperaPrivada {
 	
 	public void vaciar()
 	{
-		System.out.println("se ha sacado a " + this.huesped.getNombre() + " de la sala privada");
-		//TODO sacar esta salida por pantalla
+		//System.out.println("se ha sacado a " + this.huesped.getNombre() + " de la sala privada");
 		this.huesped = null;
 	}
 	
@@ -41,8 +40,7 @@ public class SalaEsperaPrivada {
 	public void setHuesped(Paciente paciente)
 	{
 		this.huesped = paciente;
-		// TODO sacar salida por pantalla
-		System.out.println("se ha colocado a " + paciente.getNombre() + " en la sala de espera privada");
+		//System.out.println("se ha colocado a " + paciente.getNombre() + " en la sala de espera privada");
 	}
 	
 	

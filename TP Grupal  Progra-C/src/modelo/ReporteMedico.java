@@ -30,11 +30,11 @@ public class ReporteMedico {
 		double total = 0;
 		
 		for(ConsultaPacienteReporte consulta : this.consultasPacientes) {
-			retorno += "Fecha: " + consulta.getFecha().toString() + "    Paciente: " + consulta.getPaciente().getNombre() + "    Honorario: $" + consulta.getHonorario() + "\n";
+			retorno += "Fecha: " + consulta.getFecha().toString() + "    Paciente: " + consulta.getPaciente().getNombre() + "    Honorario: $" + String.format("%.2f",consulta.getHonorario()) + "\n";
 			total += consulta.getHonorario();
 		}
 		
-		retorno += "                                             Total: $" + total;
+		retorno += "                                             Total: $" + String.format("%.2f",total);
 		
 		return retorno;
 	}

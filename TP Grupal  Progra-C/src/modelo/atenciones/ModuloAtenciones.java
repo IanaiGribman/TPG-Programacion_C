@@ -16,8 +16,8 @@ import modelo.habitaciones.Habitacion;
 import modelo.paciente.Paciente;
 
 /**
- * Modulo que encapsula la solucion a almacenar las atenciones de cada paciente historicamente
- * De tales atenciones se generan las facturas y los reportes medicos cuando se los solicita
+ * Clase que almacena todas las atenciones de los pacientes. Se encarga de actualizar las
+ * atenciones y utilizar la información para generar el reporte medico.
  */
 public class ModuloAtenciones {
 	private List<Atencion> atenciones;
@@ -38,7 +38,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, fechaIngreso != null.
-	 * Post: la lista atenciones contendra� una nueva atencion.
+	 * Post: la lista atenciones contendra una nueva atencion.
 	 * @param paciente que sera atendido.
 	 * @param fechaIngreso fecha cuando ingresa el paciente.
 	 */
@@ -68,7 +68,7 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, medico != null.
-	 * Post: a la atencion del paciente se le agrega un medico consultado.
+	 * Post: a la atencion del paciente se le agrega un medico consultado y su honorario en ese momento.
 	 * @param paciente 
 	 * @param medico que atendio al paciente.
 	 * @throws PacienteNoIngresadoException si no hay ninguna atencion en la lista de atenciones que contenga a 
@@ -87,16 +87,13 @@ public class ModuloAtenciones {
 	
 	/**
 	 * Pre: paciente != null, habitacion != null.
-	 * @param paciente que se interna�.
+	 * @param paciente que se interna.
 	 * @param habitacion en la que se internara el paciente.
-	 * @throws HabitacionLlenaException si la habitacion esta� llena.
 	 * @throws PacienteNoIngresadoException 
 	 * @throws PacienteYaInternadoException si la atencion ya contiene una habitacion.
 	 */
-	public void setHabitacion(Paciente paciente, Habitacion habitacion) throws HabitacionLlenaException, PacienteNoIngresadoException, PacienteYaInternadoException
+	public void setHabitacion(Paciente paciente, Habitacion habitacion) throws PacienteNoIngresadoException, PacienteYaInternadoException
 	{
-		if (!habitacion.hayEspacio())
-			throw new HabitacionLlenaException("la habitacion esta llena", habitacion.getOcupacion(), habitacion.getCapacidad());
 		
 		Atencion ultAtencion = this.getAtencionActualPaciente(paciente);
 		
@@ -139,7 +136,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde <= hasta.
+	 * Pre: desde != null, hasta != null, la lista atenciones esta� ordenada por fecha de egreso, desde &lt;= hasta.
 	 * @param desde
 	 * @param hasta
 	 * @return lista con las atenciones finalizadas en un periodo de tiempo
@@ -165,7 +162,7 @@ public class ModuloAtenciones {
 	
 	
 	/**
-	 * desde != null, hasta != null, desde <= hasta.
+	 * desde != null, hasta != null, desde &lt;= hasta.
 	 * @param medico del cual se desea buscar los pacientes que atendio en un periodo de tiempo.
 	 * @param desde
 	 * @param hasta
@@ -184,7 +181,7 @@ public class ModuloAtenciones {
 	}
 	
 	/**
-	 * medico != null, desde != null, hasta != null, desde <= hasta
+	 * medico != null, desde != null, hasta != null, desde &lt;= hasta
 	 * @param medico del cual se precisa buscar las consultas que brindo
 	 * @param desde
 	 * @param hasta
@@ -203,7 +200,7 @@ public class ModuloAtenciones {
 	}
 	
 	
-	/**
+	/**Devuelve un reporte medico.
 	 * medico != null, desde != null, hasta != null, desde <= hasta
 	 * @param medico
 	 * @param desde

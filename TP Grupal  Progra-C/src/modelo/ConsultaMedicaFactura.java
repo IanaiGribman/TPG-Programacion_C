@@ -18,7 +18,7 @@ public class ConsultaMedicaFactura {
 	public ConsultaMedicaFactura(MedicoHonorario medHon) {
 		this.nombreMedico = medHon.getMedico().getNombre();
 		this.especialidadMedico = medHon.getMedico().getEspecialidad();
-		this.honorario = medHon.getHonorario();
+		this.honorario = medHon.getHonorario() * incrementoHonorario;
 	}
 
 	public String getNombreMedico() {

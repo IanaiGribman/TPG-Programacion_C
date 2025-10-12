@@ -41,24 +41,31 @@ public class ModuloRegistro
 	 *Pre: paciente no es null ni su dni
 	 *Post: se agrega el paciente a la lista de pacientes
 	 * @param paciente que se quiere registrar
-	 * @throws DniRepetidoException
+	 * @throws DniRepetidoException si ya existe un paciente registrado con ese dni.
 	 */
 	public void registraPaciente(Paciente paciente) throws DniRepetidoException
 	{
 		if (!pacienteIsRegistrado(paciente)) {
 			this.pacientes.put(paciente.getDni(), paciente);
-			System.out.println("se ha registrado al paciente " + paciente.getNombre());
+			//System.out.println("se ha registrado al paciente " + paciente.getNombre());
 		}
 		else
 			throw new DniRepetidoException("no se pueden registrar 2 pacientes con el mismo DNI", paciente.getDni());
 	}
 	
+	
+	/**
+	 * Pre: medico != null, medico.getDni() != null.
+	 * Post: el medico se agrega a la lista de medicos,
+	 * @param medico que se quiere registrar
+	 * @throws DniRepetidoException si ya existe un medico registrado con ese dni.
+	 */
 	public void registraMedico(IMedico medico) throws DniRepetidoException
 	{
 		if (!medicoIsRegistrado(medico))
 		{
 			this.medicos.put(medico.getDni(), medico);
-			System.out.println("se ha registrado al medico " + medico.getNombre());
+			//System.out.println("se ha registrado al medico " + medico.getNombre());
 		}
 		else
 			throw new DniRepetidoException("no se pueden registrar 2 medicos con el mismo DNI", medico.getDni());

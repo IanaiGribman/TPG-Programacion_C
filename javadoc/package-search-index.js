@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"modelo"},{"l":"modelo.atenciones"},{"l":"modelo.espera"},{"l":"modelo.excepciones"},{"l":"modelo.habitaciones"},{"l":"modelo.medicos"},{"l":"modelo.paciente"},{"l":"modelo.registro"}];updateSearchResults();
