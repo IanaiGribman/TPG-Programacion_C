@@ -1,10 +1,16 @@
 package modelo;
 
 import patrones.IEstado;
+import patrones.EstadoDisponible;
 
 public class Ambulancia {
-	IEstado estado;
+	IEstado estado; // representa estado actual de la ambulancia
 	
+	public Ambulancia() {
+		super();
+		this.estado = new EstadoDisponible(this); // estado inicial de la ambulancia
+	}
+
 	public void atencionADomicilio()
 	{
 		this.estado.atencionADomicilio();
