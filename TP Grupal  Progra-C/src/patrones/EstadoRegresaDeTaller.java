@@ -11,20 +11,18 @@ public class EstadoRegresaDeTaller implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {
-		
-	}
+	public void atencionADomicilio() {} // permanece regresando del taller
 	
 	public void trasladoAClinica() {
-		
+		// informa PASARLE AL CONTROLADOR
 	}
 	
 	public void retorno() {
-		
+		this.ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
 	}
 	
 	public void mantenimiento() {
-		
+		// informa PASARLE AL CONTROLADOR
 	}
 
 }

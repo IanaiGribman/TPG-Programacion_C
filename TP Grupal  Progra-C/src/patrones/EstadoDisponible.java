@@ -12,18 +12,17 @@ public class EstadoDisponible implements IEstado{
 	}
 
 	public void atencionADomicilio() {
-
+		this.ambulancia.setEstado(new EstadoAtiendeDomicilio(this.ambulancia));
 	}
 	
 	public void trasladoAClinica() {
-		
+		this.ambulancia.setEstado(new EstadoTrasladaPaciente(this.ambulancia));
 	}
 	
-	public void retorno() {
-		
-	}
+	public void retorno() {} // permanece disponible
 	
 	public void mantenimiento() {
+		this.ambulancia.setEstado(new EstadoEnTaller(this.ambulancia));
 		
 	}
 

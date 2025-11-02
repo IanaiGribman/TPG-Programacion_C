@@ -11,6 +11,11 @@ public class Ambulancia {
 		this.estado = new EstadoDisponible(this); // estado inicial de la ambulancia
 	}
 
+	
+	public void setEstado (IEstado estado) {
+		this.estado = estado;
+	}
+	
 	public void atencionADomicilio()
 	{
 		this.estado.atencionADomicilio();
@@ -30,4 +35,12 @@ public class Ambulancia {
 	{
 		this.estado.mantenimiento();
 	}
+
+
+	@Override
+	public String toString() {
+		return "Ambulancia [estado=" + estado + "]";
+	}
+	
+	
 }

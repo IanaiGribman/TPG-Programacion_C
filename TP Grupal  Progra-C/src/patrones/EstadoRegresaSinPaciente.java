@@ -12,19 +12,19 @@ public class EstadoRegresaSinPaciente implements IEstado{
 	}
 
 	public void atencionADomicilio() {
-		
+		this.ambulancia.setEstado(new EstadoAtiendeDomicilio(this.ambulancia));
 	}
 	
 	public void trasladoAClinica() {
-		
+		this.ambulancia.setEstado(new EstadoTrasladaPaciente(this.ambulancia));
 	}
 	
 	public void retorno() {
-		
+		this.ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
 	}
 	
 	public void mantenimiento() {
-		
+		// informa PASARLE AL CONTROLADOR
 	}
 
 }

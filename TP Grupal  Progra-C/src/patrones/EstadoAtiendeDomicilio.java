@@ -11,20 +11,18 @@ public class EstadoAtiendeDomicilio implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {
-		
-	}
+	public void atencionADomicilio() {} // permanece atendiendo a dom
 	
 	public void trasladoAClinica() {
-		
+		// informa PASARLE A CONTROLADOR
 	}
 	
 	public void retorno() {
-		
+		this.ambulancia.setEstado(new EstadoRegresaSinPaciente(this.ambulancia));
 	}
 	
 	public void mantenimiento() {
-		
+		// informa PASARLE A CONTROLADOR
 	}
 
 }

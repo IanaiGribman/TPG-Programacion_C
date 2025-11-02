@@ -11,20 +11,16 @@ public class EstadoTrasladaPaciente implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {
-		
-	}
+	public void atencionADomicilio() {} // permanece trasladando paciente
 	
 	public void trasladoAClinica() {
-		
+		// informar que no puede MANDARLE A CONTROLADOR ?
 	}
 	
-	public void retorno() {
-		
-	}
+	public void retorno() {} // permanece trasladando paciente
 	
 	public void mantenimiento() {
-		
+		// informar MANDARLE A CONTROLADOR
 	}
 
 }
