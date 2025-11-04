@@ -2,6 +2,13 @@ package persistencia;
 
 import modelo.Asociado;
 
+
+/**
+ * Clase concreta que sirve para transferir datos del asociado
+ * POJO de los atributos de un asociado
+ * Inv: nombre != null y !="", dni != null y !=""
+ * Puede crearse completando sus atributos con los parametros del constructor o directamente pasandole un asociado y hace la "conversion"
+ */
 public class AsociadoDTO {
 	private String nombre, dni;
 
