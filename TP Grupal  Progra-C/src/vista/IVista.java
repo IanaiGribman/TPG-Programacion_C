@@ -10,5 +10,7 @@ public interface IVista extends Observer{
 	
 	public AsociadoDTO getNewAsociado();
 	public String getDniAEliminar();
+	public void mostrarGestion();
+	public void mostrarSimulacion();
 	
 }

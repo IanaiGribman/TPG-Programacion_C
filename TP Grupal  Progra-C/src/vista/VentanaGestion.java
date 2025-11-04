@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import persistencia.AsociadoDTO;
+
 public class VentanaGestion extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelGestionAsociados;
@@ -311,5 +313,16 @@ public class VentanaGestion extends JPanel {
 		
 		this.btnGuardarPersistencia = new JButton("Guardar");
 		this.panel_5.add(this.btnGuardarPersistencia);
+	}
+
+	public AsociadoDTO getAsociado() {
+		String nombre = this.textFieldNombre.getText();
+		String dni = this.textFieldDNI.getText();
+		AsociadoDTO nuevo = new AsociadoDTO(nombre, dni);
+		return nuevo;
+	}
+
+	public String getDNI() {
+		return this.textFieldDniEliminacion.getText();
 	}
 }
