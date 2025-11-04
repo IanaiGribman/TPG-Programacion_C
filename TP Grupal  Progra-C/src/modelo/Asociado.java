@@ -1,17 +1,18 @@
 package modelo;
 
-public class Asociado implements IPersona, Runnable
+import persistencia.AsociadoDTO;
+
+public class Asociado extends Solicitante implements IPersona
 {
 	private String dni;
 	private String nombre;
-	private Ambulancia ambulancia;
+	private int cantSolicitudes;
 	
-	
-	public Asociado(String dni, String nombre, Ambulancia ambulancia) {
-		super();
-		this.dni = dni;
-		this.nombre = nombre;
-		this.ambulancia = ambulancia;
+	public Asociado(Ambulancia ambulancia, int cantSolicitudes, AsociadoDTO dto) {
+		super(ambulancia);
+		this.cantSolicitudes = cantSolicitudes;
+		this.dni = dto.getDni();
+		this.nombre = dto.getNombre();
 	}
 
 	@Override
@@ -22,6 +23,14 @@ public class Asociado implements IPersona, Runnable
 	@Override
 	public String getDni() {
 		return this.dni;
+	}
+
+	@Override
+	public void run() {
+		for (int i = 0; i < this.cantSolicitudes; i++)
+		{
+			//llamar ambulancia
+		}
 	}
 	
 }
