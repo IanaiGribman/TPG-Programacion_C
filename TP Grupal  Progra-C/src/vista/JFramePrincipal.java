@@ -3,6 +3,7 @@ package vista;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.Observable;
 
 import javax.swing.JFrame;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 import persistencia.AsociadoDTO;
 
 public class JFramePrincipal extends JFrame implements ActionListener, IVista{
-
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VentanaGestion ventanaGestion;
@@ -64,6 +65,16 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 			this.mostrarSimulacion();
 			break;
 		}
+		case IVista.REGISTRAR:{ // TEMPORAL
+			AsociadoDTO as = this.ventanaGestion.getAsociado();
+			this.ventanaGestion.addSocio(as);
+			this.ventanaGestion.redibujar();
+			break;
+		}
+		case IVista.GUARDAR:{
+			CustomPopUp cpu = new CustomPopUp(this);
+			cpu.mostrar("Guardado con exito", "Los cambios se guardaron en la base de datos", "Ok.");
+		}
 		}
 		
 	}
@@ -81,9 +92,10 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 		this.revalidate();
 	}
 
+	// esto es para actualizar la simulacion
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -95,6 +107,12 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 	@Override
 	public String getDniAEliminar() {
 		return this.ventanaGestion.getDNI();
+	}
+
+	@Override
+	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados) {
+		this.ventanaGestion.setTablaAsociados(asociados);
+		this.ventanaGestion.redibujar();
 	}
 
 }

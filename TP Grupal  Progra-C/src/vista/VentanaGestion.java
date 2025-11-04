@@ -8,13 +8,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -22,13 +26,15 @@ import persistencia.AsociadoDTO;
 
 public class VentanaGestion extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>();
+	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
 	private JPanel panelGestionAsociados;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
 	private JPanel panelAsociados;
 	private JPanel panelPersistencia;
 	private JScrollPane scrollPane;
-	private JList<String> list;
+	private JList<AsociadoDTO> list;
 	private JPanel panelAsociadosBorde;
 	private JPanel panelPersistenciaBorde;
 	private JPanel panelCreacion;
@@ -36,13 +42,10 @@ public class VentanaGestion extends JPanel {
 	private JPanel panelControles;
 	private JLabel labelNombeCreacion;
 	private JLabel labelDNICreacion;
-	private JLabel labelRepeticionesCreacion;
 	private JTextField textFieldNombre;
 	private JTextField textFieldDNI;
-	private JTextField textFieldRepeticiones;
 	private JButton btnRegistrar;
 	private JPanel panel;
-	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JPanel BordeCreacion;
@@ -61,8 +64,15 @@ public class VentanaGestion extends JPanel {
 	public VentanaGestion(ActionListener padre) {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelGestionAsociados();
+		
 		this.btnSimular.setActionCommand(IVista.SIMULACION);
 		this.btnSimular.addActionListener(padre);
+		this.btnRegistrar.addActionListener(padre);
+		this.btnRegistrar.setActionCommand(IVista.REGISTRAR);
+		this.btnGuardarPersistencia.setActionCommand(IVista.GUARDAR);
+		this.btnGuardarPersistencia.addActionListener(padre);
+		
+		this.list.setModel(this.asociadosDLM);
 	}
  
 	private void hacerPanelGestionAsociados() {
@@ -155,7 +165,7 @@ public class VentanaGestion extends JPanel {
 		this.BordeEliminacion.add(this.panelEliminacion, gbc_panelEliminacion);
 		this.panelEliminacion.setLayout(new GridLayout(0, 3, 0, 0));
 		
-		this.labelDNIEliminacion = new JLabel("DNI");
+		this.labelDNIEliminacion = new JLabel("DNI", SwingConstants.CENTER);
 		this.panelEliminacion.add(this.labelDNIEliminacion);
 		
 		this.panel_7 = new JPanel();
@@ -185,14 +195,11 @@ public class VentanaGestion extends JPanel {
 	}
 
 	private void hacerPanelCreacion() {
-		this.labelNombeCreacion = new JLabel("Nombre");
+		this.labelNombeCreacion = new JLabel("Nombre", SwingConstants.CENTER);
 		panelCreacion.add(this.labelNombeCreacion);
 		
-		this.labelDNICreacion = new JLabel("DNI");
+		this.labelDNICreacion = new JLabel("DNI", SwingConstants.CENTER);
 		panelCreacion.add(this.labelDNICreacion);
-		
-		this.labelRepeticionesCreacion = new JLabel("Repeticiones");
-		panelCreacion.add(this.labelRepeticionesCreacion);
 		
 		this.panel_3 = new JPanel();
 		panelCreacion.add(this.panel_3);
@@ -208,13 +215,6 @@ public class VentanaGestion extends JPanel {
 		this.panel_2.add(this.textFieldDNI);
 		this.textFieldDNI.setColumns(10);
 		
-		this.panel_1 = new JPanel();
-		panelCreacion.add(this.panel_1);
-		
-		this.textFieldRepeticiones = new JTextField();
-		this.panel_1.add(this.textFieldRepeticiones);
-		this.textFieldRepeticiones.setColumns(10);
-		
 		this.panel = new JPanel();
 		panelCreacion.add(this.panel);
 		
@@ -223,9 +223,9 @@ public class VentanaGestion extends JPanel {
 		
 		this.panelCreacion = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
-		gbl.columnWidths = new int[] { 0 , 0, 0 };
+		gbl.columnWidths = new int[] { 0 , 0, };
 		gbl.rowHeights = new int[] { 0, 0, 0 };
-		gbl.columnWeights = new double[] { 1.0, 1.0, 1.0 };
+		gbl.columnWeights = new double[] { 1.0, 1.0 };
 		gbl.rowWeights = new double[] { 0.3, 0.3, 0.2 }; // proporciones
 		this.panelCreacion.setLayout(gbl);
 		
@@ -325,4 +325,21 @@ public class VentanaGestion extends JPanel {
 	public String getDNI() {
 		return this.textFieldDniEliminacion.getText();
 	}
+
+	public void setTablaAsociados(Collection<AsociadoDTO> asociados) {
+		this.tablaAsociados = asociados;
+	}
+
+	public void redibujar() {
+		this.asociadosDLM.clear();
+		for (AsociadoDTO asociado : this.tablaAsociados)
+			this.asociadosDLM.addElement(asociado);
+		this.list.revalidate();
+	}
+
+	public void addSocio(AsociadoDTO as) {
+		this.tablaAsociados.add(as);
+	}
+
+
 }
