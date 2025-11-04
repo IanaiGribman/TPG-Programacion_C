@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,10 +25,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import persistencia.AsociadoDTO;
 
-public class VentanaGestion extends JPanel implements KeyListener{
+public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener{
 	private static final long serialVersionUID = 1L;
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>"
 														+ "Error: "
@@ -48,7 +52,7 @@ public class VentanaGestion extends JPanel implements KeyListener{
 	private JPanel panelAsociados;
 	private JPanel panelPersistencia;
 	private JScrollPane scrollPane;
-	private JList<AsociadoDTO> list;
+	private JList<AsociadoDTO> asociadosJList;
 	private JPanel panelAsociadosBorde;
 	private JPanel panelPersistenciaBorde;
 	private JPanel panelCreacion;
@@ -82,7 +86,7 @@ public class VentanaGestion extends JPanel implements KeyListener{
 		this.configurarBotones(padre);
 		
 		
-		this.list.setModel(this.asociadosDLM);
+		this.asociadosJList.setModel(this.asociadosDLM);
 		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
 		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
 		}
@@ -297,11 +301,12 @@ public class VentanaGestion extends JPanel implements KeyListener{
 		gbc_panelAsociados.gridy = 0;
 		this.panelAsociadosBorde.add(this.panelAsociados, gbc_panelAsociados);
 
-		this.list = new JList<>();
+		this.asociadosJList = new JList<>();
+		asociadosJList.addListSelectionListener(this);
 
-		this.list.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
+		this.asociadosJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
 
-		this.scrollPane = new JScrollPane(this.list);
+		this.scrollPane = new JScrollPane(this.asociadosJList);
 		//this.scrollPane.setPreferredSize(new Dimension(0, 0));
 		
 		this.panelAsociados.add(this.scrollPane, BorderLayout.CENTER);
@@ -363,7 +368,7 @@ public class VentanaGestion extends JPanel implements KeyListener{
 		this.asociadosDLM.clear();
 		for (AsociadoDTO asociado : this.tablaAsociados)
 			this.asociadosDLM.addElement(asociado);
-		this.list.revalidate();
+		this.asociadosJList.revalidate();
 	}
 
 	public void addSocio(AsociadoDTO as) {
@@ -423,6 +428,14 @@ public class VentanaGestion extends JPanel implements KeyListener{
 	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
 		boton.setEnabled(activar);
 		boton.setToolTipText(mensajeToolTip);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		AsociadoDTO asociado = this.asociadosJList.getSelectedValue();
+		this.textFieldDniEliminacion.setText(asociado.getDni());
+		this.actualizarBtn(btnEliminar, true, null);
+		
 	}
 
 

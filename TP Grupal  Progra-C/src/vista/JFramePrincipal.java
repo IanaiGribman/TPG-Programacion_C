@@ -11,16 +11,16 @@ import javax.swing.JPanel;
 
 import persistencia.AsociadoDTO;
 
-public class JFramePrincipal extends JFrame implements ActionListener, IVista{
-	
+public class JFramePrincipal extends JFrame implements ActionListener, IVista {
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VentanaGestion ventanaGestion;
-	private VentanaSimulacion ventanaSimulacion; 
+	private VentanaSimulacion ventanaSimulacion;
 
 	/**
-	 * Launch the application.
-	 * ESTO ES TEMPORAL, LUEGO LO TIENE QUE HACER UNA CLASE MAIN
+	 * Launch the application. ESTO ES TEMPORAL, LUEGO LO TIENE QUE HACER UNA CLASE
+	 * MAIN
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -29,8 +29,7 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 					JFramePrincipal frame = new JFramePrincipal();
 
 					frame.setVisible(true);
-					
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,11 +41,11 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 	 * Create the frame.
 	 */
 	public JFramePrincipal() {
-		ventanaSimulacion = new VentanaSimulacion(this); 
+		ventanaSimulacion = new VentanaSimulacion(this);
 		ventanaGestion = new VentanaGestion(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 900, 600);
-		
+
 		this.mostrarGestion();
 
 	}
@@ -56,40 +55,41 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		switch(arg0.getActionCommand()) {
-		case IVista.GESTION:{
+		switch (arg0.getActionCommand()) {
+		case IVista.GESTION: {
 			this.mostrarGestion();
 			break;
 		}
-		case IVista.SIMULACION:{ //ESTO SEGURO VA EN EL MODELO
+		case IVista.SIMULACION: { // ESTO SEGURO VA EN EL MODELO
 			this.mostrarSimulacion();
 			break;
 		}
-		case IVista.REGISTRAR:{ // TEMPORAL
+		case IVista.REGISTRAR: { // TEMPORAL
 			AsociadoDTO as = this.ventanaGestion.getAsociado();
 			this.ventanaGestion.addSocio(as);
 			this.ventanaGestion.redibujar();
 			this.ventanaGestion.clearRegistroTextFields();
 			break;
 		}
-		case IVista.GUARDAR:{
+		case IVista.GUARDAR: {
 			CustomPopUp cpu = new CustomPopUp(this);
 			cpu.mostrar("Guardado con exito", "Los cambios se guardaron en la base de datos", "Ok.");
+
 		}
-		case IVista.ELIMINAR:{
-			this.ventanaGestion.redibujar();
+		case IVista.ELIMINAR: {
 			this.ventanaGestion.clearEliminacionTextFields();
 		}
 		}
-		
+
 	}
-	
+
 	public void mostrarGestion() {
 		this.setTitle("Gestion de socios");
 		this.contentPane = ventanaGestion;
 		setContentPane(this.contentPane);
 		this.revalidate();
 	}
+
 	public void mostrarSimulacion() {
 		this.setTitle("Simulacion");
 		this.contentPane = ventanaSimulacion;
@@ -100,8 +100,7 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 	// esto es para actualizar la simulacion
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
-		
+
 	}
 
 	@Override
