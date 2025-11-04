@@ -69,11 +69,16 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista{
 			AsociadoDTO as = this.ventanaGestion.getAsociado();
 			this.ventanaGestion.addSocio(as);
 			this.ventanaGestion.redibujar();
+			this.ventanaGestion.clearRegistroTextFields();
 			break;
 		}
 		case IVista.GUARDAR:{
 			CustomPopUp cpu = new CustomPopUp(this);
 			cpu.mostrar("Guardado con exito", "Los cambios se guardaron en la base de datos", "Ok.");
+		}
+		case IVista.ELIMINAR:{
+			this.ventanaGestion.redibujar();
+			this.ventanaGestion.clearEliminacionTextFields();
 		}
 		}
 		

@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -24,8 +26,20 @@ import javax.swing.border.TitledBorder;
 
 import persistencia.AsociadoDTO;
 
-public class VentanaGestion extends JPanel {
+public class VentanaGestion extends JPanel implements KeyListener{
 	private static final long serialVersionUID = 1L;
+	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>"
+														+ "Error: "
+													+ "</font> </b> <b> <font color='black'> "
+														+ "complete ambos campos de texto"
+													+ "</font> </b> </html>";
+	private static final String toolDniNumerico = "<html> <b> <font color='red'>"
+													+ "Error: "
+												+ "</font> </b> <b> <font color='black'> "
+													+ "el dni debe ser numerico"
+												+ "</font> </b> </html>";
+
+	
 	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>();
 	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
 	private JPanel panelGestionAsociados;
@@ -43,11 +57,11 @@ public class VentanaGestion extends JPanel {
 	private JLabel labelNombeCreacion;
 	private JLabel labelDNICreacion;
 	private JTextField textFieldNombre;
-	private JTextField textFieldDNI;
+	private JTextField textFieldDniCreacion;
 	private JButton btnRegistrar;
-	private JPanel panel;
-	private JPanel panel_2;
-	private JPanel panel_3;
+	private JPanel panelBotonRegistrar;
+	private JPanel panelTextFieldDNICreacion;
+	private JPanel panelTextFieldNombre;
 	private JPanel BordeCreacion;
 	private JButton btnCargarPersistencia;
 	private JButton btnGuardarPersistencia;
@@ -65,16 +79,28 @@ public class VentanaGestion extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelGestionAsociados();
 		
+		this.configurarBotones(padre);
+		
+		
+		this.list.setModel(this.asociadosDLM);
+		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+		}
+ 
+	private void configurarBotones(ActionListener padre) {
 		this.btnSimular.setActionCommand(IVista.SIMULACION);
 		this.btnSimular.addActionListener(padre);
-		this.btnRegistrar.addActionListener(padre);
+		
 		this.btnRegistrar.setActionCommand(IVista.REGISTRAR);
+		this.btnRegistrar.addActionListener(padre);
+		
 		this.btnGuardarPersistencia.setActionCommand(IVista.GUARDAR);
 		this.btnGuardarPersistencia.addActionListener(padre);
 		
-		this.list.setModel(this.asociadosDLM);
+		this.btnEliminar.setActionCommand(IVista.ELIMINAR);
+		this.btnEliminar.addActionListener(padre);
 	}
- 
+
 	private void hacerPanelGestionAsociados() {
 	    this.panelGestionAsociados = new JPanel();
 	    this.add(this.panelGestionAsociados, BorderLayout.CENTER);
@@ -172,6 +198,7 @@ public class VentanaGestion extends JPanel {
 		this.panelEliminacion.add(this.panel_7);
 		
 		this.textFieldDniEliminacion = new JTextField();
+		this.textFieldDniEliminacion.addKeyListener(this);
 		this.panel_7.add(this.textFieldDniEliminacion);
 		this.textFieldDniEliminacion.setColumns(10);
 		
@@ -201,25 +228,27 @@ public class VentanaGestion extends JPanel {
 		this.labelDNICreacion = new JLabel("DNI", SwingConstants.CENTER);
 		panelCreacion.add(this.labelDNICreacion);
 		
-		this.panel_3 = new JPanel();
-		panelCreacion.add(this.panel_3);
+		this.panelTextFieldNombre = new JPanel();
+		panelCreacion.add(this.panelTextFieldNombre);
 		
 		this.textFieldNombre = new JTextField();
-		this.panel_3.add(this.textFieldNombre);
+		this.textFieldNombre.addKeyListener(this);
+		this.panelTextFieldNombre.add(this.textFieldNombre);
 		this.textFieldNombre.setColumns(10);
 		
-		this.panel_2 = new JPanel();
-		panelCreacion.add(this.panel_2);
+		this.panelTextFieldDNICreacion = new JPanel();
+		panelCreacion.add(this.panelTextFieldDNICreacion);
 		
-		this.textFieldDNI = new JTextField();
-		this.panel_2.add(this.textFieldDNI);
-		this.textFieldDNI.setColumns(10);
+		this.textFieldDniCreacion = new JTextField();
+		this.textFieldDniCreacion.addKeyListener(this);
+		this.panelTextFieldDNICreacion.add(this.textFieldDniCreacion);
+		this.textFieldDniCreacion.setColumns(10);
 		
-		this.panel = new JPanel();
-		panelCreacion.add(this.panel);
+		this.panelBotonRegistrar = new JPanel();
+		panelCreacion.add(this.panelBotonRegistrar);
 		
 		this.btnRegistrar = new JButton("Registrar");
-		this.panel.add(this.btnRegistrar);
+		this.panelBotonRegistrar.add(this.btnRegistrar);
 		
 		this.panelCreacion = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
@@ -317,7 +346,7 @@ public class VentanaGestion extends JPanel {
 
 	public AsociadoDTO getAsociado() {
 		String nombre = this.textFieldNombre.getText();
-		String dni = this.textFieldDNI.getText();
+		String dni = this.textFieldDniCreacion.getText();
 		AsociadoDTO nuevo = new AsociadoDTO(nombre, dni);
 		return nuevo;
 	}
@@ -339,6 +368,61 @@ public class VentanaGestion extends JPanel {
 
 	public void addSocio(AsociadoDTO as) {
 		this.tablaAsociados.add(as);
+	}
+	
+	public void clearRegistroTextFields() {
+		this.textFieldNombre.setText("");
+		this.textFieldDniCreacion.setText("");
+		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+	}
+	public void clearEliminacionTextFields() {
+		this.textFieldDniEliminacion.setText("");
+		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		JTextField tf = (JTextField)arg0.getSource();
+		if (tf == this.textFieldDniCreacion || tf == this.textFieldNombre){
+			if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
+				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+			}
+			else {
+				try {
+					Integer.parseInt(textFieldDniCreacion.getText());
+					actualizarBtn(this.btnRegistrar, true, null);
+				}
+				catch (Exception e) {
+					actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolDniNumerico);
+				}
+			}		
+		}
+		else if (tf == this.textFieldDniEliminacion) {
+			try {
+				Integer.parseInt(textFieldDniEliminacion.getText());
+				actualizarBtn(this.btnEliminar, true, null);
+			}
+			catch (Exception e) {
+				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+			}
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
+		boton.setEnabled(activar);
+		boton.setToolTipText(mensajeToolTip);
 	}
 
 
