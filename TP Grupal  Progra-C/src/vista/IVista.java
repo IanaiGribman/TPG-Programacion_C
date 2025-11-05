@@ -11,8 +11,10 @@ public interface IVista extends Observer{
 	public static final String ELIMINAR = "ELIMINAR";
 	public static final String CARGAR = "CARGAR";
 	public static final String GUARDAR = "GUARDAR";
-	public static final String GESTION = "GESTION";
+	public static final String INICIALIZAR = "INICIALIZAR";
+	
 	public static final String MANTENIMIENTO = "MANTENIMIENTO";
+	public static final String GESTION = "GESTION";
 	
 	public AsociadoDTO getNewAsociado();
 	public String getDniAEliminar();

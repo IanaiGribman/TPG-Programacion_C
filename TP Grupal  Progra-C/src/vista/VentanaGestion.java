@@ -78,6 +78,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JButton btnSimular;
 	private JPanel panel_6;
 	private JPanel panel_7;
+	private JButton btnInicializar;
 
 	public VentanaGestion(ActionListener padre) {
 		setLayout(new BorderLayout(0, 0));
@@ -103,6 +104,12 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		
 		this.btnEliminar.setActionCommand(IVista.ELIMINAR);
 		this.btnEliminar.addActionListener(padre);
+		
+		this.btnInicializar.setActionCommand(IVista.INICIALIZAR);
+		this.btnInicializar.addActionListener(padre);
+		
+		this.btnCargarPersistencia.setActionCommand(IVista.CARGAR);
+		this.btnCargarPersistencia.addActionListener(padre);
 	}
 
 	private void hacerPanelGestionAsociados() {
@@ -219,6 +226,9 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		gbc_panelControles.gridy = 2;
 		this.panelDerecho.add(this.panelControles, gbc_panelControles);
 		this.panelControles.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		this.btnInicializar = new JButton("Inicializar");
+		this.panelControles.add(this.btnInicializar);
 		
 		this.btnSimular = new JButton("Simular");
 		this.panelControles.add(this.btnSimular);
@@ -430,6 +440,9 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		boton.setToolTipText(mensajeToolTip);
 	}
 
+	/**
+	 * esto ocurre cuando se selecciona un asociado en la lista
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		AsociadoDTO asociado = this.asociadosJList.getSelectedValue();
