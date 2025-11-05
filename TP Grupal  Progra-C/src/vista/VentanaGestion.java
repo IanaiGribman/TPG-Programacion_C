@@ -8,25 +8,51 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class VentanaGestion extends JPanel {
+import persistencia.AsociadoDTO;
+
+public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener{
 	private static final long serialVersionUID = 1L;
+	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>"
+														+ "Error: "
+													+ "</font> </b> <b> <font color='black'> "
+														+ "complete ambos campos de texto"
+													+ "</font> </b> </html>";
+	private static final String toolDniNumerico = "<html> <b> <font color='red'>"
+													+ "Error: "
+												+ "</font> </b> <b> <font color='black'> "
+													+ "el dni debe ser numerico"
+												+ "</font> </b> </html>";
+
+	
+	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>();
+	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
 	private JPanel panelGestionAsociados;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
 	private JPanel panelAsociados;
 	private JPanel panelPersistencia;
 	private JScrollPane scrollPane;
-	private JList<String> list;
+	private JList<AsociadoDTO> asociadosJList;
 	private JPanel panelAsociadosBorde;
 	private JPanel panelPersistenciaBorde;
 	private JPanel panelCreacion;
@@ -34,15 +60,12 @@ public class VentanaGestion extends JPanel {
 	private JPanel panelControles;
 	private JLabel labelNombeCreacion;
 	private JLabel labelDNICreacion;
-	private JLabel labelRepeticionesCreacion;
 	private JTextField textFieldNombre;
-	private JTextField textFieldDNI;
-	private JTextField textFieldRepeticiones;
+	private JTextField textFieldDniCreacion;
 	private JButton btnRegistrar;
-	private JPanel panel;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JPanel panel_3;
+	private JPanel panelBotonRegistrar;
+	private JPanel panelTextFieldDNICreacion;
+	private JPanel panelTextFieldNombre;
 	private JPanel BordeCreacion;
 	private JButton btnCargarPersistencia;
 	private JButton btnGuardarPersistencia;
@@ -59,10 +82,29 @@ public class VentanaGestion extends JPanel {
 	public VentanaGestion(ActionListener padre) {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelGestionAsociados();
+		
+		this.configurarBotones(padre);
+		
+		
+		this.asociadosJList.setModel(this.asociadosDLM);
+		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+		}
+ 
+	private void configurarBotones(ActionListener padre) {
 		this.btnSimular.setActionCommand(IVista.SIMULACION);
 		this.btnSimular.addActionListener(padre);
+		
+		this.btnRegistrar.setActionCommand(IVista.REGISTRAR);
+		this.btnRegistrar.addActionListener(padre);
+		
+		this.btnGuardarPersistencia.setActionCommand(IVista.GUARDAR);
+		this.btnGuardarPersistencia.addActionListener(padre);
+		
+		this.btnEliminar.setActionCommand(IVista.ELIMINAR);
+		this.btnEliminar.addActionListener(padre);
 	}
- 
+
 	private void hacerPanelGestionAsociados() {
 	    this.panelGestionAsociados = new JPanel();
 	    this.add(this.panelGestionAsociados, BorderLayout.CENTER);
@@ -153,13 +195,14 @@ public class VentanaGestion extends JPanel {
 		this.BordeEliminacion.add(this.panelEliminacion, gbc_panelEliminacion);
 		this.panelEliminacion.setLayout(new GridLayout(0, 3, 0, 0));
 		
-		this.labelDNIEliminacion = new JLabel("DNI");
+		this.labelDNIEliminacion = new JLabel("DNI", SwingConstants.CENTER);
 		this.panelEliminacion.add(this.labelDNIEliminacion);
 		
 		this.panel_7 = new JPanel();
 		this.panelEliminacion.add(this.panel_7);
 		
 		this.textFieldDniEliminacion = new JTextField();
+		this.textFieldDniEliminacion.addKeyListener(this);
 		this.panel_7.add(this.textFieldDniEliminacion);
 		this.textFieldDniEliminacion.setColumns(10);
 		
@@ -183,47 +226,39 @@ public class VentanaGestion extends JPanel {
 	}
 
 	private void hacerPanelCreacion() {
-		this.labelNombeCreacion = new JLabel("Nombre");
+		this.labelNombeCreacion = new JLabel("Nombre", SwingConstants.CENTER);
 		panelCreacion.add(this.labelNombeCreacion);
 		
-		this.labelDNICreacion = new JLabel("DNI");
+		this.labelDNICreacion = new JLabel("DNI", SwingConstants.CENTER);
 		panelCreacion.add(this.labelDNICreacion);
 		
-		this.labelRepeticionesCreacion = new JLabel("Repeticiones");
-		panelCreacion.add(this.labelRepeticionesCreacion);
-		
-		this.panel_3 = new JPanel();
-		panelCreacion.add(this.panel_3);
+		this.panelTextFieldNombre = new JPanel();
+		panelCreacion.add(this.panelTextFieldNombre);
 		
 		this.textFieldNombre = new JTextField();
-		this.panel_3.add(this.textFieldNombre);
+		this.textFieldNombre.addKeyListener(this);
+		this.panelTextFieldNombre.add(this.textFieldNombre);
 		this.textFieldNombre.setColumns(10);
 		
-		this.panel_2 = new JPanel();
-		panelCreacion.add(this.panel_2);
+		this.panelTextFieldDNICreacion = new JPanel();
+		panelCreacion.add(this.panelTextFieldDNICreacion);
 		
-		this.textFieldDNI = new JTextField();
-		this.panel_2.add(this.textFieldDNI);
-		this.textFieldDNI.setColumns(10);
+		this.textFieldDniCreacion = new JTextField();
+		this.textFieldDniCreacion.addKeyListener(this);
+		this.panelTextFieldDNICreacion.add(this.textFieldDniCreacion);
+		this.textFieldDniCreacion.setColumns(10);
 		
-		this.panel_1 = new JPanel();
-		panelCreacion.add(this.panel_1);
-		
-		this.textFieldRepeticiones = new JTextField();
-		this.panel_1.add(this.textFieldRepeticiones);
-		this.textFieldRepeticiones.setColumns(10);
-		
-		this.panel = new JPanel();
-		panelCreacion.add(this.panel);
+		this.panelBotonRegistrar = new JPanel();
+		panelCreacion.add(this.panelBotonRegistrar);
 		
 		this.btnRegistrar = new JButton("Registrar");
-		this.panel.add(this.btnRegistrar);
+		this.panelBotonRegistrar.add(this.btnRegistrar);
 		
 		this.panelCreacion = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
-		gbl.columnWidths = new int[] { 0 , 0, 0 };
+		gbl.columnWidths = new int[] { 0 , 0, };
 		gbl.rowHeights = new int[] { 0, 0, 0 };
-		gbl.columnWeights = new double[] { 1.0, 1.0, 1.0 };
+		gbl.columnWeights = new double[] { 1.0, 1.0 };
 		gbl.rowWeights = new double[] { 0.3, 0.3, 0.2 }; // proporciones
 		this.panelCreacion.setLayout(gbl);
 		
@@ -266,11 +301,12 @@ public class VentanaGestion extends JPanel {
 		gbc_panelAsociados.gridy = 0;
 		this.panelAsociadosBorde.add(this.panelAsociados, gbc_panelAsociados);
 
-		this.list = new JList<>();
+		this.asociadosJList = new JList<>();
+		asociadosJList.addListSelectionListener(this);
 
-		this.list.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
+		this.asociadosJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
 
-		this.scrollPane = new JScrollPane(this.list);
+		this.scrollPane = new JScrollPane(this.asociadosJList);
 		//this.scrollPane.setPreferredSize(new Dimension(0, 0));
 		
 		this.panelAsociados.add(this.scrollPane, BorderLayout.CENTER);
@@ -312,4 +348,95 @@ public class VentanaGestion extends JPanel {
 		this.btnGuardarPersistencia = new JButton("Guardar");
 		this.panel_5.add(this.btnGuardarPersistencia);
 	}
+
+	public AsociadoDTO getAsociado() {
+		String nombre = this.textFieldNombre.getText();
+		String dni = this.textFieldDniCreacion.getText();
+		AsociadoDTO nuevo = new AsociadoDTO(nombre, dni);
+		return nuevo;
+	}
+
+	public String getDNI() {
+		return this.textFieldDniEliminacion.getText();
+	}
+
+	public void setTablaAsociados(Collection<AsociadoDTO> asociados) {
+		this.tablaAsociados = asociados;
+	}
+
+	public void redibujar() {
+		this.asociadosDLM.clear();
+		for (AsociadoDTO asociado : this.tablaAsociados)
+			this.asociadosDLM.addElement(asociado);
+		this.asociadosJList.revalidate();
+	}
+
+	public void addSocio(AsociadoDTO as) {
+		this.tablaAsociados.add(as);
+	}
+	
+	public void clearRegistroTextFields() {
+		this.textFieldNombre.setText("");
+		this.textFieldDniCreacion.setText("");
+		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+	}
+	public void clearEliminacionTextFields() {
+		this.textFieldDniEliminacion.setText("");
+		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		JTextField tf = (JTextField)arg0.getSource();
+		if (tf == this.textFieldDniCreacion || tf == this.textFieldNombre){
+			if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
+				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+			}
+			else {
+				try {
+					Integer.parseInt(textFieldDniCreacion.getText());
+					actualizarBtn(this.btnRegistrar, true, null);
+				}
+				catch (Exception e) {
+					actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolDniNumerico);
+				}
+			}		
+		}
+		else if (tf == this.textFieldDniEliminacion) {
+			try {
+				Integer.parseInt(textFieldDniEliminacion.getText());
+				actualizarBtn(this.btnEliminar, true, null);
+			}
+			catch (Exception e) {
+				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+			}
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
+		boton.setEnabled(activar);
+		boton.setToolTipText(mensajeToolTip);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		AsociadoDTO asociado = this.asociadosJList.getSelectedValue();
+		this.textFieldDniEliminacion.setText(asociado.getDni());
+		this.actualizarBtn(btnEliminar, true, null);
+		
+	}
+
+
 }

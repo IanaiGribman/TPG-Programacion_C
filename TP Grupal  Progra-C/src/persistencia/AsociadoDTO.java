@@ -39,4 +39,11 @@ public class AsociadoDTO {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
+
+	@Override
+	public String toString() {
+		return "- " + nombre + " " + dni;
+	}
+	
+	
 }	
