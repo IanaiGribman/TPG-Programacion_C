@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_401" class="java.beans.XMLDecoder">
+ <object class="persistencia.ParametrosBaseDeDatos">
+  <void property="clave">
+   <string>Clave</string>
+  </void>
+  <void property="direccion">
+   <string>Direccion</string>
+  </void>
+  <void property="usuario">
+   <string>Usuario</string>
+  </void>
+ </object>
+</java>

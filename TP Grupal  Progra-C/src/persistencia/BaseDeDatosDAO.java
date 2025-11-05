@@ -1,5 +1,12 @@
 package persistencia;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,9 +22,51 @@ import persistencia.excepciones.SinConexionException;
  * Clase que es el DAO concreto para la base de datos usada (?)
  */
 public class BaseDeDatosDAO implements IBaseDeDatos {
+	private ParametrosBaseDeDatos parametros; 
 	private Connection conexion;
 	private Statement sentencia;
 
+	static public void cargarParametrosXML(ParametrosBaseDeDatos parametros, String direccionArchivoXMLConfig) {
+		try {
+			XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(direccionArchivoXMLConfig)));
+			encoder.writeObject(parametros);
+			encoder.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);//debug
+			e.printStackTrace();
+		}		
+	}
+	//quizas esto deberia estar en algun util como xml manager
+	static public ParametrosBaseDeDatos leerParametrosXML(String direccionArchivoXMLConfig) {
+		ParametrosBaseDeDatos parametros = null;
+		try {
+			XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(direccionArchivoXMLConfig)));
+			parametros = (ParametrosBaseDeDatos) decoder.readObject();
+			decoder.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);//debug
+			e.printStackTrace();
+		}	
+		return parametros;
+	}
+	
+	/**
+	 * Empieza desconectada a la base de datos	 * 
+	 * @param parametros (clase que encapsula la direccion, el usuario y la clave)
+	 */
+	public BaseDeDatosDAO(ParametrosBaseDeDatos parametros) {
+		this.parametros = parametros;
+	}
+	
+	/**
+	 * Empieza desconectada a la base de datos,
+	 * configura sus parametros (direccion de la bd, usuario y clave) segun un archivo de configuracion xml
+	 * @param direccionArchivoJsonConfig
+	 */
+	public BaseDeDatosDAO(String direccionArchivoXMLConfig) {
+		this.parametros = leerParametrosXML(direccionArchivoXMLConfig);
+	}
+	
 	/**
 	 * Lee todos los asociados en la tabla de la BD
 	 * Si no hay conexion o hay error de lectura lanza excepcion
@@ -96,8 +145,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 		}
 
 		try {
-			conexion = DriverManager.getConnection(IBaseDeDatos.direccionBaseDeDatos, IBaseDeDatos.nombreUsuario,
-					IBaseDeDatos.contraUsuario);
+			conexion = DriverManager.getConnection(this.parametros.getDireccion(), this.parametros.getUsuario(), this.parametros.getClave());
 			sentencia = conexion.createStatement();
 		} catch (SQLException e) {
 			throw new OperacionFallidaException("No se ha podido conectar a la base de datos");
