@@ -86,8 +86,9 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		
 		
 		this.asociadosJList.setModel(this.asociadosDLM);
-		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
-		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+		this.revalidadBotonEliminar();
+		this.revalidadBotonRegistrar();
+		
 		}
  
 	private void configurarBotones(ActionListener padre) {
@@ -373,6 +374,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	public void redibujar() {
+		this.asociadosJList.clearSelection();
 		this.asociadosDLM.clear();
 		for (AsociadoDTO asociado : this.tablaAsociados)
 			this.asociadosDLM.addElement(asociado);
@@ -386,11 +388,11 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	public void clearRegistroTextFields() {
 		this.textFieldNombre.setText("");
 		this.textFieldDniCreacion.setText("");
-		actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+		this.revalidadBotonRegistrar();
 	}
 	public void clearEliminacionTextFields() {
 		this.textFieldDniEliminacion.setText("");
-		actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+		this.revalidadBotonEliminar();
 	}
 
 	@Override
@@ -445,8 +447,10 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
 		AsociadoDTO asociado = this.asociadosJList.getSelectedValue();
-		this.textFieldDniEliminacion.setText(asociado.getDni());
-		this.actualizarBtn(btnEliminar, true, null);
+		if (asociado != null) {
+			this.textFieldDniEliminacion.setText(asociado.getDni());
+			this.revalidadBotonEliminar();
+		}
 		
 	}
 	
