@@ -1,8 +1,8 @@
 package persistencia;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import persistencia.excepciones.OperacionFallidaException;
 import persistencia.excepciones.SinConexionException;
 
 
@@ -13,16 +13,13 @@ import persistencia.excepciones.SinConexionException;
  * El asociado es unico por dni, entonces este campo es una clave primaria de la tabla
  */
 interface IBaseDeDatos {
-	String direccionBaseDeDatos = "";
-	String nombreUsuario = "";
-	String contraUsuario = "";
 	String nombreTablaAsociados = "ASOCIADOS";
 	String nombreCampoAsociadosDni = "DNI";
 	String nombreCampoAsociadosNombre = "NOMBRE";
-	List<AsociadoDTO> leerAsociados() throws OperacionFallidaException, SinConexionException;
-	void agregarAsociado(AsociadoDTO asociado) throws OperacionFallidaException, SinConexionException;
-	void eliminarAsociado(String dni) throws OperacionFallidaException, SinConexionException;//es correcto o es mejor que se pase el asociado entero? no hace falta pero que es correcto?
-	void abrirConexion() throws OperacionFallidaException;
-	void cerrarConexion() throws OperacionFallidaException, SinConexionException;
-	void crearTablaAsociados() throws OperacionFallidaException, SinConexionException;
+	List<AsociadoDTO> leerAsociados() throws SQLException, SinConexionException;
+	void agregarAsociado(AsociadoDTO asociado) throws SQLException, SinConexionException;
+	void eliminarAsociado(String dni) throws SQLException, SinConexionException;//es correcto o es mejor que se pase el asociado entero? no hace falta pero que es correcto?
+	void abrirConexion() throws SQLException;
+	void cerrarConexion() throws SQLException, SinConexionException;
+	void crearTablaAsociados() throws SQLException, SinConexionException;
 }
