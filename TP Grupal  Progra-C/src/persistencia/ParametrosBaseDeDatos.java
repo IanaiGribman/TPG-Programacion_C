@@ -47,13 +47,5 @@ public class ParametrosBaseDeDatos {
 		this.direccion = direccion;
 		this.usuario = usuario;
 		this.clave = clave;
-	}
-
-	@Override
-	public String toString() {
-		return "ParametrosBaseDeDatos: direccion: " + direccion + ", usuario: " + usuario + ", clave: " + clave;
-	}
-	
-	
-
+	}	
 }
