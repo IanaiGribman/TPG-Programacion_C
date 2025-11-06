@@ -9,6 +9,8 @@ import java.util.Observable;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import modelo.Solicitante;
+import patrones.IEstado;
 import persistencia.AsociadoDTO;
 
 public class JFramePrincipal extends JFrame implements ActionListener, IVista {
@@ -117,6 +119,27 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados) {
 		this.ventanaGestion.setTablaAsociados(asociados);
 		this.ventanaGestion.redibujar();
+	}
+
+	@Override
+	public void displayError(String mensajeError) {
+		CustomPopUp cpu = new CustomPopUp(this);
+		cpu.mostrar("Error", mensajeError, "Ok.");
+	}
+
+	@Override
+	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud) {
+		this.ventanaSimulacion.aniadirLlamado(solicitante, tipoDeSolicitud);
+	}
+
+	@Override
+	public void retirarLlamado(Solicitante solicitante) {
+		this.ventanaSimulacion.retirarLlamado(solicitante);
+	}
+
+	@Override
+	public void infomarCambioEstado(IEstado estadoAmbulancia) {
+		this.ventanaSimulacion.informarCambioEstado(estadoAmbulancia);
 	}
 
 }

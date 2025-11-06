@@ -10,8 +10,6 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,27 +30,27 @@ import persistencia.AsociadoDTO;
 
 public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener{
 	private static final long serialVersionUID = 1L;
-	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>"
-														+ "Error: "
-													+ "</font> </b> <b> <font color='black'> "
-														+ "complete ambos campos de texto"
-													+ "</font> </b> </html>";
-	private static final String toolDniNumerico = "<html> <b> <font color='red'>"
-													+ "Error: "
-												+ "</font> </b> <b> <font color='black'> "
-													+ "el dni debe ser numerico"
-												+ "</font> </b> </html>";
+	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" +
+													   		"Error: " +
+													   "</font> </b> <b> <font color='black'> "  +
+															"complete ambos campos de texto" +
+													   "</font> </b> </html>";
+	private static final String toolDniNumerico = "<html> <b> <font color='red'>" +
+													 "Error: " +
+												  "</font> </b> <b> <font color='black'> " +
+													 "el dni debe ser numerico" +
+												  "</font> </b> </html>";
 
 	
 	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>();
 	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
+	private JList<AsociadoDTO> asociadosJList;
 	private JPanel panelGestionAsociados;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
 	private JPanel panelAsociados;
 	private JPanel panelPersistencia;
 	private JScrollPane scrollPane;
-	private JList<AsociadoDTO> asociadosJList;
 	private JPanel panelAsociadosBorde;
 	private JPanel panelPersistenciaBorde;
 	private JPanel panelCreacion;
@@ -396,42 +394,43 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyPressed(KeyEvent arg0) {}
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		JTextField tf = (JTextField)arg0.getSource();
 		if (tf == this.textFieldDniCreacion || tf == this.textFieldNombre){
-			if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
-				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
-			}
-			else {
-				try {
-					Integer.parseInt(textFieldDniCreacion.getText());
-					actualizarBtn(this.btnRegistrar, true, null);
-				}
-				catch (Exception e) {
-					actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolDniNumerico);
-				}
-			}		
+			this.revalidadBotonRegistrar();	
 		}
 		else if (tf == this.textFieldDniEliminacion) {
-			try {
-				Integer.parseInt(textFieldDniEliminacion.getText());
-				actualizarBtn(this.btnEliminar, true, null);
-			}
-			catch (Exception e) {
-				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
-			}
+			this.revalidadBotonEliminar();
 		}
 	}
 
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	private void revalidadBotonRegistrar() {
+		if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
+			actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
+		}
+		else {
+			try {
+				Integer.parseInt(textFieldDniCreacion.getText());
+				actualizarBtn(this.btnRegistrar, true, null);
+			}
+			catch (Exception e) {
+				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolDniNumerico);
+			}
+		}	
+	}
+	private void revalidadBotonEliminar() {
+		try {
+			Integer.parseInt(textFieldDniEliminacion.getText());
+			actualizarBtn(this.btnEliminar, true, null);
+		}
+		catch (Exception e) {
+			actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+		}
 		
 	}
 	
@@ -450,6 +449,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.actualizarBtn(btnEliminar, true, null);
 		
 	}
+	
+
 
 
 }

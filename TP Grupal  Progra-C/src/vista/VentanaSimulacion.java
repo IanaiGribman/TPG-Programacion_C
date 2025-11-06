@@ -6,15 +6,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import modelo.Solicitante;
+import patrones.IEstado;
+
 public class VentanaSimulacion extends JPanel {
+	Map <Solicitante, String> solicitantesMotivo = new IdentityHashMap<>(); //esta bien esto?
+	private DefaultListModel<String> llamadoDLM = new DefaultListModel<>();
+	private JList<String> llamadosJList;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panelSimulacion;
@@ -28,7 +39,8 @@ public class VentanaSimulacion extends JPanel {
 	private JButton btnMantenimiento;
 	private JButton btnFinalizar;
 	private JScrollPane scrollPane;
-	private JList list;
+	
+	private JLabel labelEstadoAmbulancia;
 
 	public VentanaSimulacion(ActionListener padre) {
 		setLayout(new BorderLayout(0, 0));
@@ -37,6 +49,7 @@ public class VentanaSimulacion extends JPanel {
 		this.btnFinalizar.setActionCommand(IVista.GESTION);
 		this.btnFinalizar.addActionListener(padre);
 		
+		this.llamadosJList.setModel(llamadoDLM);
 
 	}
 
@@ -76,8 +89,8 @@ public class VentanaSimulacion extends JPanel {
 		this.scrollPane = new JScrollPane();
 		this.panelIzquierdo.add(this.scrollPane);
 		
-		this.list = new JList();
-		this.scrollPane.setViewportView(this.list);
+		this.llamadosJList = new JList();
+		this.scrollPane.setViewportView(this.llamadosJList);
 		
 		this.panelDerecho = new JPanel();
 		GridBagConstraints gbc_panelDerecho = new GridBagConstraints();
@@ -114,6 +127,9 @@ public class VentanaSimulacion extends JPanel {
 		gbc_panelEstado.gridy = 0;
 		this.bordeEstado.add(this.panelEstado, gbc_panelEstado);
 		
+		this.labelEstadoAmbulancia = new JLabel("New label");
+		this.panelEstado.add(this.labelEstadoAmbulancia);
+		
 		this.bordeControl = new JPanel();
 		this.bordeControl.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Control", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
 		GridBagConstraints gbc_bordeControl = new GridBagConstraints();
@@ -140,6 +156,29 @@ public class VentanaSimulacion extends JPanel {
 		
 		this.btnFinalizar = new JButton("Finalizar");
 		this.panelControl.add(this.btnFinalizar);
+	}
+	private void refrescarLista() {
+		this.llamadoDLM.clear();
+		for (Entry<Solicitante, String> solicitanteMotivo : solicitantesMotivo.entrySet()) {
+			this.llamadoDLM.addElement(solicitanteMotivo.getKey() + " " + solicitanteMotivo.getValue());
+		}
+		this.llamadosJList.revalidate();
+	}
+	
+
+	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud) {
+		this.solicitantesMotivo.put(solicitante, tipoDeSolicitud);
+		this.refrescarLista();
+	}
+
+	public void retirarLlamado(Solicitante solicitante) {
+		this.solicitantesMotivo.remove(solicitante);
+		this.refrescarLista();
+	}
+
+	public void informarCambioEstado(IEstado estadoAmbulancia) {
+		this.labelEstadoAmbulancia.setText(estadoAmbulancia.toString());
+		//TODO
 	}
 
 }
