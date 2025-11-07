@@ -1,4 +1,4 @@
-package patrones;
+package patrones.state;
 
 import modelo.Ambulancia;
 
@@ -14,7 +14,7 @@ public class EstadoEnTaller implements IEstado{
 	public void atencionADomicilio() {} // permanece en taller
 	
 	public void trasladoAClinica() {
-		// informa PASARLE AL CONTROLADOR
+		this.ambulancia.firePropertyChange("Error",null,"No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
 	}
 	
 	public void retorno() {} // permanece en taller

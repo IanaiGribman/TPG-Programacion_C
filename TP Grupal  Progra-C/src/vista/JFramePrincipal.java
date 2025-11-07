@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import Util.Acciones;
 import modelo.Solicitante;
-import patrones.IEstado;
+import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
 public class JFramePrincipal extends JFrame implements ActionListener, IVista {

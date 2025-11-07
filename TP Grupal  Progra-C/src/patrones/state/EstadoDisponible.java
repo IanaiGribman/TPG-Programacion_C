@@ -1,4 +1,4 @@
-package patrones;
+package patrones.state;
 
 import modelo.Ambulancia;
 

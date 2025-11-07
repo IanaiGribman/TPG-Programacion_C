@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Observer;
 
 import modelo.Solicitante;
-import patrones.IEstado;
+import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
 public interface IVista {	

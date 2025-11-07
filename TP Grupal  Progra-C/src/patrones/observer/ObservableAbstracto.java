@@ -18,7 +18,7 @@ public abstract class ObservableAbstracto {
 	    propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 	
-	protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+	public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
 	    propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
 	}
 	
