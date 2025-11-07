@@ -1,17 +1,10 @@
 package persistencia;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +16,6 @@ import persistencia.excepciones.SinConexionException;
 public class BaseDeDatosDAO implements IBaseDeDatos {
 	private ParametrosBaseDeDatos parametros;
 	private Connection conexion;
-	private Statement sentencia;
 
 	/**
 	 * Empieza desconectada a la base de datos *
@@ -44,8 +36,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 
 		if (conexion != null) {
 			asociados = new ArrayList<AsociadoDTO>();
-
-			ResultSet resultado = sentencia.executeQuery("SELECT * FROM " + IBaseDeDatos.nombreTablaAsociados);
+			ResultSet resultado = conexion.createStatement().executeQuery("SELECT * FROM " + nombreTablaAsociados);
 			while (resultado.next()) {
 				String dni = resultado.getString(IBaseDeDatos.nombreCampoAsociadosDni);
 				String nombre = resultado.getString(IBaseDeDatos.nombreCampoAsociadosNombre);
@@ -64,10 +55,14 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void agregarAsociado(AsociadoDTO asociado) throws SQLException, SinConexionException {
-		if (conexion != null) // quiza convenga lanzar excepcion cuando no hay conexion, para avisar (?)
-			sentencia.execute("INSERT INTO " + IBaseDeDatos.nombreTablaAsociados + " VALUES(" + asociado.getDni() + ", "
-					+ asociado.getNombre() + ")");
-		else
+		if (conexion != null) { // quiza convenga lanzar excepcion cuando no hay conexion, para avisar (?)
+			PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO "+nombreTablaAsociados+
+																	" ("+nombreCampoAsociadosDni+", "
+																		+nombreCampoAsociadosNombre+") VALUES (?, ?)");
+			sentencia.setString(1, asociado.getDni());
+			sentencia.setString(2, asociado.getNombre());
+			sentencia.execute();
+		}else
 			throw new SinConexionException();
 	}
 
@@ -78,31 +73,38 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void eliminarAsociado(String dni) throws SQLException, SinConexionException {
-		if (conexion != null)
-			sentencia.execute("DELETE FROM " + IBaseDeDatos.nombreTablaAsociados + "WHERE "
-					+ IBaseDeDatos.nombreCampoAsociadosDni + "='" + dni + "'");
-		else
+		if (conexion != null) {
+			PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM "+nombreTablaAsociados +
+																	" WHERE " + nombreCampoAsociadosDni + "=?");
+			sentencia.setString(1, dni);
+			sentencia.execute();
+		}else
 			throw new SinConexionException();
 	}
 
 	/**
-	 * Abre la conexion con la BD, necesaria para la ejecucion de sentencias sobre
-	 * esta Si no es posible establecer la conexion lanza excepcion
+	 * Abre la conexion con la BD, necesaria para la ejecucion de sentencias sobre esta 
+	 * Si no es posible establecer la conexion lanza excepcion
+	 * Si la base de datos no existe la crea
+	 * @throws SQLException
 	 */
 	@Override
 	public void abrirConexion() throws SQLException {
-
 		try {
-			Class.forName("sun.jdbc.obdc.JdbcObdcDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// debug
+			System.out.println(e);
 			e.printStackTrace();
 		}
 
 		conexion = DriverManager.getConnection(this.parametros.getDireccion(), this.parametros.getUsuario(),
 				this.parametros.getClave());
-		sentencia = conexion.createStatement();
-
+		
+		String nombreBaseDeDatos = this.parametros.getNombre();
+		conexion.createStatement().execute("CREATE DATABASE IF NOT EXISTS " + nombreBaseDeDatos);
+		
+		conexion.createStatement().execute("USE " + nombreBaseDeDatos);
 	}
 
 	/**
@@ -113,7 +115,6 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	@Override
 	public void cerrarConexion() throws SQLException, SinConexionException {
 		if (conexion != null) {
-			sentencia.close();
 			conexion.close();
 		} else
 			throw new SinConexionException();
@@ -127,12 +128,11 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	@Override
 	public void crearTablaAsociados() throws SQLException, SinConexionException {
 		if (conexion != null) {
-			sentencia.execute("DROP TABLE " + IBaseDeDatos.nombreTablaAsociados);
-			sentencia.execute("CREATE TABLE " + IBaseDeDatos.nombreTablaAsociados + " ("
-					+ IBaseDeDatos.nombreCampoAsociadosDni + " VARCHAR(10) NOT NULL, "
-					+ IBaseDeDatos.nombreCampoAsociadosNombre + " VARCHAR(20) NOT NULL)");
+			conexion.createStatement().execute("DROP TABLE IF EXISTS " + nombreTablaAsociados);
+			conexion.createStatement().execute("CREATE TABLE " + nombreTablaAsociados + "("+
+			                                   					nombreCampoAsociadosDni + " VARCHAR(10) NOT NULL PRIMARY KEY, " + 
+																nombreCampoAsociadosNombre + " VARCHAR(30) NOT NULL)");
 		} else
 			throw new SinConexionException();
 	}
-
 }
