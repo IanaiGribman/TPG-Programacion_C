@@ -17,7 +17,9 @@ public class EstadoTrasladaPaciente implements IEstado{
 		// informar que no puede MANDARLE A CONTROLADOR ?
 	}
 	
-	public void retorno() {} // permanece trasladando paciente
+	public void retorno() {
+		this.ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
+	}
 	
 	public void mantenimiento() {
 		// informar MANDARLE A CONTROLADOR
