@@ -22,24 +22,6 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	private VentanaGestion ventanaGestion;
 	private VentanaSimulacion ventanaSimulacion;
 
-	/**
-	 * Launch the application. ESTO ES TEMPORAL, LUEGO LO TIENE QUE HACER UNA CLASE
-	 * MAIN
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFramePrincipal frame = new JFramePrincipal();
-
-					frame.setVisible(true);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -50,40 +32,6 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 900, 600);
 		this.mostrarGestion();
-		this.setActionListener(this);
-	}
-
-	/**
-	 * ESTO TENDRIA QUE IR EN EL MODELO?
-	 */
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		switch (arg0.getActionCommand()) {
-		case Acciones.GESTION: {
-			this.mostrarGestion();
-			break;
-		}
-		case Acciones.SIMULACION: { // ESTO SEGURO VA EN EL MODELO
-			this.mostrarSimulacion();
-			break;
-		}
-		case Acciones.REGISTRAR: { // TEMPORAL
-			AsociadoDTO as = this.ventanaGestion.getAsociado();
-			this.ventanaGestion.addSocio(as);
-			this.ventanaGestion.redibujar();
-			this.ventanaGestion.clearRegistroTextFields();
-			break;
-		}
-		case Acciones.GUARDAR: {
-			CustomPopUp cpu = new CustomPopUp(this);
-			cpu.mostrar("Guardado con exito", "Los cambios se guardaron en la base de datos", "Ok.");
-
-		}
-		case Acciones.ELIMINAR: {
-			this.ventanaGestion.clearEliminacionTextFields();
-		}
-		}
-
 	}
 
 	public void mostrarGestion() {
@@ -181,5 +129,26 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		assert actionListener != null: "el action listener no puede ser null";
 		this.ventanaGestion.setActionListener(actionListener);
 		this.ventanaSimulacion.setActionListener(actionListener);
+	}
+
+	@Override
+	public void aniadirAsociadoSimulacion(AsociadoDTO asociado) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public AsociadoDTO getAsociadoNuevo() {
+		return ventanaGestion.getAsociado();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addAsociado(AsociadoDTO asociadoNuevo) {
+		this.ventanaGestion.addSocio(asociadoNuevo);
 	}
 }

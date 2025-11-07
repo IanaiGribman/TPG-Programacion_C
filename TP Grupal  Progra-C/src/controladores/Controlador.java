@@ -9,6 +9,7 @@ import Util.Acciones;
 import modelo.Ambulancia;
 import modelo.ModuloAsociados;
 import persistencia.AsociadoDTO;
+import vista.CustomPopUp;
 import vista.IVista;
 
 /**
@@ -46,8 +47,14 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
+		case Acciones.GESTION: {
+			vista.mostrarGestion();
+			break;
+		}
 		case Acciones.REGISTRAR: {
+			AsociadoDTO asociadoNuevo = vista.getAsociadoNuevo();
 			this.moduloAsociados.agregarAsociado(vista.getNewAsociado());
+			this.vista.addAsociado(asociadoNuevo);
 			break;
 		}
 		case Acciones.ELIMINAR: {
@@ -64,9 +71,12 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 		}
 		case Acciones.SIMULACION: {
 			//pasarle los asociados que van a la simulacion, crear los threads y hacer .start()
+			vista.mostrarSimulacion();
 			this.moduloAsociados.cerrarConexion();
+			break;
 		}
 		}
+
 	}
 
 }
