@@ -3,7 +3,6 @@ package vista;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import java.util.Observer;
 
 import modelo.Solicitante;
 import patrones.IEstado;
@@ -36,7 +35,11 @@ public interface IVista {
 	 * @param asociados
 	 */
 	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados);
-	public void aniadirAsociadoSimulacion(AsociadoDTO asociado);
+	public void addAsociadoPermanencia(AsociadoDTO asociadoNuevo);
+	public void addAsociadoSimulacion(AsociadoDTO asociado);
+	public void removeAsociadoPermanencia(AsociadoDTO asociado);
+	public void removeAsociadoSimulacion(AsociadoDTO asociado);
+	
 	
 	// MUESTRA UN PopUp con el error, se puede usar este metodo para comunicar errores al usuario, pero algun error mas especifico podria requerir metodos especificos
 	public void displayError(String mensajeError);
@@ -50,9 +53,11 @@ public interface IVista {
 	public void infomarCambioEstado(IEstado estadoAmbulancia);
 	
 	
+	public AsociadoDTO getAsociadoNuevo();
+
+	
 	
 	public void propertyChange(PropertyChangeEvent evt);
 	public void setActionListener(ActionListener actionListener);
-	public AsociadoDTO getAsociadoNuevo();
-	public void addAsociado(AsociadoDTO asociadoNuevo);
+
 }

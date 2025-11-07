@@ -1,11 +1,9 @@
 package vista;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -61,7 +59,6 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	@Override
 	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados) {
 		this.ventanaGestion.setTablaAsociados(asociados);
-		this.ventanaGestion.redibujar();
 	}
 
 	@Override
@@ -110,10 +107,12 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	public void propertyChange(PropertyChangeEvent evt) {
 		switch (evt.getPropertyName()) {
 		case Acciones.ERROR: {
-			this.displayError((String) evt.getNewValue()); //hay que hacer cast siempre
+			// lo comento de momento porque es molesto
+			//this.displayError((String) evt.getNewValue()); //hay que hacer cast siempre
 			break;
 		}
 		case Acciones.CARGAR: {
+			
 			//acá llegaría la lista de asociadoDTO, 
 			break;
 		}
@@ -131,11 +130,6 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		this.ventanaSimulacion.setActionListener(actionListener);
 	}
 
-	@Override
-	public void aniadirAsociadoSimulacion(AsociadoDTO asociado) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public AsociadoDTO getAsociadoNuevo() {
 		return ventanaGestion.getAsociado();
@@ -148,7 +142,22 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	}
 
 	@Override
-	public void addAsociado(AsociadoDTO asociadoNuevo) {
-		this.ventanaGestion.addSocio(asociadoNuevo);
+	public void addAsociadoPermanencia(AsociadoDTO asociadoNuevo) {
+		this.ventanaGestion.addAsociadoPermanencia(asociadoNuevo);
+	}
+
+	@Override
+	public void addAsociadoSimulacion(AsociadoDTO asociado) {
+		ventanaGestion.addAsociadoSimulacion(asociado);
+	}
+
+	@Override
+	public void removeAsociadoPermanencia(AsociadoDTO asociado) {
+		ventanaGestion.removeAsociadoPermanencia(asociado);
+	}
+
+	@Override
+	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
+		ventanaGestion.removeAsociadoSimulacion(asociado);
 	}
 }

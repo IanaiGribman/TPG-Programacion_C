@@ -10,7 +10,6 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.DefaultListModel;
@@ -43,11 +42,9 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 												  "</font> </b> </html>";
 
 	
-	private Collection<AsociadoDTO> tablaAsociadosPersistencia = new ArrayList<>(); //creo que esto no va en la vista
 	private DefaultListModel<AsociadoDTO> asociadosPersistenciaDLM = new DefaultListModel<>();
 	private JList<AsociadoDTO> asociadosPersistenciaJList;
 	
-	private Collection<AsociadoDTO> tablaAsociadosSimulacion = new ArrayList<>(); //creo que esto no va en la vista
 	private DefaultListModel<AsociadoDTO> asociadosSimulacionDLM = new DefaultListModel<>();
 	private JList<AsociadoDTO> asociadosSumulacionJList;
 	
@@ -329,21 +326,6 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	public void setTablaAsociados(Collection<AsociadoDTO> asociados) {
-		this.tablaAsociadosPersistencia = asociados;
-	}
-
-	public void redibujar() {
-		this.asociadosPersistenciaJList.clearSelection();
-		this.asociadosPersistenciaDLM.clear();
-		for (AsociadoDTO asociado : this.tablaAsociadosPersistencia)
-			this.asociadosPersistenciaDLM.addElement(asociado);
-		this.asociadosPersistenciaJList.revalidate();
-	}
-
-	public void addSocio(AsociadoDTO as) {
-		this.tablaAsociadosPersistencia.add(as);
-		redibujar();
-		clearRegistroTextFields();
 	}
 	
 	public void clearRegistroTextFields() {
@@ -403,7 +385,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	/**
-	 * esto ocurre cuando se selecciona un asociado en la lista
+	 * esto ocurre cuando se selecciona un asociado en alguna lista
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
@@ -421,6 +403,26 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnRegistrar.addActionListener(actionListener);
 		this.btnEliminar.addActionListener(actionListener);
 		this.btnInicializar.addActionListener(actionListener);
+	}
+
+	public void addAsociadoSimulacion(AsociadoDTO asociado) {
+		this.asociadosSimulacionDLM.addElement(asociado);
+		this.asociadosSumulacionJList.revalidate();
+	}
+	public void addAsociadoPermanencia(AsociadoDTO asociado) {
+		this.asociadosPersistenciaDLM.addElement(asociado);
+		this.asociadosPersistenciaJList.revalidate();
+		clearRegistroTextFields();
+	}
+
+	public void removeAsociadoPermanencia(AsociadoDTO asociado) {
+		this.asociadosPersistenciaDLM.removeElement(asociado);
+		this.asociadosPersistenciaJList.revalidate();
+	}
+
+	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
+		this.asociadosSimulacionDLM.removeElement(asociado);
+		this.asociadosSumulacionJList.revalidate();
 	}
 
 }

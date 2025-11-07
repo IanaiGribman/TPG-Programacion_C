@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import Util.Acciones;
 import modelo.Ambulancia;
 import modelo.ModuloAsociados;
 import persistencia.AsociadoDTO;
-import vista.CustomPopUp;
 import vista.IVista;
 
 /**
@@ -54,7 +56,7 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 		case Acciones.REGISTRAR: {
 			AsociadoDTO asociadoNuevo = vista.getAsociadoNuevo();
 			this.moduloAsociados.agregarAsociado(vista.getNewAsociado());
-			this.vista.addAsociado(asociadoNuevo);
+			this.vista.addAsociadoPermanencia(asociadoNuevo);
 			break;
 		}
 		case Acciones.ELIMINAR: {
@@ -78,5 +80,7 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 		}
 
 	}
+
+
 
 }
