@@ -26,6 +26,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Util.Acciones;
 import persistencia.AsociadoDTO;
 
 public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener{
@@ -42,7 +43,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 												  "</font> </b> </html>";
 
 	
-	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>();
+	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>(); //creo que esto no va en la vista
 	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
 	private JList<AsociadoDTO> asociadosJList;
 	private JPanel panelGestionAsociados;
@@ -78,11 +79,11 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel panel_7;
 	private JButton btnInicializar;
 
-	public VentanaGestion(ActionListener padre) {
+	public VentanaGestion() {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelGestionAsociados();
 		
-		this.configurarBotones(padre);
+		this.configurarBotones();
 		
 		
 		this.asociadosJList.setModel(this.asociadosDLM);
@@ -91,24 +92,13 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		
 		}
  
-	private void configurarBotones(ActionListener padre) {
-		this.btnSimular.setActionCommand(IVista.SIMULACION);
-		this.btnSimular.addActionListener(padre);
-		
-		this.btnRegistrar.setActionCommand(IVista.REGISTRAR);
-		this.btnRegistrar.addActionListener(padre);
-		
-		this.btnGuardarPersistencia.setActionCommand(IVista.GUARDAR);
-		this.btnGuardarPersistencia.addActionListener(padre);
-		
-		this.btnEliminar.setActionCommand(IVista.ELIMINAR);
-		this.btnEliminar.addActionListener(padre);
-		
-		this.btnInicializar.setActionCommand(IVista.INICIALIZAR);
-		this.btnInicializar.addActionListener(padre);
-		
-		this.btnCargarPersistencia.setActionCommand(IVista.CARGAR);
-		this.btnCargarPersistencia.addActionListener(padre);
+	private void configurarBotones() {
+		this.btnSimular.setActionCommand(Acciones.SIMULACION);	
+		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
+		this.btnGuardarPersistencia.setActionCommand(Acciones.GUARDAR);	
+		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
+		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);		
+		this.btnCargarPersistencia.setActionCommand(Acciones.CARGAR);
 	}
 
 	private void hacerPanelGestionAsociados() {
@@ -455,6 +445,13 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 	
 
-
+	public void setActionListener(ActionListener actionListener) {
+		this.btnSimular.addActionListener(actionListener);
+		this.btnRegistrar.addActionListener(actionListener);
+		this.btnEliminar.addActionListener(actionListener);
+		this.btnInicializar.addActionListener(actionListener);
+		this.btnCargarPersistencia.addActionListener(actionListener);
+		this.btnGuardarPersistencia.addActionListener(actionListener);
+	}
 
 }

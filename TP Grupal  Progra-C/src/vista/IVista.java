@@ -1,5 +1,7 @@
 package vista;
 
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Observer;
 
@@ -7,17 +9,7 @@ import modelo.Solicitante;
 import patrones.IEstado;
 import persistencia.AsociadoDTO;
 
-public interface IVista extends Observer{
-	public static final String SIMULACION = "SIMULACION";
-	public static final String REGISTRAR = "REGISTRAR";
-	public static final String ELIMINAR = "ELIMINAR";
-	public static final String CARGAR = "CARGAR";
-	public static final String GUARDAR = "GUARDAR";
-	public static final String INICIALIZAR = "INICIALIZAR";
-	
-	public static final String MANTENIMIENTO = "MANTENIMIENTO";
-	public static final String GESTION = "GESTION";
-	
+public interface IVista {	
 	/**
 	 * 
 	 * @return un AsociadoDTO con los datos de un nuevo asociado
@@ -56,4 +48,7 @@ public interface IVista extends Observer{
 	public void infomarCambioEstado(IEstado estadoAmbulancia);
 	
 	
+	
+	public void propertyChange(PropertyChangeEvent evt);
+	public void setActionListener(ActionListener actionListener);
 }

@@ -3,12 +3,14 @@ package vista;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import java.util.Observable;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Util.Acciones;
 import modelo.Solicitante;
 import patrones.IEstado;
 import persistencia.AsociadoDTO;
@@ -43,13 +45,12 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	 * Create the frame.
 	 */
 	public JFramePrincipal() {
-		ventanaSimulacion = new VentanaSimulacion(this);
-		ventanaGestion = new VentanaGestion(this);
+		ventanaSimulacion = new VentanaSimulacion();
+		ventanaGestion = new VentanaGestion();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 900, 600);
-
 		this.mostrarGestion();
-
+		this.setActionListener(this);
 	}
 
 	/**
@@ -58,27 +59,27 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		switch (arg0.getActionCommand()) {
-		case IVista.GESTION: {
+		case Acciones.GESTION: {
 			this.mostrarGestion();
 			break;
 		}
-		case IVista.SIMULACION: { // ESTO SEGURO VA EN EL MODELO
+		case Acciones.SIMULACION: { // ESTO SEGURO VA EN EL MODELO
 			this.mostrarSimulacion();
 			break;
 		}
-		case IVista.REGISTRAR: { // TEMPORAL
+		case Acciones.REGISTRAR: { // TEMPORAL
 			AsociadoDTO as = this.ventanaGestion.getAsociado();
 			this.ventanaGestion.addSocio(as);
 			this.ventanaGestion.redibujar();
 			this.ventanaGestion.clearRegistroTextFields();
 			break;
 		}
-		case IVista.GUARDAR: {
+		case Acciones.GUARDAR: {
 			CustomPopUp cpu = new CustomPopUp(this);
 			cpu.mostrar("Guardado con exito", "Los cambios se guardaron en la base de datos", "Ok.");
 
 		}
-		case IVista.ELIMINAR: {
+		case Acciones.ELIMINAR: {
 			this.ventanaGestion.clearEliminacionTextFields();
 		}
 		}
@@ -97,12 +98,6 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		this.contentPane = ventanaSimulacion;
 		setContentPane(this.contentPane);
 		this.revalidate();
-	}
-
-	// esto es para actualizar la simulacion
-	@Override
-	public void update(Observable arg0, Object arg1) {
-
 	}
 
 	@Override
@@ -142,4 +137,49 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		this.ventanaSimulacion.informarCambioEstado(estadoAmbulancia);
 	}
 
+	/*Creo que lo más sencillo es que cuando se apreta registrar, se registra en la base de datos automáticamente.
+	 * Y que cuando se abre la ventana, se carguen todos los asociados.*/
+	
+	/*Cada vez que se registra o se elimina un asociado, la vista recibe en evt.getNewValue el dto agregado o un dni y 
+	 * se modifica  el DefaultListModel de la ventana gestión a partir de eso. O sea, no hay que pasarle la lista entera
+	 * de asociados en cada operación.*/
+	
+	/*El problema que veo ahora es que si guardás después de cargar, va a tirar una excepción la base de datos por DNIs
+	 * repetidos y además no podés elegir qué asociados van a la simulación.*/
+	
+	/*Una alternativa podría ser que se vean dos listas: todos los asociados y los que van a la simulación. Para
+	 * agregar asociados a la lista de la simulación, apretás en uno de la lista de asociados de la base de datos. 
+	 * Si la lista de la simulación no está vacía, no se puede eliminar asociados, si no habría que revisar en ambas
+	 * listas. */
+	
+	
+	/**
+	 * Maneja las notificaciones de cambio en el modelo
+	 * 
+	 * (es como si esta clase fuera un controlador de las ventanas)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		switch (evt.getPropertyName()) {
+		case Acciones.ERROR: {
+			this.displayError((String) evt.getNewValue()); //hay que hacer cast siempre
+			break;
+		}
+		case Acciones.CARGAR: {
+			//acá llegaría la lista de asociadoDTO, 
+			break;
+		}
+		}
+		// y el resto de las acciones por cada cambio
+	}
+
+	/**
+	 * Agrega el action listener a los botones de cada ventana
+	 */
+	@Override
+	public void setActionListener(ActionListener actionListener) {
+		assert actionListener != null: "el action listener no puede ser null";
+		this.ventanaGestion.setActionListener(actionListener);
+		this.ventanaSimulacion.setActionListener(actionListener);
+	}
 }

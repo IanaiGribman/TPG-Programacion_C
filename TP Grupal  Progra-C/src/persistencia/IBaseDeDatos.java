@@ -12,7 +12,7 @@ import persistencia.excepciones.SinConexionException;
  * y una tabla de asocicados con los campos dni y nombre para almacenarlos
  * El asociado es unico por dni, entonces este campo es una clave primaria de la tabla
  */
-interface IBaseDeDatos {
+public interface IBaseDeDatos {
 	String nombreTablaAsociados = "ASOCIADOS";
 	String nombreCampoAsociadosDni = "DNI";
 	String nombreCampoAsociadosNombre = "NOMBRE";

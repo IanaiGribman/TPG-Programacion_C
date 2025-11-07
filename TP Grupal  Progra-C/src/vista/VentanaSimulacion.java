@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import Util.Acciones;
 import modelo.Solicitante;
 import patrones.IEstado;
 
@@ -42,15 +43,10 @@ public class VentanaSimulacion extends JPanel {
 	
 	private JLabel labelEstadoAmbulancia;
 
-	public VentanaSimulacion(ActionListener padre) {
+	public VentanaSimulacion() {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelSimulacion();
-		
-		this.btnFinalizar.setActionCommand(IVista.GESTION);
-		this.btnFinalizar.addActionListener(padre);
-		
 		this.llamadosJList.setModel(llamadoDLM);
-
 	}
 
 	private void hacerPanelSimulacion() {
@@ -179,6 +175,13 @@ public class VentanaSimulacion extends JPanel {
 	public void informarCambioEstado(IEstado estadoAmbulancia) {
 		this.labelEstadoAmbulancia.setText(estadoAmbulancia.toString());
 		//TODO
+	}
+	
+	
+	public void setActionListener(ActionListener actionListener)
+	{
+		this.btnFinalizar.setActionCommand(Acciones.GESTION);
+		this.btnFinalizar.addActionListener(actionListener);
 	}
 
 }

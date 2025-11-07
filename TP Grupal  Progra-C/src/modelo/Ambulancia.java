@@ -1,9 +1,10 @@
 package modelo;
 
 import patrones.IEstado;
+import patrones.observer.ObservableAbstracto;
 import patrones.EstadoDisponible;
 
-public class Ambulancia {
+public class Ambulancia extends ObservableAbstracto {
 	IEstado estado; // representa estado actual de la ambulancia
 	
 	public Ambulancia() {
