@@ -10,7 +10,6 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.DefaultListModel;
@@ -43,17 +42,18 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 												  "</font> </b> </html>";
 
 	
-	private Collection<AsociadoDTO> tablaAsociados = new ArrayList<>(); //creo que esto no va en la vista
-	private DefaultListModel<AsociadoDTO> asociadosDLM = new DefaultListModel<>();
-	private JList<AsociadoDTO> asociadosJList;
+	private DefaultListModel<AsociadoDTO> asociadosPersistenciaDLM = new DefaultListModel<>();
+	private JList<AsociadoDTO> asociadosPersistenciaJList;
+	
+	private DefaultListModel<AsociadoDTO> asociadosSimulacionDLM = new DefaultListModel<>();
+	private JList<AsociadoDTO> asociadosSumulacionJList;
+	
 	private JPanel panelGestionAsociados;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
-	private JPanel panelAsociados;
-	private JPanel panelPersistencia;
-	private JScrollPane scrollPane;
-	private JPanel panelAsociadosBorde;
-	private JPanel panelPersistenciaBorde;
+	private JPanel panelAsociadosPermanencia;
+	private JScrollPane scrollPanePermanencia;
+	private JPanel panelAsociadosPermanenciaBorde;
 	private JPanel panelCreacion;
 	private JPanel panelEliminacion;
 	private JPanel panelControles;
@@ -66,10 +66,6 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel panelTextFieldDNICreacion;
 	private JPanel panelTextFieldNombre;
 	private JPanel BordeCreacion;
-	private JButton btnCargarPersistencia;
-	private JButton btnGuardarPersistencia;
-	private JPanel panel_4;
-	private JPanel panel_5;
 	private JLabel labelDNIEliminacion;
 	private JTextField textFieldDniEliminacion;
 	private JButton btnEliminar;
@@ -78,6 +74,10 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel panel_6;
 	private JPanel panel_7;
 	private JButton btnInicializar;
+	private JPanel panelAsociadosSimulacion;
+	private JScrollPane scrollPaneSimulacion;
+	private JPanel panelAsociadosSimulacionBorde;
+	
 
 	public VentanaGestion() {
 		setLayout(new BorderLayout(0, 0));
@@ -86,7 +86,22 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.configurarBotones();
 		
 		
-		this.asociadosJList.setModel(this.asociadosDLM);
+		this.asociadosPersistenciaJList.setModel(this.asociadosPersistenciaDLM);
+		
+		this.panelAsociadosSimulacionBorde = new JPanel();
+		this.panelAsociadosSimulacionBorde.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Asociados para la simulacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
+		this.panelIzquierdo.add(this.panelAsociadosSimulacionBorde);
+		this.panelAsociadosSimulacionBorde.setLayout(new BorderLayout(0, 0));
+		
+		this.panelAsociadosSimulacion = new JPanel();
+		this.panelAsociadosSimulacionBorde.add(this.panelAsociadosSimulacion);
+		this.panelAsociadosSimulacion.setLayout(new BorderLayout(0, 0));
+		
+		this.scrollPaneSimulacion = new JScrollPane();
+		this.panelAsociadosSimulacion.add(this.scrollPaneSimulacion, BorderLayout.CENTER);
+		
+		this.asociadosSumulacionJList = new JList();
+		this.scrollPaneSimulacion.setViewportView(this.asociadosSumulacionJList);
 		this.revalidadBotonEliminar();
 		this.revalidadBotonRegistrar();
 		
@@ -95,10 +110,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private void configurarBotones() {
 		this.btnSimular.setActionCommand(Acciones.SIMULACION);	
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
-		this.btnGuardarPersistencia.setActionCommand(Acciones.GUARDAR);	
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
-		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);		
-		this.btnCargarPersistencia.setActionCommand(Acciones.CARGAR);
+		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);
 	}
 
 	private void hacerPanelGestionAsociados() {
@@ -265,88 +278,41 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 
 	private void hacerPanelIzquierdo() {
 		this.panelIzquierdo = new JPanel();
-		GridBagLayout gbl_panelIzquierdo = new GridBagLayout();
-		gbl_panelIzquierdo.columnWidths = new int[] { 0 };
-		gbl_panelIzquierdo.rowHeights = new int[] { 0, 0 };
-		gbl_panelIzquierdo.columnWeights = new double[] { 1.0 };
-		gbl_panelIzquierdo.rowWeights = new double[] { 0.75, 0.25 }; // proporciones
-		this.panelIzquierdo.setLayout(gbl_panelIzquierdo);
 
 		this.hacerPanelAsociados();
-		this.hacerPanelPersistencia();
 	}
 
 	private void hacerPanelAsociados() {
+		this.panelIzquierdo.setLayout(new GridLayout(1, 0, 0, 0));
 		// --- Asociados borde ---
-		this.panelAsociadosBorde = new JPanel();
-		this.panelAsociadosBorde.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Asociados", TitledBorder.LEFT, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_panelAsociadosBorde = new GridBagConstraints();
-		gbc_panelAsociadosBorde.fill = GridBagConstraints.BOTH;
-		gbc_panelAsociadosBorde.insets = new Insets(0, 0, 5, 0);
-		gbc_panelAsociadosBorde.gridx = 0;
-		gbc_panelAsociadosBorde.gridy = 0;
-		this.panelIzquierdo.add(this.panelAsociadosBorde, gbc_panelAsociadosBorde);
-		GridBagLayout gbl_panelAsociadosBorde = new GridBagLayout();
-		gbl_panelAsociadosBorde.columnWidths = new int[]{0, 0};
-		gbl_panelAsociadosBorde.rowHeights = new int[]{0, 0};
-		gbl_panelAsociadosBorde.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelAsociadosBorde.rowWeights = new double[]{0.75, Double.MIN_VALUE};
-		this.panelAsociadosBorde.setLayout(gbl_panelAsociadosBorde);
+		this.panelAsociadosPermanenciaBorde = new JPanel();
+		this.panelAsociadosPermanenciaBorde.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Asociados en el sistema", TitledBorder.LEFT, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
+		this.panelIzquierdo.add(this.panelAsociadosPermanenciaBorde);
+		GridBagLayout gbl_panelAsociadosPermanenciaBorde = new GridBagLayout();
+		gbl_panelAsociadosPermanenciaBorde.columnWidths = new int[]{0, 0};
+		gbl_panelAsociadosPermanenciaBorde.rowHeights = new int[]{0, 0};
+		gbl_panelAsociadosPermanenciaBorde.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panelAsociadosPermanenciaBorde.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		this.panelAsociadosPermanenciaBorde.setLayout(gbl_panelAsociadosPermanenciaBorde);
 		
-		this.panelAsociados = new JPanel(new BorderLayout());
-		GridBagConstraints gbc_panelAsociados = new GridBagConstraints();
-		gbc_panelAsociados.fill = GridBagConstraints.BOTH;
-		gbc_panelAsociados.gridx = 0;
-		gbc_panelAsociados.gridy = 0;
-		this.panelAsociadosBorde.add(this.panelAsociados, gbc_panelAsociados);
+		this.panelAsociadosPermanencia = new JPanel(new BorderLayout());
+		GridBagConstraints gbc_panelAsociadosPermanencia = new GridBagConstraints();
+		gbc_panelAsociadosPermanencia.fill = GridBagConstraints.BOTH;
+		gbc_panelAsociadosPermanencia.gridx = 0;
+		gbc_panelAsociadosPermanencia.gridy = 0;
+		this.panelAsociadosPermanenciaBorde.add(this.panelAsociadosPermanencia, gbc_panelAsociadosPermanencia);
 
-		this.asociadosJList = new JList<>();
-		asociadosJList.addListSelectionListener(this);
+		this.asociadosPersistenciaJList = new JList<>();
+		asociadosPersistenciaJList.addListSelectionListener(this);
 
-		this.asociadosJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
+		this.asociadosPersistenciaJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
 
-		this.scrollPane = new JScrollPane(this.asociadosJList);
+		this.scrollPanePermanencia = new JScrollPane(this.asociadosPersistenciaJList);
 		//this.scrollPane.setPreferredSize(new Dimension(0, 0));
 		
-		this.panelAsociados.add(this.scrollPane, BorderLayout.CENTER);
+		this.panelAsociadosPermanencia.add(this.scrollPanePermanencia, BorderLayout.CENTER);
 	}
 
-	private void hacerPanelPersistencia() {
-		// Borde
-		this.panelPersistenciaBorde = new JPanel();
-		this.panelPersistenciaBorde.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Persistencia", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_panelPersistenciaBorde = new GridBagConstraints();
-		gbc_panelPersistenciaBorde.fill = GridBagConstraints.BOTH;
-		gbc_panelPersistenciaBorde.gridx = 0;
-		gbc_panelPersistenciaBorde.gridy = 1;
-		this.panelIzquierdo.add(this.panelPersistenciaBorde, gbc_panelPersistenciaBorde);
-		GridBagLayout gbl_panelPersistenciaBorde = new GridBagLayout();
-		gbl_panelPersistenciaBorde.columnWidths = new int[]{0, 0};
-		gbl_panelPersistenciaBorde.rowHeights = new int[]{0, 0};
-		gbl_panelPersistenciaBorde.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelPersistenciaBorde.rowWeights = new double[]{0.25, Double.MIN_VALUE};
-		this.panelPersistenciaBorde.setLayout(gbl_panelPersistenciaBorde);
-		
-		this.panelPersistencia = new JPanel();
-		GridBagConstraints gbc_panelPersistencia = new GridBagConstraints();
-		gbc_panelPersistencia.fill = GridBagConstraints.BOTH;
-		gbc_panelPersistencia.gridx = 0;
-		gbc_panelPersistencia.gridy = 0;
-		this.panelPersistenciaBorde.add(this.panelPersistencia, gbc_panelPersistencia);
-		this.panelPersistencia.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		this.panel_4 = new JPanel();
-		this.panelPersistencia.add(this.panel_4);
-		
-		this.btnCargarPersistencia = new JButton("Cargar");
-		this.panel_4.add(this.btnCargarPersistencia);
-		
-		this.panel_5 = new JPanel();
-		this.panelPersistencia.add(this.panel_5);
-		
-		this.btnGuardarPersistencia = new JButton("Guardar");
-		this.panel_5.add(this.btnGuardarPersistencia);
-	}
 
 	public AsociadoDTO getAsociado() {
 		String nombre = this.textFieldNombre.getText();
@@ -360,19 +326,6 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	public void setTablaAsociados(Collection<AsociadoDTO> asociados) {
-		this.tablaAsociados = asociados;
-	}
-
-	public void redibujar() {
-		this.asociadosJList.clearSelection();
-		this.asociadosDLM.clear();
-		for (AsociadoDTO asociado : this.tablaAsociados)
-			this.asociadosDLM.addElement(asociado);
-		this.asociadosJList.revalidate();
-	}
-
-	public void addSocio(AsociadoDTO as) {
-		this.tablaAsociados.add(as);
 	}
 	
 	public void clearRegistroTextFields() {
@@ -432,11 +385,11 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	/**
-	 * esto ocurre cuando se selecciona un asociado en la lista
+	 * esto ocurre cuando se selecciona un asociado en alguna lista
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
-		AsociadoDTO asociado = this.asociadosJList.getSelectedValue();
+		AsociadoDTO asociado = this.asociadosPersistenciaJList.getSelectedValue();
 		if (asociado != null) {
 			this.textFieldDniEliminacion.setText(asociado.getDni());
 			this.revalidadBotonEliminar();
@@ -450,8 +403,26 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnRegistrar.addActionListener(actionListener);
 		this.btnEliminar.addActionListener(actionListener);
 		this.btnInicializar.addActionListener(actionListener);
-		this.btnCargarPersistencia.addActionListener(actionListener);
-		this.btnGuardarPersistencia.addActionListener(actionListener);
+	}
+
+	public void addAsociadoSimulacion(AsociadoDTO asociado) {
+		this.asociadosSimulacionDLM.addElement(asociado);
+		this.asociadosSumulacionJList.revalidate();
+	}
+	public void addAsociadoPermanencia(AsociadoDTO asociado) {
+		this.asociadosPersistenciaDLM.addElement(asociado);
+		this.asociadosPersistenciaJList.revalidate();
+		clearRegistroTextFields();
+	}
+
+	public void removeAsociadoPermanencia(AsociadoDTO asociado) {
+		this.asociadosPersistenciaDLM.removeElement(asociado);
+		this.asociadosPersistenciaJList.revalidate();
+	}
+
+	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
+		this.asociadosSimulacionDLM.removeElement(asociado);
+		this.asociadosSumulacionJList.revalidate();
 	}
 
 }

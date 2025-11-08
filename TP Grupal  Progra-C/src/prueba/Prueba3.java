@@ -1,25 +1,11 @@
 package prueba;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import modelo.Clinica;
 import modelo.Domicilio;
 import modelo.Factura;
 import modelo.IMedico;
-
-
-
-import modelo.atenciones.Atencion;
-import modelo.atenciones.MedicoHonorario;
-import modelo.excepciones.DniRepetidoException;
-import modelo.excepciones.EgresoSinMedicoException;
-import modelo.excepciones.HabitacionInvalidaException;
-import modelo.excepciones.MedicoInvalidoException;
-import modelo.excepciones.MedicoNoRegistradoException;
-import modelo.excepciones.PacienteNoIngresadoException;
-import modelo.excepciones.PacienteNoRegistradoException;
-import modelo.excepciones.PacienteYaIngresadoException;
 import modelo.habitaciones.Habitacion;
 import modelo.habitaciones.HabitacionFactory;
 import modelo.medicos.MedicoFactory;

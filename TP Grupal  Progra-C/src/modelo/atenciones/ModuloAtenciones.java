@@ -9,7 +9,6 @@ import modelo.ConsultaPacienteReporte;
 import modelo.IMedico;
 import modelo.ReporteMedico;
 import modelo.excepciones.EgresoSinMedicoException;
-import modelo.excepciones.HabitacionLlenaException;
 import modelo.excepciones.PacienteNoIngresadoException;
 import modelo.excepciones.PacienteYaInternadoException;
 import modelo.habitaciones.Habitacion;

@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import Util.Acciones;
 import modelo.Ambulancia;
 import modelo.ModuloAsociados;
@@ -46,8 +49,14 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
+		case Acciones.GESTION: {
+			vista.mostrarGestion();
+			break;
+		}
 		case Acciones.REGISTRAR: {
+			AsociadoDTO asociadoNuevo = vista.getAsociadoNuevo();
 			this.moduloAsociados.agregarAsociado(vista.getNewAsociado());
+			this.vista.addAsociadoPermanencia(asociadoNuevo);
 			break;
 		}
 		case Acciones.ELIMINAR: {
@@ -64,9 +73,14 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 		}
 		case Acciones.SIMULACION: {
 			//pasarle los asociados que van a la simulacion, crear los threads y hacer .start()
+			vista.mostrarSimulacion();
 			this.moduloAsociados.cerrarConexion();
+			break;
 		}
 		}
+
 	}
+
+
 
 }
