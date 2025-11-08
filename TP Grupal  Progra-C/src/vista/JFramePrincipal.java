@@ -30,6 +30,7 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 900, 600);
 		this.mostrarGestion();
+		setVisible(true);
 	}
 
 	public void mostrarGestion() {
@@ -111,7 +112,7 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 			//this.displayError((String) evt.getNewValue()); //hay que hacer cast siempre
 			break;
 		}
-		case Acciones.CARGAR: {
+		case Acciones.ELIMINAR: {
 			
 			//acá llegaría la lista de asociadoDTO, 
 			break;

@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,7 +20,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -28,7 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import Util.Acciones;
 import persistencia.AsociadoDTO;
 
-public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener{
+public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" +
 													   		"Error: " +
@@ -77,16 +80,20 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel panelAsociadosSimulacion;
 	private JScrollPane scrollPaneSimulacion;
 	private JPanel panelAsociadosSimulacionBorde;
-	
+	private JPanel BordeSimulacion;
+	private JPanel panelSimulacion;
+	private JButton btnAgregarASimulacion;
+	private boolean deseleccionando;
 
 	public VentanaGestion() {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelGestionAsociados();
 		
 		this.configurarBotones();
-		
+		this.deseleccionando = false;
 		
 		this.asociadosPersistenciaJList.setModel(this.asociadosPersistenciaDLM);
+		this.asociadosPersistenciaJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		this.panelAsociadosSimulacionBorde = new JPanel();
 		this.panelAsociadosSimulacionBorde.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Asociados para la simulacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
@@ -100,7 +107,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.scrollPaneSimulacion = new JScrollPane();
 		this.panelAsociadosSimulacion.add(this.scrollPaneSimulacion, BorderLayout.CENTER);
 		
-		this.asociadosSumulacionJList = new JList();
+		this.asociadosSumulacionJList.setModel(asociadosSimulacionDLM);
+		this.asociadosSumulacionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.scrollPaneSimulacion.setViewportView(this.asociadosSumulacionJList);
 		this.revalidadBotonEliminar();
 		this.revalidadBotonRegistrar();
@@ -112,6 +120,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
 		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);
+		this.btnAgregarASimulacion.addActionListener(this);
+		this.btnAgregarASimulacion.setEnabled(false);
 	}
 
 	private void hacerPanelGestionAsociados() {
@@ -153,7 +163,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		gbl_panelDerecho.columnWidths = new int[]{0, 0};
 		gbl_panelDerecho.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_panelDerecho.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelDerecho.rowWeights = new double[]{0.55, 0.2, 0.25, Double.MIN_VALUE};
+		gbl_panelDerecho.rowWeights = new double[]{0.45, 0.2, 0.2, 0.15, Double.MIN_VALUE};
 		this.panelDerecho.setLayout(gbl_panelDerecho);
 		
 		this.BordeCreacion = new JPanel();
@@ -180,6 +190,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.panelCreacion.setLayout(new GridLayout(3, 0, 0, 0));
 		
 		this.hacerPanelCreacion();
+		this.hacerPanelSimulacion();
 		
 		this.BordeEliminacion = new JPanel();
 		this.BordeEliminacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Eliminacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
@@ -198,7 +209,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		
 		this.panelEliminacion = new JPanel();
 		GridBagConstraints gbc_panelEliminacion = new GridBagConstraints();
-		gbc_panelEliminacion.fill = GridBagConstraints.BOTH;
+		gbc_panelEliminacion.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panelEliminacion.gridx = 0;
 		gbc_panelEliminacion.gridy = 0;
 		this.BordeEliminacion.add(this.panelEliminacion, gbc_panelEliminacion);
@@ -223,17 +234,14 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		
 		this.panelControles = new JPanel();
 		GridBagConstraints gbc_panelControles = new GridBagConstraints();
-		gbc_panelControles.fill = GridBagConstraints.BOTH;
+		gbc_panelControles.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panelControles.gridx = 0;
-		gbc_panelControles.gridy = 2;
+		gbc_panelControles.gridy = 3;
 		this.panelDerecho.add(this.panelControles, gbc_panelControles);
 		this.panelControles.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		this.btnInicializar = new JButton("Inicializar");
 		this.panelControles.add(this.btnInicializar);
-		
-		this.btnSimular = new JButton("Simular");
-		this.panelControles.add(this.btnSimular);
 		
 	}
 
@@ -304,6 +312,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 
 		this.asociadosPersistenciaJList = new JList<>();
 		asociadosPersistenciaJList.addListSelectionListener(this);
+		this.asociadosSumulacionJList = new JList<>();
+		asociadosSumulacionJList.addListSelectionListener(this);
 
 		this.asociadosPersistenciaJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
 
@@ -313,6 +323,39 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.panelAsociadosPermanencia.add(this.scrollPanePermanencia, BorderLayout.CENTER);
 	}
 
+	//----HAGO ACÁ EL PANEL DE SIMULACION ENTERO PORQUE ME PIERDO EN LO DE ARRIBA------
+	public void hacerPanelSimulacion() {
+		this.BordeSimulacion = new JPanel();
+		this.BordeSimulacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Simulacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
+		GridBagConstraints gbc_bordeSimulacion = new GridBagConstraints();
+		gbc_bordeSimulacion.fill = GridBagConstraints.BOTH;
+		gbc_bordeSimulacion.insets = new Insets(0, 0, 5, 0);
+		gbc_bordeSimulacion.gridx = 0;
+		gbc_bordeSimulacion.gridy = 2; // fila 2, abajo del de Eliminacion
+		this.panelDerecho.add(this.BordeSimulacion, gbc_bordeSimulacion);
+
+		GridBagLayout gbl_bordeSimulacion = new GridBagLayout();
+		gbl_bordeSimulacion.columnWidths = new int[]{0, 0};
+		gbl_bordeSimulacion.rowHeights = new int[]{0, 0};
+		gbl_bordeSimulacion.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_bordeSimulacion.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		this.BordeSimulacion.setLayout(gbl_bordeSimulacion);
+		
+		this.panelSimulacion = new JPanel();
+		GridBagConstraints gbc_panelSimulacion = new GridBagConstraints();
+		gbc_panelSimulacion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panelSimulacion.gridx = 0;
+		gbc_panelSimulacion.gridy = 0;
+		this.BordeSimulacion.add(this.panelSimulacion, gbc_panelSimulacion);
+		FlowLayout flowLayoutSimulacion = new FlowLayout(FlowLayout.CENTER, 10, 5);
+		// (alineación centrada, 10 px de espacio horizontal, 5 px vertical)
+		this.panelSimulacion.setLayout(flowLayoutSimulacion);
+		
+		this.btnAgregarASimulacion = new JButton("Agregar a simulacion");
+		this.panelSimulacion.add(btnAgregarASimulacion);
+		this.btnSimular = new JButton("Simular");
+		this.panelSimulacion.add(this.btnSimular);
+	}
 
 	public AsociadoDTO getAsociado() {
 		String nombre = this.textFieldNombre.getText();
@@ -369,14 +412,17 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		}	
 	}
 	private void revalidadBotonEliminar() {
-		try {
-			Integer.parseInt(textFieldDniEliminacion.getText());
-			actualizarBtn(this.btnEliminar, true, null);
+		if (!this.asociadosSimulacionDLM.isEmpty())
+			actualizarBtn(this.btnEliminar, false, null);
+		else {
+			try {
+				Integer.parseInt(textFieldDniEliminacion.getText());
+				actualizarBtn(this.btnEliminar, true, null);
+			}
+			catch (Exception e) {
+				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+			}
 		}
-		catch (Exception e) {
-			actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
-		}
-		
 	}
 	
 	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
@@ -388,16 +434,55 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 * esto ocurre cuando se selecciona un asociado en alguna lista
 	 */
 	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
-		AsociadoDTO asociado = this.asociadosPersistenciaJList.getSelectedValue();
-		if (asociado != null) {
-			this.textFieldDniEliminacion.setText(asociado.getDni());
-			this.revalidadBotonEliminar();
+	public void valueChanged(ListSelectionEvent e) {
+		if (e.getValueIsAdjusting()) {
+	        return; 
+	    }
+		//esto es para que cuando se hace clear selection no haga nada
+		if (this.deseleccionando) {
+			return;
 		}
 		
+		//si el evento vino por la lista de persistencia:
+		if (e.getSource().equals(this.asociadosPersistenciaJList)) {
+			//quito la seleccion en la otra lista
+			this.deseleccionarLista(asociadosSumulacionJList);
+			
+			AsociadoDTO asoc = this.asociadosPersistenciaJList.getSelectedValue();
+			if (asoc != null) {
+				this.textFieldDniEliminacion.setText(asoc.getDni());
+				this.revalidadBotonEliminar();
+				this.btnAgregarASimulacion.setEnabled(true);
+			}
+		}
+		//si el evento vino por la lista de simulacion:
+		else 
+			if (e.getSource().equals(this.asociadosSumulacionJList)) {
+				//quito la seleccion en la otra lista
+				this.deseleccionarLista(asociadosPersistenciaJList);
+				this.btnAgregarASimulacion.setEnabled(false);
+				
+				AsociadoDTO asoc = this.asociadosSumulacionJList.getSelectedValue();
+				if (asoc != null) {
+					this.removeAsociadoSimulacion(asoc);
+					this.revalidadBotonEliminar();
+			}
+		}
 	}
 	
-
+	public void deseleccionarLista(JList<AsociadoDTO> lista) {
+		this.deseleccionando = true;
+		lista.clearSelection();
+		SwingUtilities.invokeLater(() -> {
+	        this.deseleccionando = false;
+	    });
+	}
+	
+	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
+		this.asociadosSimulacionDLM.removeElement(asociado);
+		this.asociadosSumulacionJList.revalidate();
+	}
+	
 	public void setActionListener(ActionListener actionListener) {
 		this.btnSimular.addActionListener(actionListener);
 		this.btnRegistrar.addActionListener(actionListener);
@@ -406,8 +491,10 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	}
 
 	public void addAsociadoSimulacion(AsociadoDTO asociado) {
-		this.asociadosSimulacionDLM.addElement(asociado);
-		this.asociadosSumulacionJList.revalidate();
+		if (!this.asociadosSimulacionDLM.contains(asociado)) {
+			this.asociadosSimulacionDLM.addElement(asociado);
+			this.asociadosSumulacionJList.revalidate();
+		}
 	}
 	public void addAsociadoPermanencia(AsociadoDTO asociado) {
 		this.asociadosPersistenciaDLM.addElement(asociado);
@@ -420,9 +507,15 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.asociadosPersistenciaJList.revalidate();
 	}
 
-	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
-		this.asociadosSimulacionDLM.removeElement(asociado);
-		this.asociadosSumulacionJList.revalidate();
+	/**
+	 *Accion al recibir el evento del boton "Agregar Simulacion"
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.addAsociadoSimulacion(this.asociadosPersistenciaJList.getSelectedValue());
+		this.deseleccionarLista(asociadosPersistenciaJList);
+		this.btnAgregarASimulacion.setEnabled(false);
+		this.revalidadBotonEliminar();
 	}
 
 }
