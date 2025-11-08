@@ -1,6 +1,7 @@
 package modelo;
 
 import persistencia.AsociadoDTO;
+import Util.Util;
 
 public class Asociado extends Solicitante implements IPersona
 {
@@ -27,9 +28,20 @@ public class Asociado extends Solicitante implements IPersona
 
 	@Override
 	public void run() {
-		for (int i = 0; i < this.cantSolicitudes; i++)
-		{
-			//llamar ambulancia
+		try {
+			for (int i = 0; i < this.cantSolicitudes && !Thread.currentThread().isInterrupted(); i++)
+			{
+				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
+				
+				if (traslado) 
+					this.ambulancia.solicitarTraslado(this);
+				else
+					this.ambulancia.solicitarAtencionDomicilio(this);
+				
+				Util.tiempoMuerto(); // tiempo entre solicitudes				
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 	}
 	

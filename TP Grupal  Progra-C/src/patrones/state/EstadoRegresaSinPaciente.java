@@ -1,4 +1,4 @@
-package patrones;
+package patrones.state;
 
 import modelo.Ambulancia;
 
@@ -24,7 +24,7 @@ public class EstadoRegresaSinPaciente implements IEstado{
 	}
 	
 	public void mantenimiento() {
-		// informa PASARLE AL CONTROLADOR
+		this.ambulancia.firePropertyChange("Error",null,"No es posible realizar la solicitud en este momento, la ambulancia esta regresando");
 	}
 
 }

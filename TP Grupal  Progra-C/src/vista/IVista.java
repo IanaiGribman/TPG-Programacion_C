@@ -5,7 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 
 import modelo.Solicitante;
-import patrones.IEstado;
+import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
 public interface IVista {	

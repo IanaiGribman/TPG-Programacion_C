@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import Util.Acciones;
 import modelo.Solicitante;
-import patrones.IEstado;
+import patrones.state.IEstado;
 
 public class VentanaSimulacion extends JPanel {
 	Map <Solicitante, String> solicitantesMotivo = new IdentityHashMap<>(); //esta bien esto?

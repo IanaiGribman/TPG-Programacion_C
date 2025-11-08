@@ -1,4 +1,4 @@
-package patrones;
+package patrones.state;
 
 public interface IEstado {
 	void atencionADomicilio();

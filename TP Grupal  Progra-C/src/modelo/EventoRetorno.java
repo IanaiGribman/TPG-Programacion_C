@@ -1,5 +1,10 @@
 package modelo;
 
+import Util.Util;
+
+/**
+ * Clase Sistema, corresponde al solicitante del retorno automatico de la Ambulancia a la clinica
+ */
 public class EventoRetorno extends Solicitante {
 
 	private int cantSolicitudes;
@@ -16,9 +21,15 @@ public class EventoRetorno extends Solicitante {
 
 	@Override
 	public void run() {
-		for (int i = 0; i < this.cantSolicitudes; i++)
-		{
-			//llamar ambulancia;
+		try {
+			for (int i = 0; i < this.cantSolicitudes && !Thread.currentThread().isInterrupted(); i++)
+			{
+				Util.tiempoMuerto();
+				this.ambulancia.retornoAutomatico();
+				Util.tiempoMuerto();
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 	}
 
