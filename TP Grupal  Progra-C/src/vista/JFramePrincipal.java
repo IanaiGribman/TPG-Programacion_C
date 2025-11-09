@@ -85,13 +85,13 @@ public class JFramePrincipal extends JFrame implements IVista {
 		
 		case Acciones.NUEVO_LLAMADO: {
 			System.out.println("nuevo");
-			this.ventanaSimulacion.aniadirLlamado((Llamado) evt.getNewValue());
+			this.ventanaSimulacion.aniadirLlamadoNuevo((Llamado) evt.getNewValue());
 			break;
 		}
 		
 		case Acciones.QUITAR_LLAMADO: {
 			System.out.println("quitar");
-			this.ventanaSimulacion.retirarLlamado((Solicitante) evt.getNewValue());
+			this.ventanaSimulacion.retirarLlamadoNuevo((Solicitante) evt.getNewValue());
 			break;
 		}
 		

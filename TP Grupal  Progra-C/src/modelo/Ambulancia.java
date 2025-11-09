@@ -8,7 +8,6 @@ import patrones.state.IEstado;
 
 public class Ambulancia extends ObservableAbstracto {
 	IEstado estado; // representa estado actual de la ambulancia
-	private volatile boolean ocupado;
 	private volatile boolean simulacionActiva;
 	
 	public Ambulancia() {
@@ -26,6 +25,7 @@ public class Ambulancia extends ObservableAbstracto {
 	    IEstado estadoViejo = this.estado;
 	    this.estado = estadoNuevo;
 	    this.firePropertyChange(Acciones.ESTADO, estadoViejo, estadoNuevo); // notifico el cambio
+	    notifyAll();
 	}
 	
 	/**
@@ -36,59 +36,41 @@ public class Ambulancia extends ObservableAbstracto {
 	  
 		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "atencion a domicilio"));
 		// espera si no son los estados correspondientes
-	    while (this.ocupado) {
+	    while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
 	        wait();
 	    }
 	    
-	    this.ocupado = true;
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
 	    this.estado.atencionADomicilio(); // transicion
-	    this.ocupado = false;
-	    notifyAll(); // despierto hilos que podrian estar esperando
 	} 
 	
 	public synchronized void solicitarTraslado(Asociado asociado) throws InterruptedException {
 		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "traslado a clinica"));
-	    while (this.ocupado) {
+		/* while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
 	        wait();
-	    }
+	    }*/
 	    
-	    this.ocupado = true;
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
 	    this.estado.trasladoAClinica();
-	    this.ocupado = false;
-	    notifyAll();
 	}
 	
 	public synchronized void solicitarMantenimiento(Operario operario) throws InterruptedException {
 
 		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(operario, "traslado a clinica"));
-	    while (this.ocupado) {
+		/*while (!(this.estado instanceof EstadoDisponible)) {
 	        wait();
-	    }
+	    }*/
 	    
-	    this.ocupado = true;
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, operario);
 	    this.estado.mantenimiento();
-	    this.ocupado = false;
-	    notifyAll();
 	}
 	
 	public synchronized void retornoAutomatico(EventoRetorno evt) throws InterruptedException{
 	    
 		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(evt, "retorno a clinica"));
-		while (this.ocupado)
-			wait();
-		
-		this.ocupado = true;
 		this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
 		this.estado.retorno();
-		this.ocupado = false;
 	    notifyAll();
-	}
-
-	public boolean isOcupado() {
-		return ocupado;
 	}
 
 	public boolean isSimulacionActiva() {

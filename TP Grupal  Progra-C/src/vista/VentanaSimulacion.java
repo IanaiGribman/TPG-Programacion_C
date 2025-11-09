@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.IdentityHashMap;
@@ -25,8 +26,10 @@ import modelo.Solicitante;
 import patrones.state.IEstado;
 
 public class VentanaSimulacion extends JPanel {
-	private DefaultListModel<Llamado> llamadoDLM = new DefaultListModel<>();
-	private JList<Llamado> llamadosJList;
+	private DefaultListModel<Llamado> llamadosNuevosDLM = new DefaultListModel<>();
+	private JList<Llamado> llamadosNuevosJList = new JList<>();
+	private DefaultListModel<Llamado> llamadosAtendidosDLM = new DefaultListModel<>();
+	private JList<Llamado> llamadosAtendidosJList = new JList<>();
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panelSimulacion;
@@ -39,14 +42,20 @@ public class VentanaSimulacion extends JPanel {
 	private JPanel bordeControl;
 	private JButton btnMantenimiento;
 	private JButton btnFinalizar;
-	private JScrollPane scrollPane;
+	JPanel panelLlamadosNuevosBorde;
+	JPanel panelLlamadosNuevos;
+	JScrollPane scrollPaneLlamadosNuevos;
+	JPanel panelLlamadosAtendidosBorde;
+	JPanel panelLlamadosAtendidos;
+	JScrollPane scrollPaneLlamadosAtendidos;
 	
 	private JLabel labelEstadoAmbulancia;
 
 	public VentanaSimulacion() {
 		setLayout(new BorderLayout(0, 0));
 		this.hacerPanelSimulacion();
-		this.llamadosJList.setModel(llamadoDLM);
+		this.llamadosNuevosJList.setModel(llamadosNuevosDLM);
+		this.llamadosAtendidosJList.setModel(llamadosAtendidosDLM);
 	}
 
 	private void hacerPanelSimulacion() {
@@ -59,34 +68,15 @@ public class VentanaSimulacion extends JPanel {
 		gbl_panelSimulacion.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		this.panelSimulacion.setLayout(gbl_panelSimulacion);
 		
-		this.bordeIzquierdo = new JPanel();
-		this.bordeIzquierdo.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Llamados", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_bordeIzquierdo = new GridBagConstraints();
-		gbc_bordeIzquierdo.fill = GridBagConstraints.BOTH;
-		gbc_bordeIzquierdo.insets = new Insets(0, 0, 0, 5);
-		gbc_bordeIzquierdo.gridx = 0;
-		gbc_bordeIzquierdo.gridy = 0;
-		this.panelSimulacion.add(this.bordeIzquierdo, gbc_bordeIzquierdo);
-		GridBagLayout gbl_bordeIzquierdo = new GridBagLayout();
-		gbl_bordeIzquierdo.columnWidths = new int[]{0, 0};
-		gbl_bordeIzquierdo.rowHeights = new int[]{0, 0};
-		gbl_bordeIzquierdo.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_bordeIzquierdo.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		this.bordeIzquierdo.setLayout(gbl_bordeIzquierdo);
-		
 		this.panelIzquierdo = new JPanel();
 		GridBagConstraints gbc_panelIzquierdo = new GridBagConstraints();
 		gbc_panelIzquierdo.fill = GridBagConstraints.BOTH;
 		gbc_panelIzquierdo.gridx = 0;
 		gbc_panelIzquierdo.gridy = 0;
-		this.bordeIzquierdo.add(this.panelIzquierdo, gbc_panelIzquierdo);
-		this.panelIzquierdo.setLayout(new BorderLayout(0, 0));
+		this.panelSimulacion.add(this.panelIzquierdo, gbc_panelIzquierdo);
+	    this.panelIzquierdo.setLayout(new GridLayout(1, 2, 10, 0));
 		
-		this.scrollPane = new JScrollPane();
-		this.panelIzquierdo.add(this.scrollPane);
-		
-		this.llamadosJList = new JList();
-		this.scrollPane.setViewportView(this.llamadosJList);
+		this.hacerPanelLlamados();
 		
 		this.panelDerecho = new JPanel();
 		GridBagConstraints gbc_panelDerecho = new GridBagConstraints();
@@ -118,7 +108,7 @@ public class VentanaSimulacion extends JPanel {
 		
 		this.panelEstado = new JPanel();
 		GridBagConstraints gbc_panelEstado = new GridBagConstraints();
-		gbc_panelEstado.fill = GridBagConstraints.BOTH;
+		gbc_panelEstado.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panelEstado.gridx = 0;
 		gbc_panelEstado.gridy = 0;
 		this.bordeEstado.add(this.panelEstado, gbc_panelEstado);
@@ -142,7 +132,7 @@ public class VentanaSimulacion extends JPanel {
 		
 		this.panelControl = new JPanel();
 		GridBagConstraints gbc_panelControl = new GridBagConstraints();
-		gbc_panelControl.fill = GridBagConstraints.BOTH;
+		gbc_panelControl.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panelControl.gridx = 0;
 		gbc_panelControl.gridy = 0;
 		this.bordeControl.add(this.panelControl, gbc_panelControl);
@@ -152,18 +142,93 @@ public class VentanaSimulacion extends JPanel {
 		
 		this.btnFinalizar = new JButton("Finalizar");
 		this.panelControl.add(this.btnFinalizar);
+		configurarBotones();
 	}
 	
-	public void aniadirLlamado(Llamado llamado) {
-		this.llamadoDLM.addElement(llamado);
+	private void hacerPanelLlamados() {
+	    this.panelIzquierdo.setLayout(new GridLayout(1, 2, 0, 0)); // dos columnas (nuevos y atendidos), con un pequeño espacio entre ellas
+
+	    // === Panel borde para llamados nuevos ===
+	    panelLlamadosNuevosBorde = new JPanel();
+	    panelLlamadosNuevosBorde.setBorder(new TitledBorder(
+	        new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+	        "Llamados nuevos",
+	        TitledBorder.LEFT,
+	        TitledBorder.BELOW_TOP,
+	        null,
+	        new Color(0, 0, 0)
+	    ));
+	    this.panelIzquierdo.add(panelLlamadosNuevosBorde);
+
+	    GridBagLayout gbl_panelLlamadosNuevosBorde = new GridBagLayout();
+	    gbl_panelLlamadosNuevosBorde.columnWidths = new int[]{0, 0};
+	    gbl_panelLlamadosNuevosBorde.rowHeights = new int[]{0, 0};
+	    gbl_panelLlamadosNuevosBorde.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	    gbl_panelLlamadosNuevosBorde.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+	    panelLlamadosNuevosBorde.setLayout(gbl_panelLlamadosNuevosBorde);
+
+	    panelLlamadosNuevos = new JPanel(new BorderLayout());
+	    GridBagConstraints gbc_panelLlamadosNuevos = new GridBagConstraints();
+	    gbc_panelLlamadosNuevos.fill = GridBagConstraints.BOTH;
+	    gbc_panelLlamadosNuevos.gridx = 0;
+	    gbc_panelLlamadosNuevos.gridy = 0;
+	    panelLlamadosNuevosBorde.add(panelLlamadosNuevos, gbc_panelLlamadosNuevos);
+
+	    // === Configurar lista de llamados nuevos ===
+	    this.llamadosNuevosJList.setVisibleRowCount(0);
+
+	    scrollPaneLlamadosNuevos = new JScrollPane(this.llamadosNuevosJList);
+	    panelLlamadosNuevos.add(scrollPaneLlamadosNuevos, BorderLayout.CENTER);
+
+	    // === Panel borde para llamados atendidos ===
+	    panelLlamadosAtendidosBorde = new JPanel();
+	    panelLlamadosAtendidosBorde.setBorder(new TitledBorder(
+	        new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+	        "Llamados atendidos",
+	        TitledBorder.LEFT,
+	        TitledBorder.BELOW_TOP,
+	        null,
+	        new Color(0, 0, 0)
+	    ));
+	    this.panelIzquierdo.add(panelLlamadosAtendidosBorde);
+
+	    GridBagLayout gbl_panelLlamadosAtendidosBorde = new GridBagLayout();
+	    gbl_panelLlamadosAtendidosBorde.columnWidths = new int[]{0, 0};
+	    gbl_panelLlamadosAtendidosBorde.rowHeights = new int[]{0, 0};
+	    gbl_panelLlamadosAtendidosBorde.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	    gbl_panelLlamadosAtendidosBorde.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+	    panelLlamadosAtendidosBorde.setLayout(gbl_panelLlamadosAtendidosBorde);
+
+	    panelLlamadosAtendidos = new JPanel(new BorderLayout());
+	    GridBagConstraints gbc_panelLlamadosAtendidos = new GridBagConstraints();
+	    gbc_panelLlamadosAtendidos.fill = GridBagConstraints.BOTH;
+	    gbc_panelLlamadosAtendidos.gridx = 0;
+	    gbc_panelLlamadosAtendidos.gridy = 0;
+	    panelLlamadosAtendidosBorde.add(panelLlamadosAtendidos, gbc_panelLlamadosAtendidos);
+
+	    // === Configurar lista de llamados atendidos ===
+	    this.llamadosAtendidosJList.setVisibleRowCount(0);
+
+	    scrollPaneLlamadosAtendidos = new JScrollPane(this.llamadosAtendidosJList);
+	    panelLlamadosAtendidos.add(scrollPaneLlamadosAtendidos, BorderLayout.CENTER);
+	}
+	
+	public void configurarBotones() {
+		this.btnFinalizar.setActionCommand(Acciones.GESTION);
+		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
+	}
+	
+	public void aniadirLlamadoNuevo(Llamado llamado) {
+		this.llamadosNuevosDLM.addElement(llamado);
 	}
 
-	public void retirarLlamado(Solicitante solicitante) {
+	public void retirarLlamadoNuevo(Solicitante solicitante) {
 		assert solicitante != null;
 		int i = 0;
-		while(!this.llamadoDLM.get(i).getSolicitante().equals(solicitante))
+		while(!this.llamadosNuevosDLM.get(i).getSolicitante().equals(solicitante))
 			i++;
-		this.llamadoDLM.remove(i);
+		this.llamadosAtendidosDLM.addElement(this.llamadosNuevosDLM.get(i));
+		this.llamadosNuevosDLM.remove(i);
 	}
 
 	public void informarCambioEstado(IEstado estadoAmbulancia) {
@@ -173,8 +238,8 @@ public class VentanaSimulacion extends JPanel {
 	
 	public void setActionListener(ActionListener actionListener)
 	{
-		this.btnFinalizar.setActionCommand(Acciones.GESTION);
 		this.btnFinalizar.addActionListener(actionListener);
+		this.btnMantenimiento.addActionListener(actionListener);
 	}
 
 }
