@@ -20,7 +20,7 @@ public class Operario extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			while(!Thread.currentThread().isInterrupted()) {
+			if (this.ambulancia.isSimulacionActiva()) {
 				Util.tiempoMuerto(); // espera entre intentos de pedir mantenimiento
 				this.ambulancia.solicitarMantenimiento(this);
 				Util.tiempoMuerto(); // tiempo despues de realizar mantenimiento

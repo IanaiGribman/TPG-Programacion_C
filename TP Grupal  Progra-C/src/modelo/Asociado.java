@@ -29,7 +29,8 @@ public class Asociado extends Solicitante implements IPersona
 	@Override
 	public void run() {
 		try {
-			for (int i = 0; i < this.cantSolicitudes && !Thread.currentThread().isInterrupted(); i++)
+			int i = 0;
+			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
 				
@@ -38,7 +39,8 @@ public class Asociado extends Solicitante implements IPersona
 				else
 					this.ambulancia.solicitarAtencionDomicilio(this);
 				
-				Util.tiempoMuerto(); // tiempo entre solicitudes				
+				Util.tiempoMuerto(); // tiempo entre solicitudes	
+				i++;
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();

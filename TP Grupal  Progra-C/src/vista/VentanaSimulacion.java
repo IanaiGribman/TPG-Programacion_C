@@ -20,13 +20,13 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import Util.Acciones;
+import modelo.Llamado;
 import modelo.Solicitante;
 import patrones.state.IEstado;
 
 public class VentanaSimulacion extends JPanel {
-	Map <Solicitante, String> solicitantesMotivo = new IdentityHashMap<>(); //esta bien esto?
-	private DefaultListModel<String> llamadoDLM = new DefaultListModel<>();
-	private JList<String> llamadosJList;
+	private DefaultListModel<Llamado> llamadoDLM = new DefaultListModel<>();
+	private JList<Llamado> llamadosJList;
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panelSimulacion;
@@ -153,28 +153,21 @@ public class VentanaSimulacion extends JPanel {
 		this.btnFinalizar = new JButton("Finalizar");
 		this.panelControl.add(this.btnFinalizar);
 	}
-	private void refrescarLista() {
-		this.llamadoDLM.clear();
-		for (Entry<Solicitante, String> solicitanteMotivo : solicitantesMotivo.entrySet()) {
-			this.llamadoDLM.addElement(solicitanteMotivo.getKey() + " " + solicitanteMotivo.getValue());
-		}
-		this.llamadosJList.revalidate();
-	}
 	
-
-	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud) {
-		this.solicitantesMotivo.put(solicitante, tipoDeSolicitud);
-		this.refrescarLista();
+	public void aniadirLlamado(Llamado llamado) {
+		this.llamadoDLM.addElement(llamado);
 	}
 
 	public void retirarLlamado(Solicitante solicitante) {
-		this.solicitantesMotivo.remove(solicitante);
-		this.refrescarLista();
+		assert solicitante != null;
+		int i = 0;
+		while(!this.llamadoDLM.get(i).getSolicitante().equals(solicitante))
+			i++;
+		this.llamadoDLM.remove(i);
 	}
 
 	public void informarCambioEstado(IEstado estadoAmbulancia) {
 		this.labelEstadoAmbulancia.setText(estadoAmbulancia.toString());
-		//TODO
 	}
 	
 	

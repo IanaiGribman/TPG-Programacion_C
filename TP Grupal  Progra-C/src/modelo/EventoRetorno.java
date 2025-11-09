@@ -22,11 +22,13 @@ public class EventoRetorno extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			for (int i = 0; i < this.cantSolicitudes && !Thread.currentThread().isInterrupted(); i++)
+			int i = 0;
+			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				Util.tiempoMuerto();
-				this.ambulancia.retornoAutomatico();
+				this.ambulancia.retornoAutomatico(this);
 				Util.tiempoMuerto();
+				i++;
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();

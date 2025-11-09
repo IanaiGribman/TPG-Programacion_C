@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Util.Acciones;
+import modelo.Llamado;
 import modelo.Solicitante;
 import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
@@ -52,21 +53,6 @@ public class JFramePrincipal extends JFrame implements IVista {
 	public String getDniAEliminar() {
 		return this.ventanaGestion.getDNI();
 	}
-
-	@Override
-	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud) {
-		this.ventanaSimulacion.aniadirLlamado(solicitante, tipoDeSolicitud);
-	}
-
-	@Override
-	public void retirarLlamado(Solicitante solicitante) {
-		this.ventanaSimulacion.retirarLlamado(solicitante);
-	}
-
-	@Override
-	public void infomarCambioEstado(IEstado estadoAmbulancia) {
-		this.ventanaSimulacion.informarCambioEstado(estadoAmbulancia);
-	}
 		
 	/**
 	 * Maneja las notificaciones de cambio en el modelo
@@ -79,18 +65,39 @@ public class JFramePrincipal extends JFrame implements IVista {
 			this.displayError((String) evt.getNewValue());
 			break;
 		}
+		
 		case Acciones.REGISTRAR: {
 			this.ventanaGestion.addAsociadoPermanencia((AsociadoDTO) evt.getNewValue());
 			break;
 		}
+		
 		case Acciones.ELIMINAR: {
 			this.ventanaGestion.removeAsociadoPermanencia((String) evt.getNewValue());
 			break;
 		}
+		
 		case Acciones.CARGAR: {
 			@SuppressWarnings("unchecked")
 			List<AsociadoDTO> newValue = (List<AsociadoDTO>) evt.getNewValue();
 			this.ventanaGestion.cargarListaAsociados(newValue);
+			break;
+		}
+		
+		case Acciones.NUEVO_LLAMADO: {
+			System.out.println("nuevo");
+			this.ventanaSimulacion.aniadirLlamado((Llamado) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.QUITAR_LLAMADO: {
+			System.out.println("quitar");
+			this.ventanaSimulacion.retirarLlamado((Solicitante) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.ESTADO: {
+			this.ventanaSimulacion.informarCambioEstado((IEstado) evt.getNewValue());
+			break;
 		}
 		}
 		// y el resto de las acciones por cada cambio
@@ -135,5 +142,10 @@ public class JFramePrincipal extends JFrame implements IVista {
 	public void setWindowListener(WindowListener windowListener) {
 		assert windowListener != null;
 		this.addWindowListener(windowListener);
+	}
+
+	@Override
+	public List<AsociadoDTO> getListaAsociadosSimulacion() {
+		return this.ventanaGestion.getListaAsociadosSimulacion();
 	}
 }

@@ -113,15 +113,12 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 
 	/**
 	 * Cierra la conexion con la BD, necesaria para garantizar la persistencia de
-	 * los cambios hechos durante la conexion abierta Si no puede terminar la
-	 * conexion lanza excepcion
+	 * los cambios hechos durante la conexion abierta
 	 */
 	@Override
-	public void cerrarConexion() throws SQLException, SinConexionException {
-		if (conexion != null) {
+	public void cerrarConexion() throws SQLException {
+		if (conexion != null)
 			conexion.close();
-		} else
-			throw new SinConexionException();
 	}
 
 	/**

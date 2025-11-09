@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowListener;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -564,6 +565,10 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnRegistrar.addActionListener(actionListener);
 		this.btnEliminar.addActionListener(actionListener);
 		this.btnInicializar.addActionListener(actionListener);
+	}
+	
+	public List<AsociadoDTO> getListaAsociadosSimulacion() {
+		return Collections.list(this.asociadosSimulacionDLM.elements());
 	}
 
 }

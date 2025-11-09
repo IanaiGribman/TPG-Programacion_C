@@ -47,12 +47,11 @@ public interface IVista {
 	 */
 	public void displayWarning(String mensajeWarning);
 	
-	
-	// LES PARECE BIEN ESTOS METODOS PARA LA SIMULACION DE LA AMBULANCIA?
-	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud);
-	public void retirarLlamado(Solicitante solicitante);
-	// se le puede aniadir a los estados de ambulancia un toString que diga que esta haciendo la ambulancia en el momento?
-	public void infomarCambioEstado(IEstado estadoAmbulancia);	
+	/**
+	 * devuelve lista con los asociados para la simulacion
+	 * @return
+	 */
+	public List<AsociadoDTO> getListaAsociadosSimulacion();
 	
 	public void propertyChange(PropertyChangeEvent evt);
 	public void setActionListener(ActionListener actionListener);

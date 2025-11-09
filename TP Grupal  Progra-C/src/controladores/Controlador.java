@@ -6,13 +6,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Util.Acciones;
 import modelo.Ambulancia;
+import modelo.Asociado;
+import modelo.EventoRetorno;
 import modelo.ModuloAsociados;
+import modelo.Operario;
 import persistencia.AsociadoDTO;
 import vista.IVista;
 
@@ -24,6 +29,8 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 	private IVista vista;
 	private Ambulancia ambulancia;
 	private ModuloAsociados moduloAsociados;
+	//horrible depsues lo cambio
+	private int maxSolicitudes = 5;
 	
 	
 	public Controlador(IVista vista, Ambulancia ambulancia, ModuloAsociados moduloAsociados) {
@@ -58,7 +65,8 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		switch(e.getActionCommand()) {
 		
 		case Acciones.GESTION: {
-			vista.mostrarGestion();
+			this.ambulancia.finalizarSimulacion();
+			//vista.mostrarGestion();
 			break;
 		}
 		
@@ -85,8 +93,14 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		}
 		
 		case Acciones.SIMULACION: {
-			//pasarle los asociados que van a la simulacion, crear los threads y hacer .start()
 			vista.mostrarSimulacion();
+			this.ambulancia.activarSimulacion();
+			this.crearHilosInicio(this.vista.getListaAsociadosSimulacion());
+			break;
+		}
+		
+		case Acciones.MANTENIMIENTO: {
+			new Thread(new Operario(this.ambulancia)).start();
 			break;
 		}
 		}
@@ -100,5 +114,13 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
     public void windowClosing(WindowEvent e) {
         this.moduloAsociados.cerrarConexion();
     }
+	
+	protected void crearHilosInicio(List<AsociadoDTO> lista) {
+		Random r = new Random();
+		for (AsociadoDTO asocDTO: lista) {
+			new Thread(new Asociado(this.ambulancia, r.nextInt(this.maxSolicitudes), asocDTO)).start();
+		}
+		new Thread(new EventoRetorno(this.ambulancia, r.nextInt(this.maxSolicitudes))).start();;
+	}
 
 }
