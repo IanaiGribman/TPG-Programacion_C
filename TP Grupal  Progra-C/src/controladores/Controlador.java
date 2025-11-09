@@ -29,10 +29,14 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 		this.vista = vista;
 		this.ambulancia = ambulancia;
 		this.moduloAsociados = moduloAsociados;
+		//setteo que el controlador observe estos objetos
 		this.vista.setActionListener(this);
 		this.ambulancia.addPropertyChangeListener(this);
 		this.moduloAsociados.addPropertyChangeListener(this);
+		//abro la conexion
 		this.moduloAsociados.abrirConexion();
+		//que el modelo le "pase" la lista de asociados a la vista
+		this.moduloAsociados.leerAsociados();
 	}
 	
 	/**
@@ -49,21 +53,28 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
+		
 		case Acciones.GESTION: {
 			vista.mostrarGestion();
+			this.moduloAsociados.abrirConexion();
+			this.moduloAsociados.leerAsociados();
 			break;
 		}
+		
 		case Acciones.REGISTRAR: {
 			AsociadoDTO asociadoNuevo = vista.getAsociadoNuevo();
-			this.moduloAsociados.agregarAsociado(vista.getNewAsociado());
-			this.vista.addAsociadoPermanencia(asociadoNuevo);
+			this.moduloAsociados.agregarAsociado(asociadoNuevo);
 			break;
 		}
+		
 		case Acciones.ELIMINAR: {
 			this.moduloAsociados.eliminarAsociado(vista.getDniAEliminar());
 			break;
 		}
+		
 		case Acciones.INICIALIZAR: {
+			this.vista.vaciarListasAsoc();
+			this.vista.displayWarning("Esta accion borrara la tabla de asociados (si existe) y la creara");
 			this.moduloAsociados.crearTablaAsociados();
 			// despues veo bien para que no quede tan hardcodeado
 			this.moduloAsociados.agregarAsociado(new AsociadoDTO("Gojo Satoru", "99999999"));
@@ -71,10 +82,12 @@ public class Controlador implements ActionListener, PropertyChangeListener{
 			this.moduloAsociados.agregarAsociado(new AsociadoDTO("Franco Colapinto", "55555555"));
 			break;
 		}
+		
 		case Acciones.SIMULACION: {
 			//pasarle los asociados que van a la simulacion, crear los threads y hacer .start()
-			vista.mostrarSimulacion();
 			this.moduloAsociados.cerrarConexion();
+			this.vista.vaciarListasAsoc();
+			vista.mostrarSimulacion();
 			break;
 		}
 		}

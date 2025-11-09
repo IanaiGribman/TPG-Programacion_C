@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistencia.excepciones.NoEliminadoException;
 import persistencia.excepciones.SinConexionException;
 
 /**
@@ -40,7 +41,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 			while (resultado.next()) {
 				String dni = resultado.getString(IBaseDeDatos.nombreCampoAsociadosDni);
 				String nombre = resultado.getString(IBaseDeDatos.nombreCampoAsociadosNombre);
-				asociados.add(new AsociadoDTO(dni, nombre));
+				asociados.add(new AsociadoDTO(nombre, dni));
 			}
 
 		} else
@@ -72,12 +73,15 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 * dni != null
 	 */
 	@Override
-	public void eliminarAsociado(String dni) throws SQLException, SinConexionException {
+	public void eliminarAsociado(String dni) throws SQLException, SinConexionException, NoEliminadoException {
 		if (conexion != null) {
 			PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM "+nombreTablaAsociados +
 																	" WHERE " + nombreCampoAsociadosDni + "=?");
 			sentencia.setString(1, dni);
-			sentencia.execute();
+			int filaAfectada = sentencia.executeUpdate();
+			if (filaAfectada == 0)
+				throw new NoEliminadoException();
+				
 		}else
 			throw new SinConexionException();
 	}
@@ -94,8 +98,8 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// debug
-			System.out.println(e);
-			e.printStackTrace();
+			//System.out.println(e);
+			//e.printStackTrace();
 		}
 
 		conexion = DriverManager.getConnection(this.parametros.getDireccion(), this.parametros.getUsuario(),

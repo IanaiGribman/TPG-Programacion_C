@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -31,6 +32,9 @@ import javax.swing.event.ListSelectionListener;
 import Util.Acciones;
 import persistencia.AsociadoDTO;
 
+/**
+ * Es la vista en la cual los usuarios manipulan a los asociados y configuran la simulacion
+ */
 public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" +
@@ -367,9 +371,6 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	public String getDNI() {
 		return this.textFieldDniEliminacion.getText();
 	}
-
-	public void setTablaAsociados(Collection<AsociadoDTO> asociados) {
-	}
 	
 	public void clearRegistroTextFields() {
 		this.textFieldNombre.setText("");
@@ -412,7 +413,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		}	
 	}
 	private void revalidadBotonEliminar() {
-		if (!this.asociadosSimulacionDLM.isEmpty())
+		if (!this.asociadosSimulacionDLM.isEmpty() || this.asociadosPersistenciaDLM.isEmpty())
 			actualizarBtn(this.btnEliminar, false, null);
 		else {
 			try {
@@ -425,13 +426,14 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		}
 	}
 	
+
 	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
 		boton.setEnabled(activar);
 		boton.setToolTipText(mensajeToolTip);
 	}
 
 	/**
-	 * esto ocurre cuando se selecciona un asociado en alguna lista
+	 * Realiza acciones en base a la seleccion de un elemento en alguna lista JList
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
@@ -470,6 +472,10 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		}
 	}
 	
+	/**
+	 * Quita la seleccion sobre los elementos de una JList dada
+	 * @param lista JList
+	 */
 	public void deseleccionarLista(JList<AsociadoDTO> lista) {
 		this.deseleccionando = true;
 		lista.clearSelection();
@@ -478,33 +484,54 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	    });
 	}
 	
+	/**
+	 * Saca un asociado de la lista de simulacion si ya no estaba
+	 * @param asociado
+	 */
 	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
 		this.asociadosSimulacionDLM.removeElement(asociado);
-		this.asociadosSumulacionJList.revalidate();
-	}
-	
-	public void setActionListener(ActionListener actionListener) {
-		this.btnSimular.addActionListener(actionListener);
-		this.btnRegistrar.addActionListener(actionListener);
-		this.btnEliminar.addActionListener(actionListener);
-		this.btnInicializar.addActionListener(actionListener);
 	}
 
+	/**
+	 * Agrega un asociado a la lista de simulacion
+	 * @param asociado
+	 */
 	public void addAsociadoSimulacion(AsociadoDTO asociado) {
 		if (!this.asociadosSimulacionDLM.contains(asociado)) {
 			this.asociadosSimulacionDLM.addElement(asociado);
-			this.asociadosSumulacionJList.revalidate();
 		}
 	}
+	
+	/**
+	 * Agrega una asociado a la lista de persistencia y limpia el formulario de registro
+	 * @param asociado
+	 */
 	public void addAsociadoPermanencia(AsociadoDTO asociado) {
 		this.asociadosPersistenciaDLM.addElement(asociado);
-		this.asociadosPersistenciaJList.revalidate();
 		clearRegistroTextFields();
 	}
 
-	public void removeAsociadoPermanencia(AsociadoDTO asociado) {
-		this.asociadosPersistenciaDLM.removeElement(asociado);
-		this.asociadosPersistenciaJList.revalidate();
+	/**
+	 * Saca un asociado de la lista de persistencia dado un dni y setea los botones
+	 * @param dniAEliminar
+	 */
+	public void removeAsociadoPermanencia(String dniAEliminar) {
+		int i = 0;
+		while (!asociadosPersistenciaDLM.getElementAt(i).getDni().equals(dniAEliminar))
+			i++;
+		//por como esta diseñado, el dni debe estar si o si
+		asociadosPersistenciaDLM.remove(i);
+		this.revalidadBotonEliminar();
+		this.btnAgregarASimulacion.setEnabled(false);
+	}
+	
+	/**
+	 * Carga en la lista de simulacion un lista de asociados dada
+	 * @param lista de asociadosDTO
+	 */
+	public void cargarListaAsociados(List<AsociadoDTO> lista) {
+		for (AsociadoDTO asoc: lista)
+			this.asociadosPersistenciaDLM.addElement(asoc);
 	}
 
 	/**
@@ -512,10 +539,30 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		assert asociadosPersistenciaJList.getSelectedValue() != null;
 		this.addAsociadoSimulacion(this.asociadosPersistenciaJList.getSelectedValue());
 		this.deseleccionarLista(asociadosPersistenciaJList);
 		this.btnAgregarASimulacion.setEnabled(false);
 		this.revalidadBotonEliminar();
+	}
+	
+	/**
+	 * Vacia las listas de persistencia y simulacion
+	 */
+	public void vaciarListas() {
+		this.asociadosPersistenciaDLM.clear();
+		this.asociadosSimulacionDLM.clear();
+	}
+	
+	/**
+	 * Coloca el action listener en los botonones
+	 * @param actionListener
+	 */
+	public void setActionListener(ActionListener actionListener) {
+		this.btnSimular.addActionListener(actionListener);
+		this.btnRegistrar.addActionListener(actionListener);
+		this.btnEliminar.addActionListener(actionListener);
+		this.btnInicializar.addActionListener(actionListener);
 	}
 
 }
