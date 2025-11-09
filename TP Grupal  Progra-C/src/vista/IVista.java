@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.List;
@@ -55,5 +56,5 @@ public interface IVista {
 	
 	public void propertyChange(PropertyChangeEvent evt);
 	public void setActionListener(ActionListener actionListener);
-
+	public void setWindowListener(WindowListener windowListener);
 }

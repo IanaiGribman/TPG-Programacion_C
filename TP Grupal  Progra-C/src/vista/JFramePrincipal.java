@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.List;
@@ -128,5 +129,11 @@ public class JFramePrincipal extends JFrame implements IVista {
 	protected void displayPopUp(String titulo, String mensaje, String textoBoton) {
 		CustomPopUp cpu = new CustomPopUp(this);
 		cpu.mostrar(titulo, mensaje, textoBoton);
+	}
+
+	@Override
+	public void setWindowListener(WindowListener windowListener) {
+		assert windowListener != null;
+		this.addWindowListener(windowListener);
 	}
 }
