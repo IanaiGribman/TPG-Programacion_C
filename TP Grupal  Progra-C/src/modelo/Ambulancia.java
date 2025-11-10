@@ -3,6 +3,7 @@ package modelo;
 import Util.Acciones;
 import patrones.observer.ObservableAbstracto;
 import patrones.state.EstadoDisponible;
+import patrones.state.EstadoRegresaSinPaciente;
 import patrones.state.IEstado;
 
 public class Ambulancia extends ObservableAbstracto {
@@ -23,6 +24,7 @@ public class Ambulancia extends ObservableAbstracto {
 	    IEstado estadoViejo = this.estado;
 	    this.estado = estadoNuevo;
 	    this.firePropertyChange(Acciones.ESTADO, estadoViejo, estadoNuevo); // notifico el cambio
+	    notifyAll();
 	}
 	
 	/**
@@ -30,21 +32,35 @@ public class Ambulancia extends ObservableAbstracto {
 	 */
 
 	public synchronized void solicitarAtencionDomicilio(Asociado asociado) throws InterruptedException {
+		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "traslado a clinica"));
+	   while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
+	        wait();
+	    }
 		this.estado.atencionADomicilio(); // transicion
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
 	} 
 	
 	public synchronized void solicitarTraslado(Asociado asociado) throws InterruptedException {
+		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "atencion a domicilio"));
+	    while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
+	        wait();
+	    }
 		this.estado.trasladoAClinica();
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
 	}
 	
 	public synchronized void solicitarMantenimiento(Operario operario) throws InterruptedException {
+		while (!(this.estado instanceof EstadoDisponible)) {
+	        wait();
+	    }
 		this.estado.mantenimiento();
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, operario);
 	}
 	
 	public synchronized void retornoAutomatico(EventoRetorno evt) throws InterruptedException {
+		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(evt, "traslado a clinica"));
+		while(!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente))
+			wait();
 		this.estado.retorno();
 		this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
 	}

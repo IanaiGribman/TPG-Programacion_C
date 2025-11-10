@@ -2,13 +2,13 @@
 <java version="1.8.0_401" class="java.beans.XMLDecoder">
  <object class="persistencia.ParametrosBaseDeDatos">
   <void property="clave">
-   <string>progra_c</string>
+   <string></string>
   </void>
   <void property="direccion">
    <string>jdbc:mysql://localhost:3306/</string>
   </void>
   <void property="usuario">
-   <string>progra_c</string>
+   <string>root</string>
   </void>
   <void property="nombre">
   	<string>Grupo_5</string>

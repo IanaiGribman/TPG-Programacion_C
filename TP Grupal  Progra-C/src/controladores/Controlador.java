@@ -99,7 +99,7 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 			vista.mostrarSimulacion();
 			this.ambulancia.activarSimulacion();
 			this.crearHilosAsociados(this.vista.getListaAsociadosSimulacion(), r);
-			this.crearHilo(new EventoRetorno(this.ambulancia, r.nextInt(this.maxSolicitudes)));
+			this.crearHilo(new EventoRetorno(this.ambulancia));
 			break;
 		}
 		
@@ -125,7 +125,6 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 	}
 
 	protected void crearHilo(Solicitante solicitante) {
-		solicitante.addPropertyChangeListener(this);
 		new Thread(solicitante).start();
 	}
 }

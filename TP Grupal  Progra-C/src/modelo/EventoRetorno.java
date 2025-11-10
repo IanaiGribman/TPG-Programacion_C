@@ -8,11 +8,8 @@ import Util.Util;
  */
 public class EventoRetorno extends Solicitante {
 
-	private int cantSolicitudes;
-	
-	public EventoRetorno(Ambulancia ambulancia, int cantSolicitudes) {
+	public EventoRetorno(Ambulancia ambulancia) {
 		super(ambulancia);
-		this.cantSolicitudes = cantSolicitudes;
 	}
 
 	@Override
@@ -23,14 +20,12 @@ public class EventoRetorno extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			int i = 0;
-			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
+			while (this.ambulancia.isSimulacionActiva())
 			{
 				this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "retorno a clinica"));
 				Util.tiempoMuerto();
 				this.ambulancia.retornoAutomatico(this);
 				Util.tiempoMuerto();
-				i++;
 			}
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();

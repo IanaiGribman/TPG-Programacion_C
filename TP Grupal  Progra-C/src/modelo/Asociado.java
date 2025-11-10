@@ -34,15 +34,13 @@ public class Asociado extends Solicitante implements IPersona
 			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
-				
+				//Util.tiempoMuerto();
 				if (traslado) {
-					this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "traslado a clinica"));
-					Util.tiempoMuerto();
+					//Util.tiempoMuerto();
 					this.ambulancia.solicitarTraslado(this);
 				}
 				else {
-					this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "atencion a domicilio"));
-					Util.tiempoMuerto();
+					//Util.tiempoMuerto();
 					this.ambulancia.solicitarAtencionDomicilio(this);
 				}
 				

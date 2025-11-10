@@ -22,8 +22,7 @@ public class Operario extends Solicitante {
 	public void run() {
 		try {
 			if (this.ambulancia.isSimulacionActiva()) {
-				this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "traslado a clinica"));
-				Util.tiempoMuerto(); // espera entre intentos de pedir mantenimiento
+				//Util.tiempoMuerto(); // espera entre intentos de pedir mantenimiento
 				this.ambulancia.solicitarMantenimiento(this);
 			}
 		} catch(InterruptedException e) {
