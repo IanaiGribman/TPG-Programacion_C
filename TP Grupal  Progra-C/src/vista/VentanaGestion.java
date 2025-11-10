@@ -62,6 +62,11 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 																  "</font> </b> <b> <font color='black'> " +
 																	 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
 																  "</font> </b> </html>";
+	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" +
+																	 "Error: " +
+																  "</font> </b> <b> <font color='black'> " +
+																	 "El asociado ya se encuentra en simulacion" +
+																  "</font> </b> </html>";
 
 	
 	private DefaultListModel<AsociadoDTO> asociadosPersistenciaDLM = new DefaultListModel<>();
@@ -497,8 +502,18 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private void revalidarBotonAgregarSimulacion() {
 		if (this.asociadosPersistenciaJList.isSelectionEmpty())
 			this.actualizarBtn(this.btnAgregarASimulacion,false, this.toolTipSeleccionPersistenciaVacia);
-		else
-			this.actualizarBtn(this.btnAgregarASimulacion, true, "");
+		else {
+			AsociadoDTO asociado = this.asociadosPersistenciaJList.getSelectedValue();
+			if (this.estaEnSimulacion(asociado))
+				this.actualizarBtn(this.btnAgregarASimulacion, false, toolTipSeEncuentraEnSimulacion);
+			else
+				this.actualizarBtn(this.btnAgregarASimulacion, true, "");
+		}
+	}
+
+
+	private boolean estaEnSimulacion(AsociadoDTO asociado) {
+		return this.asociadosSimulacionDLM.contains(asociado);
 	}
 
 
@@ -527,7 +542,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			
 			AsociadoDTO asoc = this.asociadosPersistenciaJList.getSelectedValue();
 			if (asoc != null) {
-				this.textFieldDniEliminacion.setText(asoc.getDni());
+				if (this.asociadosSimulacionDLM.isEmpty())
+					this.textFieldDniEliminacion.setText(asoc.getDni()); //si no esta vacia no tiene sentido añadir el dni
 				this.revalidadBotonEliminar();
 				this.revalidarBotonAgregarSimulacion();
 			}
@@ -543,7 +559,6 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 				AsociadoDTO asoc = this.asociadosSimulacionJList.getSelectedValue();
 				if (asoc != null) {
 					this.removeAsociadoSimulacion(asoc);
-					this.revalidadBotonEliminar();
 				}
 			}
 	}
@@ -566,6 +581,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 */
 	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
 		this.asociadosSimulacionDLM.removeElement(asociado);
+		this.revalidadBotonEliminar();
 	}
 
 	/**
