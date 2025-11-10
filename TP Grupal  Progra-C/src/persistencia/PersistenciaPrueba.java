@@ -19,8 +19,8 @@ public class PersistenciaPrueba {
 			int base = 1;
 			int cant = 10;
 			
-			for(int i = 0; i < cant; i++)
-				bd.eliminarAsociado(String.valueOf(i+base));
+			//for(int i = 0; i < cant; i++)
+			//	bd.eliminarAsociado(String.valueOf(i+base));
 			
 			for(AsociadoDTO asociado : bd.leerAsociados())
 				System.out.println(asociado);
@@ -33,6 +33,13 @@ public class PersistenciaPrueba {
 			for(AsociadoDTO asociado : bd.leerAsociados())
 				System.out.println(asociado);
 			
+			bd.reiniciarTablaAsociados();
+			
+			System.out.println("--------------------reiniciado :");
+			
+			for(AsociadoDTO asociado : bd.leerAsociados())
+				System.out.println(asociado);
+			
 			bd.cerrarConexion();
 			System.out.println("Se ha desconectado de la base de datos");
 		} catch (SQLException e) {
@@ -40,9 +47,9 @@ public class PersistenciaPrueba {
 			e.printStackTrace();
 		} catch (SinConexionException e) {
 			System.out.println(e);
-		} catch (NoEliminadoException e) {
+		}// catch (NoEliminadoException e) {
 			
-		}
+		//}
 	}
 
 }
