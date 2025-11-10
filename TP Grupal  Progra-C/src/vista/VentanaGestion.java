@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowListener;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,11 +42,26 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 													   "</font> </b> <b> <font color='black'> "  +
 															"complete ambos campos de texto" +
 													   "</font> </b> </html>";
-	private static final String toolDniNumerico = "<html> <b> <font color='red'>" +
+	private static final String toolTipDniNumerico = "<html> <b> <font color='red'>" +
 													 "Error: " +
 												  "</font> </b> <b> <font color='black'> " +
 													 "el dni debe ser numerico" +
 												  "</font> </b> </html>";
+	private static final String toolTipVaciaSimulacion = "<html> <b> <font color='red'>" +
+														 "Error: " +
+													  "</font> </b> <b> <font color='black'> " +
+														 "Debe vaciar la ventana de simulacion para eliminar un asociado" +
+													  "</font> </b> </html>";
+	private static final String toolTipSimulacionVacia = "<html> <b> <font color='red'>" +
+															 "Error: " +
+														  "</font> </b> <b> <font color='black'> " +
+															 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+														  "</font> </b> </html>";
+	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='red'>" +
+																	 "Error: " +
+																  "</font> </b> <b> <font color='black'> " +
+																	 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+																  "</font> </b> </html>";
 
 	
 	private DefaultListModel<AsociadoDTO> asociadosPersistenciaDLM = new DefaultListModel<>();
@@ -117,11 +130,15 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.asociadosSumulacionJList.setModel(asociadosSimulacionDLM);
 		this.asociadosSumulacionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.scrollPaneSimulacion.setViewportView(this.asociadosSumulacionJList);
+		
 		this.revalidadBotonEliminar();
 		this.revalidadBotonRegistrar();
+		this.revalidarBotonSimulacion();
+		this.revalidarBotonAgregarSimulacion();
 		
 		}
- 
+
+
 	private void configurarBotones() {
 		this.btnSimular.setActionCommand(Acciones.SIMULACION);	
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
@@ -441,24 +458,38 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 				actualizarBtn(this.btnRegistrar, true, null);
 			}
 			catch (Exception e) {
-				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolDniNumerico);
+				actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipDniNumerico);
 			}
 		}	
 	}
 	private void revalidadBotonEliminar() {
-		if (!this.asociadosSimulacionDLM.isEmpty() || this.asociadosPersistenciaDLM.isEmpty())
-			actualizarBtn(this.btnEliminar, false, null);
+		if (!this.asociadosSimulacionDLM.isEmpty())
+			actualizarBtn(this.btnEliminar, false, toolTipVaciaSimulacion);
 		else {
 			try {
 				Integer.parseInt(textFieldDniEliminacion.getText());
 				actualizarBtn(this.btnEliminar, true, null);
 			}
 			catch (Exception e) {
-				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolDniNumerico);
+				actualizarBtn(this.btnEliminar, false, VentanaGestion.toolTipDniNumerico);
 			}
 		}
 	}
+	 
+	private void revalidarBotonSimulacion() {
+		if (this.asociadosSimulacionDLM.isEmpty())
+			this.actualizarBtn(this.btnSimular, false, this.toolTipSimulacionVacia);
+		else
+			this.actualizarBtn(this.btnSimular, true, "");
+	}
 	
+	private void revalidarBotonAgregarSimulacion() {
+		if (this.asociadosPersistenciaJList.isSelectionEmpty())
+			this.actualizarBtn(this.btnAgregarASimulacion,false, this.toolTipSeleccionPersistenciaVacia);
+		else
+			this.actualizarBtn(this.btnAgregarASimulacion, true, "");
+	}
+
 
 	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
 		boton.setEnabled(activar);
@@ -554,8 +585,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			i++;
 		//por como esta diseÃ±ado, el dni debe estar si o si
 		asociadosPersistenciaDLM.remove(i);
-		this.revalidadBotonEliminar();
-		this.btnAgregarASimulacion.setEnabled(false);
+		this.clearEliminacionTextFields();
+		this.revalidarBotonSimulacion();
 	}
 	
 	/**
@@ -577,6 +608,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.deseleccionarLista(asociadosPersistenciaJList);
 		this.btnAgregarASimulacion.setEnabled(false);
 		this.revalidadBotonEliminar();
+		this.revalidarBotonSimulacion();
 	}
 	
 	/**
