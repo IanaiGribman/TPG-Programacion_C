@@ -21,8 +21,10 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 * Empieza desconectada a la base de datos *
 	 * 
 	 * @param parametros (clase que encapsula la direccion, el usuario y la clave)
+	 * pre: parametros != null
 	 */
 	public BaseDeDatosDAO(ParametrosBaseDeDatos parametros) {//Es correcto? o deberia pasar parametro por parametro?
+		assert parametros != null: "No se puede tener una base de datos sin un objeto de parametros";
 		this.parametros = parametros;
 	}
 
@@ -55,6 +57,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void agregarAsociado(AsociadoDTO asociado) throws SQLException, SinConexionException {
+		assert asociado != null: "No se puede agregar un asociado null a la base de datos";
 		if (conexion != null) { // quiza convenga lanzar excepcion cuando no hay conexion, para avisar (?)
 			PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO "+nombreTablaAsociados+
 																	" ("+nombreCampoAsociadosDni+", "
@@ -73,6 +76,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void eliminarAsociado(String dni) throws SQLException, SinConexionException {
+		assert dni != null: "No se puede eliminar a un asociado con dni null";
 		if (conexion != null) {
 			PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM "+nombreTablaAsociados +
 																	" WHERE " + nombreCampoAsociadosDni + "=?");
