@@ -1,5 +1,6 @@
 package modelo;
 
+import Util.Acciones;
 import Util.Util;
 
 /**
@@ -25,6 +26,7 @@ public class EventoRetorno extends Solicitante {
 			int i = 0;
 			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
+				this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "retorno a clinica"));
 				Util.tiempoMuerto();
 				this.ambulancia.retornoAutomatico(this);
 				Util.tiempoMuerto();

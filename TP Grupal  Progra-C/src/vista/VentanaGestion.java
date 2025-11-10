@@ -65,7 +65,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel panelAsociadosPermanenciaBorde;
 	private JPanel panelCreacion;
 	private JPanel panelEliminacion;
-	private JPanel panelControles;
+	private JPanel panelInicializacion;
 	private JLabel labelNombeCreacion;
 	private JLabel labelDNICreacion;
 	private JTextField textFieldNombre;
@@ -89,6 +89,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JPanel BordeSimulacion;
 	private JPanel panelSimulacion;
 	private JButton btnAgregarASimulacion;
+	private JPanel BordeInicializacion;
 	private boolean deseleccionando;
 
 	public VentanaGestion() {
@@ -169,17 +170,12 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		gbl_panelDerecho.columnWidths = new int[]{0, 0};
 		gbl_panelDerecho.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_panelDerecho.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelDerecho.rowWeights = new double[]{0.45, 0.2, 0.2, 0.15, Double.MIN_VALUE};
+		gbl_panelDerecho.rowWeights = new double[]{0.45, 0.2, 0.15, 0.2, Double.MIN_VALUE};
 		this.panelDerecho.setLayout(gbl_panelDerecho);
 		
 		this.BordeCreacion = new JPanel();
 		this.BordeCreacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Creacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_bordeCreacion = new GridBagConstraints();
-		gbc_bordeCreacion.fill = GridBagConstraints.BOTH;
-		gbc_bordeCreacion.insets = new Insets(0, 0, 5, 0);
-		gbc_bordeCreacion.gridx = 0;
-		gbc_bordeCreacion.gridy = 0;
-		this.panelDerecho.add(this.BordeCreacion, gbc_bordeCreacion);
+		this.panelDerecho.add(this.BordeCreacion, crearGBCBorde(0));
 		GridBagLayout gbl_bordeCreacion = new GridBagLayout();
 		gbl_bordeCreacion.columnWidths = new int[]{0, 0};
 		gbl_bordeCreacion.rowHeights = new int[]{0, 0};
@@ -196,58 +192,17 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.panelCreacion.setLayout(new GridLayout(3, 0, 0, 0));
 		
 		this.hacerPanelCreacion();
+		
+		//armo el panel simulacion y luego lo añado al panel derecho
 		this.hacerPanelSimulacion();
+		this.panelDerecho.add(this.BordeSimulacion, crearGBCBorde(3));
 		
-		this.BordeEliminacion = new JPanel();
-		this.BordeEliminacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Eliminacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_bordeEliminacion = new GridBagConstraints();
-		gbc_bordeEliminacion.fill = GridBagConstraints.BOTH;
-		gbc_bordeEliminacion.insets = new Insets(0, 0, 5, 0);
-		gbc_bordeEliminacion.gridx = 0;
-		gbc_bordeEliminacion.gridy = 1;
-		this.panelDerecho.add(this.BordeEliminacion, gbc_bordeEliminacion);
-		GridBagLayout gbl_bordeEliminacion = new GridBagLayout();
-		gbl_bordeEliminacion.columnWidths = new int[]{0, 0};
-		gbl_bordeEliminacion.rowHeights = new int[]{0, 0};
-		gbl_bordeEliminacion.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_bordeEliminacion.rowWeights = new double[]{0.2, Double.MIN_VALUE};
-		this.BordeEliminacion.setLayout(gbl_bordeEliminacion);
+		this.hacerPanelElimacion();
+		this.panelDerecho.add(this.BordeEliminacion, crearGBCBorde(1));
 		
-		this.panelEliminacion = new JPanel();
-		GridBagConstraints gbc_panelEliminacion = new GridBagConstraints();
-		gbc_panelEliminacion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panelEliminacion.gridx = 0;
-		gbc_panelEliminacion.gridy = 0;
-		this.BordeEliminacion.add(this.panelEliminacion, gbc_panelEliminacion);
-		this.panelEliminacion.setLayout(new GridLayout(0, 3, 0, 0));
-		
-		this.labelDNIEliminacion = new JLabel("DNI", SwingConstants.CENTER);
-		this.panelEliminacion.add(this.labelDNIEliminacion);
-		
-		this.panel_7 = new JPanel();
-		this.panelEliminacion.add(this.panel_7);
-		
-		this.textFieldDniEliminacion = new JTextField();
-		this.textFieldDniEliminacion.addKeyListener(this);
-		this.panel_7.add(this.textFieldDniEliminacion);
-		this.textFieldDniEliminacion.setColumns(10);
-		
-		this.panel_6 = new JPanel();
-		this.panelEliminacion.add(this.panel_6);
-		
-		this.btnEliminar = new JButton("Eliminar");
-		this.panel_6.add(this.btnEliminar);
-		
-		this.panelControles = new JPanel();
-		GridBagConstraints gbc_panelControles = new GridBagConstraints();
-		gbc_panelControles.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panelControles.gridx = 0;
-		gbc_panelControles.gridy = 3;
-		this.panelDerecho.add(this.panelControles, gbc_panelControles);
-		this.panelControles.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		this.btnInicializar = new JButton("Inicializar");
-		this.panelControles.add(this.btnInicializar);
+		//armo el panel inicializcion BD
+		this.hacerPanelInicializacion();
+		this.panelDerecho.add(this.BordeInicializacion, crearGBCBorde(2));
 		
 	}
 
@@ -329,16 +284,13 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.panelAsociadosPermanencia.add(this.scrollPanePermanencia, BorderLayout.CENTER);
 	}
 
-	//----HAGO ACÁ EL PANEL DE SIMULACION ENTERO PORQUE ME PIERDO EN LO DE ARRIBA------
+	/**
+	 * arma el bloque simulacion. no lo añade al panel derecho
+	 */
 	public void hacerPanelSimulacion() {
 		this.BordeSimulacion = new JPanel();
 		this.BordeSimulacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Simulacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
-		GridBagConstraints gbc_bordeSimulacion = new GridBagConstraints();
-		gbc_bordeSimulacion.fill = GridBagConstraints.BOTH;
-		gbc_bordeSimulacion.insets = new Insets(0, 0, 5, 0);
-		gbc_bordeSimulacion.gridx = 0;
-		gbc_bordeSimulacion.gridy = 2; // fila 2, abajo del de Eliminacion
-		this.panelDerecho.add(this.BordeSimulacion, gbc_bordeSimulacion);
+		
 
 		GridBagLayout gbl_bordeSimulacion = new GridBagLayout();
 		gbl_bordeSimulacion.columnWidths = new int[]{0, 0};
@@ -361,6 +313,85 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.panelSimulacion.add(btnAgregarASimulacion);
 		this.btnSimular = new JButton("Simular");
 		this.panelSimulacion.add(this.btnSimular);
+	}
+	
+	/**
+	 * arma el bloque eliminacion. no lo añade al panel derecho
+	 */
+	public void hacerPanelElimacion() {
+		this.BordeEliminacion = new JPanel();
+		this.BordeEliminacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Eliminacion", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
+		GridBagLayout gbl_bordeEliminacion = new GridBagLayout();
+		gbl_bordeEliminacion.columnWidths = new int[]{0, 0};
+		gbl_bordeEliminacion.rowHeights = new int[]{0, 0};
+		gbl_bordeEliminacion.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_bordeEliminacion.rowWeights = new double[]{0.2, Double.MIN_VALUE};
+		this.BordeEliminacion.setLayout(gbl_bordeEliminacion);
+		
+		this.panelEliminacion = new JPanel();
+		GridBagConstraints gbc_panelEliminacion = new GridBagConstraints();
+		gbc_panelEliminacion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panelEliminacion.gridx = 0;
+		gbc_panelEliminacion.gridy = 0;
+		this.BordeEliminacion.add(this.panelEliminacion, gbc_panelEliminacion);
+		this.panelEliminacion.setLayout(new GridLayout(0, 3, 0, 0));
+		
+		this.labelDNIEliminacion = new JLabel("DNI", SwingConstants.CENTER);
+		this.panelEliminacion.add(this.labelDNIEliminacion);
+		
+		this.panel_7 = new JPanel();
+		this.panelEliminacion.add(this.panel_7);
+		
+		this.textFieldDniEliminacion = new JTextField();
+		this.textFieldDniEliminacion.addKeyListener(this);
+		this.panel_7.add(this.textFieldDniEliminacion);
+		this.textFieldDniEliminacion.setColumns(10);
+		
+		this.panel_6 = new JPanel();
+		this.panelEliminacion.add(this.panel_6);
+		
+		this.btnEliminar = new JButton("Eliminar");
+		this.panel_6.add(this.btnEliminar);
+	}
+	
+	/**
+	 * arma el bloque inicializacion. no lo añade al panel derecho
+	 */
+	public void hacerPanelInicializacion() {
+		this.BordeInicializacion = new JPanel();
+		this.BordeInicializacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Inicializacion BD", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));	
+		
+	    // Igual que en el panel de simulación
+	    GridBagLayout gbl_bordeInicializacion = new GridBagLayout();
+	    gbl_bordeInicializacion.columnWidths = new int[]{0, 0};
+	    gbl_bordeInicializacion.rowHeights = new int[]{0, 0};
+	    gbl_bordeInicializacion.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+	    gbl_bordeInicializacion.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+	    this.BordeInicializacion.setLayout(gbl_bordeInicializacion);
+
+	    this.panelInicializacion = new JPanel();
+	    GridBagConstraints gbc_panelInicializacion = new GridBagConstraints();
+	    gbc_panelInicializacion.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_panelInicializacion.gridx = 0;
+	    gbc_panelInicializacion.gridy = 0;
+	    gbc_panelInicializacion.insets = new Insets(5, 0, 5, 0);
+	    this.BordeInicializacion.add(this.panelInicializacion, gbc_panelInicializacion);
+
+	    // Igual que simulación: centrado y con espacios uniformes
+	    FlowLayout flowLayoutInicializacion = new FlowLayout(FlowLayout.CENTER, 10, 5);
+	    this.panelInicializacion.setLayout(flowLayoutInicializacion);
+
+	    this.btnInicializar = new JButton("Inicializar");
+	    this.panelInicializacion.add(this.btnInicializar);
+	}
+	
+	private GridBagConstraints crearGBCBorde(int fila) {
+		GridBagConstraints gbc = new GridBagConstraints();
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.gridx = 0;
+	    gbc.gridy = fila;
+	    gbc.insets = new Insets(0, 0, 5, 0);
+	    return gbc;
 	}
 
 	public AsociadoDTO getAsociado() {

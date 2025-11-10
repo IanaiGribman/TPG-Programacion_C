@@ -9,8 +9,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import Util.Acciones;
 import modelo.Ambulancia;
@@ -18,6 +16,7 @@ import modelo.Asociado;
 import modelo.EventoRetorno;
 import modelo.ModuloAsociados;
 import modelo.Operario;
+import modelo.Solicitante;
 import persistencia.AsociadoDTO;
 import vista.IVista;
 
@@ -47,6 +46,8 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		this.moduloAsociados.abrirConexion();
 		//que el modelo le "pase" la lista de asociados a la vista
 		this.moduloAsociados.leerAsociados();
+		// que la ambulancia notifique el estado inicial
+		this.ambulancia.notificarEstadoInicial();
 	}
 	
 	/**
@@ -93,14 +94,16 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		}
 		
 		case Acciones.SIMULACION: {
+			Random r = new Random();
 			vista.mostrarSimulacion();
 			this.ambulancia.activarSimulacion();
-			this.crearHilosInicio(this.vista.getListaAsociadosSimulacion());
+			this.crearHilosAsociados(this.vista.getListaAsociadosSimulacion(), r);
+			this.crearHilo(new EventoRetorno(this.ambulancia, r.nextInt(this.maxSolicitudes)));
 			break;
 		}
 		
 		case Acciones.MANTENIMIENTO: {
-			new Thread(new Operario(this.ambulancia)).start();
+			this.crearHilo(new Operario(this.ambulancia));
 			break;
 		}
 		}
@@ -115,12 +118,13 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
         this.moduloAsociados.cerrarConexion();
     }
 	
-	protected void crearHilosInicio(List<AsociadoDTO> lista) {
-		Random r = new Random();
-		for (AsociadoDTO asocDTO: lista) {
-			new Thread(new Asociado(this.ambulancia, r.nextInt(this.maxSolicitudes), asocDTO)).start();
-		}
-		new Thread(new EventoRetorno(this.ambulancia, r.nextInt(this.maxSolicitudes))).start();;
+	protected void crearHilosAsociados(List<AsociadoDTO> lista, Random r) {
+		for (AsociadoDTO asocDTO: lista)
+			this.crearHilo(new Asociado(this.ambulancia, r.nextInt(this.maxSolicitudes), asocDTO));
 	}
 
+	protected void crearHilo(Solicitante solicitante) {
+		solicitante.addPropertyChangeListener(this);
+		new Thread(solicitante).start();
+	}
 }

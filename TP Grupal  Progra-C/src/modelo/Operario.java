@@ -1,5 +1,6 @@
 package modelo;
 
+import Util.Acciones;
 import Util.Util;
 
 /**
@@ -21,9 +22,9 @@ public class Operario extends Solicitante {
 	public void run() {
 		try {
 			if (this.ambulancia.isSimulacionActiva()) {
+				this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "traslado a clinica"));
 				Util.tiempoMuerto(); // espera entre intentos de pedir mantenimiento
 				this.ambulancia.solicitarMantenimiento(this);
-				Util.tiempoMuerto(); // tiempo despues de realizar mantenimiento
 			}
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();

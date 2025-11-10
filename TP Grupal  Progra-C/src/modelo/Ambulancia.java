@@ -3,7 +3,6 @@ package modelo;
 import Util.Acciones;
 import patrones.observer.ObservableAbstracto;
 import patrones.state.EstadoDisponible;
-import patrones.state.EstadoRegresaSinPaciente;
 import patrones.state.IEstado;
 
 public class Ambulancia extends ObservableAbstracto {
@@ -13,7 +12,6 @@ public class Ambulancia extends ObservableAbstracto {
 	public Ambulancia() {
 		super();
 		this.estado = new EstadoDisponible(this); // estado inicial de la ambulancia
-		this.firePropertyChange(Acciones.ESTADO, null, this.estado);
 	}
 
 	/**
@@ -25,7 +23,6 @@ public class Ambulancia extends ObservableAbstracto {
 	    IEstado estadoViejo = this.estado;
 	    this.estado = estadoNuevo;
 	    this.firePropertyChange(Acciones.ESTADO, estadoViejo, estadoNuevo); // notifico el cambio
-	    notifyAll();
 	}
 	
 	/**
@@ -33,44 +30,23 @@ public class Ambulancia extends ObservableAbstracto {
 	 */
 
 	public synchronized void solicitarAtencionDomicilio(Asociado asociado) throws InterruptedException {
-	  
-		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "atencion a domicilio"));
-		// espera si no son los estados correspondientes
-	    while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
-	        wait();
-	    }
-	    
+		this.estado.atencionADomicilio(); // transicion
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
-	    this.estado.atencionADomicilio(); // transicion
 	} 
 	
 	public synchronized void solicitarTraslado(Asociado asociado) throws InterruptedException {
-		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(asociado, "traslado a clinica"));
-		/* while (!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente)) {
-	        wait();
-	    }*/
-	    
+		this.estado.trasladoAClinica();
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, asociado);
-	    this.estado.trasladoAClinica();
 	}
 	
 	public synchronized void solicitarMantenimiento(Operario operario) throws InterruptedException {
-
-		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(operario, "traslado a clinica"));
-		/*while (!(this.estado instanceof EstadoDisponible)) {
-	        wait();
-	    }*/
-	    
+		this.estado.mantenimiento();
 	    this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, operario);
-	    this.estado.mantenimiento();
 	}
 	
-	public synchronized void retornoAutomatico(EventoRetorno evt) throws InterruptedException{
-	    
-		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(evt, "retorno a clinica"));
-		this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
+	public synchronized void retornoAutomatico(EventoRetorno evt) throws InterruptedException {
 		this.estado.retorno();
-	    notifyAll();
+		this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
 	}
 
 	public boolean isSimulacionActiva() {
@@ -83,5 +59,13 @@ public class Ambulancia extends ObservableAbstracto {
 	
 	public void activarSimulacion() {
 		this.simulacionActiva = true;
+	}
+	
+	public void informarSolicitudAnulada(String mensaje) {
+		this.firePropertyChange(Acciones.INFORMAR, null, mensaje);
+	}
+	
+	public void notificarEstadoInicial() {
+		this.firePropertyChange(Acciones.ESTADO, null, this.estado);
 	}
 }

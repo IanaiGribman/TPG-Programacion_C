@@ -1,6 +1,5 @@
 package patrones.state;
 
-import Util.Acciones;
 import modelo.Ambulancia;
 
 public class EstadoTrasladaPaciente implements IEstado{
@@ -15,7 +14,7 @@ public class EstadoTrasladaPaciente implements IEstado{
 	public void atencionADomicilio() {} // permanece trasladando paciente
 	
 	public void trasladoAClinica() {
-		this.ambulancia.firePropertyChange(Acciones.ERROR,null,"No es posible realizar la solicitud en este momento, se esta traslandando a otro paciente");
+		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, se esta traslandando a otro paciente");
 	}
 	
 	public void retorno() {
@@ -23,7 +22,7 @@ public class EstadoTrasladaPaciente implements IEstado{
 	}
 	
 	public void mantenimiento() {
-		this.ambulancia.firePropertyChange(Acciones.ERROR,null,"No es posible realizar la solicitud en este momento, se esta traslandando a un paciente");
+		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, se esta traslandando a un paciente");
 	}
 	
 	@Override

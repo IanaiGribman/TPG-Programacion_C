@@ -1,6 +1,4 @@
 package patrones.state;
-
-import Util.Acciones;
 import modelo.Ambulancia;
 
 public class EstadoEnTaller implements IEstado{
@@ -15,7 +13,7 @@ public class EstadoEnTaller implements IEstado{
 	public void atencionADomicilio() {} // permanece en taller
 	
 	public void trasladoAClinica() {
-		this.ambulancia.firePropertyChange(Acciones.ERROR,null,"No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
+		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
 	}
 	
 	public void retorno() {} // permanece en taller

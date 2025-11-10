@@ -1,6 +1,7 @@
 package modelo;
 
 import persistencia.AsociadoDTO;
+import Util.Acciones;
 import Util.Util;
 
 public class Asociado extends Solicitante implements IPersona
@@ -34,10 +35,16 @@ public class Asociado extends Solicitante implements IPersona
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
 				
-				if (traslado) 
+				if (traslado) {
+					this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "traslado a clinica"));
+					Util.tiempoMuerto();
 					this.ambulancia.solicitarTraslado(this);
-				else
+				}
+				else {
+					this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "atencion a domicilio"));
+					Util.tiempoMuerto();
 					this.ambulancia.solicitarAtencionDomicilio(this);
+				}
 				
 				Util.tiempoMuerto(); // tiempo entre solicitudes	
 				i++;
