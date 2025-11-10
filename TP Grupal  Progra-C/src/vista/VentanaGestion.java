@@ -68,7 +68,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private JList<AsociadoDTO> asociadosPersistenciaJList;
 	
 	private DefaultListModel<AsociadoDTO> asociadosSimulacionDLM = new DefaultListModel<>();
-	private JList<AsociadoDTO> asociadosSumulacionJList;
+	private JList<AsociadoDTO> asociadosSimulacionJList;
 	
 	private JPanel panelGestionAsociados;
 	private JPanel panelIzquierdo;
@@ -127,12 +127,12 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.scrollPaneSimulacion = new JScrollPane();
 		this.panelAsociadosSimulacion.add(this.scrollPaneSimulacion, BorderLayout.CENTER);
 		
-		this.asociadosSumulacionJList.setModel(asociadosSimulacionDLM);
-		this.asociadosSumulacionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		this.scrollPaneSimulacion.setViewportView(this.asociadosSumulacionJList);
+		this.asociadosSimulacionJList.setModel(asociadosSimulacionDLM);
+		this.asociadosSimulacionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.scrollPaneSimulacion.setViewportView(this.asociadosSimulacionJList);
 		
 		this.revalidadBotonEliminar();
-		this.revalidadBotonRegistrar();
+		this.revalidarBotonRegistrar();
 		this.revalidarBotonSimulacion();
 		this.revalidarBotonAgregarSimulacion();
 		
@@ -144,8 +144,19 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
 		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);
+		
+		this.btnAgregarASimulacion.setActionCommand(Acciones.AGREGAR_SIMULACION);
 		this.btnAgregarASimulacion.addActionListener(this);
-		this.btnAgregarASimulacion.setEnabled(false);
+	}
+	/**
+	 * Coloca el action listener en los botonones
+	 * @param actionListener
+	 */
+	public void setActionListener(ActionListener actionListener) {
+		this.btnSimular.addActionListener(actionListener);
+		this.btnRegistrar.addActionListener(actionListener);
+		this.btnEliminar.addActionListener(actionListener);
+		this.btnInicializar.addActionListener(actionListener);
 	}
 
 	private void hacerPanelGestionAsociados() {
@@ -290,8 +301,8 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 
 		this.asociadosPersistenciaJList = new JList<>();
 		asociadosPersistenciaJList.addListSelectionListener(this);
-		this.asociadosSumulacionJList = new JList<>();
-		asociadosSumulacionJList.addListSelectionListener(this);
+		this.asociadosSimulacionJList = new JList<>();
+		asociadosSimulacionJList.addListSelectionListener(this);
 
 		this.asociadosPersistenciaJList.setVisibleRowCount(0); // 0 significa "no forzar un numero de filas visible"
 
@@ -425,7 +436,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	public void clearRegistroTextFields() {
 		this.textFieldNombre.setText("");
 		this.textFieldDniCreacion.setText("");
-		this.revalidadBotonRegistrar();
+		this.revalidarBotonRegistrar();
 	}
 	public void clearEliminacionTextFields() {
 		this.textFieldDniEliminacion.setText("");
@@ -441,14 +452,14 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	public void keyReleased(KeyEvent arg0) {
 		JTextField tf = (JTextField)arg0.getSource();
 		if (tf == this.textFieldDniCreacion || tf == this.textFieldNombre){
-			this.revalidadBotonRegistrar();	
+			this.revalidarBotonRegistrar();	
 		}
 		else if (tf == this.textFieldDniEliminacion) {
 			this.revalidadBotonEliminar();
 		}
 	}
 
-	private void revalidadBotonRegistrar() {
+	private void revalidarBotonRegistrar() {
 		if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
 			actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
 		}
@@ -512,28 +523,29 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		//si el evento vino por la lista de persistencia:
 		if (e.getSource().equals(this.asociadosPersistenciaJList)) {
 			//quito la seleccion en la otra lista
-			this.deseleccionarLista(asociadosSumulacionJList);
+			this.deseleccionarLista(asociadosSimulacionJList);
 			
 			AsociadoDTO asoc = this.asociadosPersistenciaJList.getSelectedValue();
 			if (asoc != null) {
 				this.textFieldDniEliminacion.setText(asoc.getDni());
 				this.revalidadBotonEliminar();
-				this.btnAgregarASimulacion.setEnabled(true);
+				this.revalidarBotonAgregarSimulacion();
 			}
 		}
 		//si el evento vino por la lista de simulacion:
 		else 
-			if (e.getSource().equals(this.asociadosSumulacionJList)) {
+			if (e.getSource().equals(this.asociadosSimulacionJList)) {
 				//quito la seleccion en la otra lista
 				this.deseleccionarLista(asociadosPersistenciaJList);
-				this.btnAgregarASimulacion.setEnabled(false);
+				this.revalidarBotonRegistrar();
+				this.revalidarBotonSimulacion();
 				
-				AsociadoDTO asoc = this.asociadosSumulacionJList.getSelectedValue();
+				AsociadoDTO asoc = this.asociadosSimulacionJList.getSelectedValue();
 				if (asoc != null) {
 					this.removeAsociadoSimulacion(asoc);
 					this.revalidadBotonEliminar();
+				}
 			}
-		}
 	}
 	
 	/**
@@ -598,37 +610,43 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			this.asociadosPersistenciaDLM.addElement(asoc);
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		switch(e.getActionCommand()) {
+		case Acciones.AGREGAR_SIMULACION:{
+			this.AgregarASimulacion(); break;
+		}
+		}
+		
+	}
+	
+
 	/**
 	 *Accion al recibir el evento del boton "Agregar Simulacion"
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	private void AgregarASimulacion() {
 		assert asociadosPersistenciaJList.getSelectedValue() != null;
 		this.addAsociadoSimulacion(this.asociadosPersistenciaJList.getSelectedValue());
 		this.deseleccionarLista(asociadosPersistenciaJList);
-		this.btnAgregarASimulacion.setEnabled(false);
-		this.revalidadBotonEliminar();
+		this.clearEliminacionTextFields();
+		this.revalidarBotonAgregarSimulacion();
 		this.revalidarBotonSimulacion();
 	}
-	
+
+
 	/**
 	 * Vacia las listas de persistencia y simulacion
 	 */
 	public void vaciarListas() {
 		this.asociadosPersistenciaDLM.clear();
 		this.asociadosSimulacionDLM.clear();
+		this.clearEliminacionTextFields();
+		this.clearRegistroTextFields();
+		this.revalidarBotonSimulacion();
+		this.revalidarBotonAgregarSimulacion();
 	}
 	
-	/**
-	 * Coloca el action listener en los botonones
-	 * @param actionListener
-	 */
-	public void setActionListener(ActionListener actionListener) {
-		this.btnSimular.addActionListener(actionListener);
-		this.btnRegistrar.addActionListener(actionListener);
-		this.btnEliminar.addActionListener(actionListener);
-		this.btnInicializar.addActionListener(actionListener);
-	}
+
 	
 	public List<AsociadoDTO> getListaAsociadosSimulacion() {
 		return Collections.list(this.asociadosSimulacionDLM.elements());
