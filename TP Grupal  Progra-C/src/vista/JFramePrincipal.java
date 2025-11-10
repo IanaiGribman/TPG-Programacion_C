@@ -1,19 +1,20 @@
 package vista;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
-import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Util.Acciones;
+import modelo.Llamado;
 import modelo.Solicitante;
 import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
-public class JFramePrincipal extends JFrame implements ActionListener, IVista {
+public class JFramePrincipal extends JFrame implements IVista {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -47,73 +48,56 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 	}
 
 	@Override
-	public AsociadoDTO getNewAsociado() {
-		return this.ventanaGestion.getAsociado();
-	}
-
-	@Override
 	public String getDniAEliminar() {
 		return this.ventanaGestion.getDNI();
 	}
-
-	@Override
-	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados) {
-		this.ventanaGestion.setTablaAsociados(asociados);
-	}
-
-	@Override
-	public void displayError(String mensajeError) {
-		CustomPopUp cpu = new CustomPopUp(this);
-		cpu.mostrar("Error", mensajeError, "Ok.");
-	}
-
-	@Override
-	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud) {
-		this.ventanaSimulacion.aniadirLlamado(solicitante, tipoDeSolicitud);
-	}
-
-	@Override
-	public void retirarLlamado(Solicitante solicitante) {
-		this.ventanaSimulacion.retirarLlamado(solicitante);
-	}
-
-	@Override
-	public void infomarCambioEstado(IEstado estadoAmbulancia) {
-		this.ventanaSimulacion.informarCambioEstado(estadoAmbulancia);
-	}
-
-	/*Creo que lo más sencillo es que cuando se apreta registrar, se registra en la base de datos automáticamente.
-	 * Y que cuando se abre la ventana, se carguen todos los asociados.*/
-	
-	/*Cada vez que se registra o se elimina un asociado, la vista recibe en evt.getNewValue el dto agregado o un dni y 
-	 * se modifica  el DefaultListModel de la ventana gestión a partir de eso. O sea, no hay que pasarle la lista entera
-	 * de asociados en cada operación.*/
-	
-	/*El problema que veo ahora es que si guardás después de cargar, va a tirar una excepción la base de datos por DNIs
-	 * repetidos y además no podés elegir qué asociados van a la simulación.*/
-	
-	/*Una alternativa podría ser que se vean dos listas: todos los asociados y los que van a la simulación. Para
-	 * agregar asociados a la lista de la simulación, apretás en uno de la lista de asociados de la base de datos. 
-	 * Si la lista de la simulación no está vacía, no se puede eliminar asociados, si no habría que revisar en ambas
-	 * listas. */
-	
-	
+		
 	/**
 	 * Maneja las notificaciones de cambio en el modelo
 	 * 
-	 * (es como si esta clase fuera un controlador de las ventanas)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		switch (evt.getPropertyName()) {
 		case Acciones.ERROR: {
-			// lo comento de momento porque es molesto
-			//this.displayError((String) evt.getNewValue()); //hay que hacer cast siempre
+			this.displayError((String) evt.getNewValue());
 			break;
 		}
+		
+		case Acciones.INFORMAR: {
+			this.displayInfo((String) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.REGISTRAR: {
+			this.ventanaGestion.addAsociadoPermanencia((AsociadoDTO) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.ELIMINAR: {
+			this.ventanaGestion.removeAsociadoPermanencia((String) evt.getNewValue());
+			break;
+		}
+		
 		case Acciones.CARGAR: {
-			
-			//acá llegaría la lista de asociadoDTO, 
+			@SuppressWarnings("unchecked")
+			List<AsociadoDTO> newValue = (List<AsociadoDTO>) evt.getNewValue();
+			this.ventanaGestion.cargarListaAsociados(newValue);
+			break;
+		}
+		
+		case Acciones.NUEVO_LLAMADO: {
+			this.ventanaSimulacion.aniadirLlamadoNuevo((Llamado) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.QUITAR_LLAMADO: {
+			this.ventanaSimulacion.retirarLlamadoNuevo((Solicitante) evt.getNewValue());
+			break;
+		}
+		
+		case Acciones.ESTADO: {
+			this.ventanaSimulacion.informarCambioEstado((IEstado) evt.getNewValue());
 			break;
 		}
 		}
@@ -130,34 +114,43 @@ public class JFramePrincipal extends JFrame implements ActionListener, IVista {
 		this.ventanaSimulacion.setActionListener(actionListener);
 	}
 
-
+	@Override
 	public AsociadoDTO getAsociadoNuevo() {
 		return ventanaGestion.getAsociado();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void vaciarListasAsoc() {
+		this.ventanaGestion.vaciarListas();
 	}
 
 	@Override
-	public void addAsociadoPermanencia(AsociadoDTO asociadoNuevo) {
-		this.ventanaGestion.addAsociadoPermanencia(asociadoNuevo);
+	public void displayWarning(String mensajeWarning) {
+		this.displayPopUp("Advertencia", mensajeWarning, "Aceptar");
 	}
 
 	@Override
-	public void addAsociadoSimulacion(AsociadoDTO asociado) {
-		ventanaGestion.addAsociadoSimulacion(asociado);
+	public void displayError(String mensajeError) {
+		this.displayPopUp("Error", mensajeError, "Aceptar");
+	}
+	
+	public void displayInfo(String mensajeinfo) {
+		this.displayPopUp("Informacion", mensajeinfo, "Aceptar");
+	}
+	
+	protected void displayPopUp(String titulo, String mensaje, String textoBoton) {
+		CustomPopUp cpu = new CustomPopUp(this);
+		cpu.mostrar(titulo, mensaje, textoBoton);
 	}
 
 	@Override
-	public void removeAsociadoPermanencia(AsociadoDTO asociado) {
-		ventanaGestion.removeAsociadoPermanencia(asociado);
+	public void setWindowListener(WindowListener windowListener) {
+		assert windowListener != null;
+		this.addWindowListener(windowListener);
 	}
 
 	@Override
-	public void removeAsociadoSimulacion(AsociadoDTO asociado) {
-		ventanaGestion.removeAsociadoSimulacion(asociado);
+	public List<AsociadoDTO> getListaAsociadosSimulacion() {
+		return this.ventanaGestion.getListaAsociadosSimulacion();
 	}
 }

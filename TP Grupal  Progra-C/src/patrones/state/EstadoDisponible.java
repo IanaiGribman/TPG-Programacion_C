@@ -25,5 +25,10 @@ public class EstadoDisponible implements IEstado{
 		this.ambulancia.setEstado(new EstadoEnTaller(this.ambulancia));
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Disponible";
+	}
 
 }

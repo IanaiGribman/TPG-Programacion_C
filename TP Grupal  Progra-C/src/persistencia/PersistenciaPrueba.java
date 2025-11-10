@@ -2,6 +2,7 @@ package persistencia;
 
 import java.sql.SQLException;
 
+import persistencia.excepciones.NoEliminadoException;
 import persistencia.excepciones.SinConexionException;
 
 public class PersistenciaPrueba {
@@ -39,6 +40,8 @@ public class PersistenciaPrueba {
 			e.printStackTrace();
 		} catch (SinConexionException e) {
 			System.out.println(e);
+		} catch (NoEliminadoException e) {
+			
 		}
 	}
 

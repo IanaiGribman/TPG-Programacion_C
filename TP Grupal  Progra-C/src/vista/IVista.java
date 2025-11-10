@@ -1,8 +1,10 @@
 package vista;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
+import java.util.List;
 
 import modelo.Solicitante;
 import patrones.state.IEstado;
@@ -10,10 +12,9 @@ import persistencia.AsociadoDTO;
 
 public interface IVista {	
 	/**
-	 * 
 	 * @return un AsociadoDTO con los datos de un nuevo asociado para cargar el la BD
 	 */
-	public AsociadoDTO getNewAsociado();
+	public AsociadoDTO getAsociadoNuevo();
 	/**
 	 * 
 	 * @return el dni del asociado que se desea eliminar de la persistencia
@@ -30,34 +31,29 @@ public interface IVista {
 	public void mostrarSimulacion(); 
 	
 	/**
-	 * actualiza la tabla de asociados visualmente
-	 * TODO deberia lanzar excepcion si se quiere actualizar mientras se esta simulando?
-	 * @param asociados
+	 * vacia la lista de simulacion y asociados
 	 */
-	public void actualizarTablaAsociados(Collection<AsociadoDTO> asociados);
-	public void addAsociadoPermanencia(AsociadoDTO asociadoNuevo);
-	public void addAsociadoSimulacion(AsociadoDTO asociado);
-	public void removeAsociadoPermanencia(AsociadoDTO asociado);
-	public void removeAsociadoSimulacion(AsociadoDTO asociado);
+	public void vaciarListasAsoc();
 	
-	
-	// MUESTRA UN PopUp con el error, se puede usar este metodo para comunicar errores al usuario, pero algun error mas especifico podria requerir metodos especificos
+	/**
+	 * muestra un PopUp con el error, se puede usar este metodo para comunicar errores al usuario
+	 * @param mensajeError
+	 */
 	public void displayError(String mensajeError);
 	
+	/**
+	 * muestra un PopUp con un mensaje de advertencia
+	 * @param mensajeWarning
+	 */
+	public void displayWarning(String mensajeWarning);
 	
-	
-	// LES PARECE BIEN ESTOS METODOS PARA LA SIMULACION DE LA AMBULANCIA?
-	public void aniadirLlamado(Solicitante solicitante, String tipoDeSolicitud);
-	public void retirarLlamado(Solicitante solicitante);
-	// se le puede aniadir a los estados de ambulancia un toString que diga que esta haciendo la ambulancia en el momento?
-	public void infomarCambioEstado(IEstado estadoAmbulancia);
-	
-	
-	public AsociadoDTO getAsociadoNuevo();
-
-	
+	/**
+	 * devuelve lista con los asociados para la simulacion
+	 * @return
+	 */
+	public List<AsociadoDTO> getListaAsociadosSimulacion();
 	
 	public void propertyChange(PropertyChangeEvent evt);
 	public void setActionListener(ActionListener actionListener);
-
+	public void setWindowListener(WindowListener windowListener);
 }

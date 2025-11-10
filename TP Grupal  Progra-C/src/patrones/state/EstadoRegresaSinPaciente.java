@@ -1,5 +1,4 @@
 package patrones.state;
-
 import modelo.Ambulancia;
 
 public class EstadoRegresaSinPaciente implements IEstado{
@@ -24,7 +23,12 @@ public class EstadoRegresaSinPaciente implements IEstado{
 	}
 	
 	public void mantenimiento() {
-		this.ambulancia.firePropertyChange("Error",null,"No es posible realizar la solicitud en este momento, la ambulancia esta regresando");
+		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta regresando");
+	}
+	
+	@Override
+	public String toString() {
+		return "Regresando sin paciente";
 	}
 
 }

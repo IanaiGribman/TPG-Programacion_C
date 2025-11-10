@@ -10,6 +10,11 @@ import persistencia.IBaseDeDatos;
 public class ModuloAsociados extends ObservableAbstracto {
 	private IBaseDeDatos dao;
 	
+	public ModuloAsociados(IBaseDeDatos dao)
+	{
+		assert dao != null: "el dao no puede ser null";
+		this.dao = dao;
+	}
 	/**
 	 * Devuelve lista de los asociados en newValue o transmite el mensaje de error en caso de fallar
 	 */
@@ -89,6 +94,7 @@ public class ModuloAsociados extends ObservableAbstracto {
 	 * @param e
 	 */
 	protected void eventoError(Exception e) {
+		e.printStackTrace();
 		this.firePropertyChange(Acciones.ERROR, null, e.getMessage());
 	}
 }

@@ -1,5 +1,4 @@
 package patrones.state;
-
 import modelo.Ambulancia;
 
 public class EstadoEnTaller implements IEstado{
@@ -14,13 +13,18 @@ public class EstadoEnTaller implements IEstado{
 	public void atencionADomicilio() {} // permanece en taller
 	
 	public void trasladoAClinica() {
-		this.ambulancia.firePropertyChange("Error",null,"No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
+		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
 	}
 	
 	public void retorno() {} // permanece en taller
 	
 	public void mantenimiento() {
 		this.ambulancia.setEstado(new EstadoRegresaDeTaller(this.ambulancia));
+	}
+	
+	@Override
+	public String toString() {
+		return "En taller";
 	}
 
 }
