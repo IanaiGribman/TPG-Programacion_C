@@ -135,4 +135,15 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 		} else
 			throw new SinConexionException();
 	}
+	
+	/**
+	 * Reinicia la tabla de asociados, presupuesta existente, elimina todo su contenido
+	 */
+	@Override
+	public void reiniciarTablaAsociados() throws SQLException, SinConexionException {
+		if(conexion != null) {
+			conexion.createStatement().execute("DELETE FROM " + nombreTablaAsociados);
+		}else
+			throw new SinConexionException();
+	}
 }

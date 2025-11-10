@@ -23,4 +23,5 @@ public interface IBaseDeDatos {
 	void abrirConexion() throws SQLException;
 	void cerrarConexion() throws SQLException, SinConexionException;
 	void crearTablaAsociados() throws SQLException, SinConexionException;
+	void reiniciarTablaAsociados() throws SQLException, SinConexionException;
 }
