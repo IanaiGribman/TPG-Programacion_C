@@ -22,10 +22,10 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 * Empieza desconectada a la base de datos *
 	 * 
 	 * @param parametros (clase que encapsula la direccion, el usuario y la clave)
-	 * pre: parametros != null
+	 *                   pre: parametros != null
 	 */
-	public BaseDeDatosDAO(ParametrosBaseDeDatos parametros) {//Es correcto? o deberia pasar parametro por parametro?
-		assert parametros != null: "No se puede tener una base de datos sin un objeto de parametros";
+	public BaseDeDatosDAO(ParametrosBaseDeDatos parametros) {// Es correcto? o deberia pasar parametro por parametro?
+		assert parametros != null : "No se puede tener una base de datos sin un objeto de parametros";
 		this.parametros = parametros;
 	}
 
@@ -58,15 +58,14 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void agregarAsociado(AsociadoDTO asociado) throws SQLException, SinConexionException {
-		assert asociado != null: "No se puede agregar un asociado null a la base de datos";
+		assert asociado != null : "No se puede agregar un asociado null a la base de datos";
 		if (conexion != null) { // quiza convenga lanzar excepcion cuando no hay conexion, para avisar (?)
-			PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO "+nombreTablaAsociados+
-																	" ("+nombreCampoAsociadosDni+", "
-																		+nombreCampoAsociadosNombre+") VALUES (?, ?)");
+			PreparedStatement sentencia = conexion.prepareStatement("INSERT INTO " + nombreTablaAsociados + " ("
+					+ nombreCampoAsociadosDni + ", " + nombreCampoAsociadosNombre + ") VALUES (?, ?)");
 			sentencia.setString(1, asociado.getDni());
 			sentencia.setString(2, asociado.getNombre());
 			sentencia.execute();
-		}else
+		} else
 			throw new SinConexionException();
 	}
 
@@ -76,28 +75,24 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 * dni != null
 	 */
 	@Override
-<<<<<<< HEAD
-	public void eliminarAsociado(String dni) throws SQLException, SinConexionException {
-		assert dni != null: "No se puede eliminar a un asociado con dni null";
-=======
 	public void eliminarAsociado(String dni) throws SQLException, SinConexionException, NoEliminadoException {
->>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
+		assert dni != null : "No se puede eliminar un asociado con un dni null";
 		if (conexion != null) {
-			PreparedStatement sentencia = conexion.prepareStatement("DELETE FROM "+nombreTablaAsociados +
-																	" WHERE " + nombreCampoAsociadosDni + "=?");
+			PreparedStatement sentencia = conexion.prepareStatement(
+					"DELETE FROM " + nombreTablaAsociados + " WHERE " + nombreCampoAsociadosDni + "=?");
 			sentencia.setString(1, dni);
 			int filaAfectada = sentencia.executeUpdate();
 			if (filaAfectada == 0)
 				throw new NoEliminadoException();
-				
-		}else
+		} else
 			throw new SinConexionException();
 	}
 
 	/**
-	 * Abre la conexion con la BD, necesaria para la ejecucion de sentencias sobre esta 
-	 * Si no es posible establecer la conexion lanza excepcion
-	 * Si la base de datos no existe la crea
+	 * Abre la conexion con la BD, necesaria para la ejecucion de sentencias sobre
+	 * esta Si no es posible establecer la conexion lanza excepcion Si la base de
+	 * datos no existe la crea
+	 * 
 	 * @throws SQLException
 	 */
 	@Override
@@ -106,16 +101,16 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// debug
-			//System.out.println(e);
-			//e.printStackTrace();
+			// System.out.println(e);
+			// e.printStackTrace();
 		}
 
 		conexion = DriverManager.getConnection(this.parametros.getDireccion(), this.parametros.getUsuario(),
 				this.parametros.getClave());
-		
+
 		String nombreBaseDeDatos = this.parametros.getNombre();
 		conexion.createStatement().execute("CREATE DATABASE IF NOT EXISTS " + nombreBaseDeDatos);
-		
+
 		conexion.createStatement().execute("USE " + nombreBaseDeDatos);
 	}
 
@@ -130,17 +125,13 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	}
 
 	/**
-	 * Elimina la tabla anterior si existia y crea una nueva vacia Si no es posible
-	 * la eliminacion o ni siquiera hay conexion lanza excepcion y la BD es
-	 * inalterada
+	 * Crea una tabla de asociados en la base de datos, si no se esta conectado lanza excepcion
 	 */
 	@Override
 	public void crearTablaAsociados() throws SQLException, SinConexionException {
 		if (conexion != null) {
-			conexion.createStatement().execute("DROP TABLE IF EXISTS " + nombreTablaAsociados);
-			conexion.createStatement().execute("CREATE TABLE " + nombreTablaAsociados + "("+
-			                                   					nombreCampoAsociadosDni + " VARCHAR(10) NOT NULL PRIMARY KEY, " + 
-																nombreCampoAsociadosNombre + " VARCHAR(30) NOT NULL)");
+			conexion.createStatement().execute("CREATE TABLE " + nombreTablaAsociados + "(" + nombreCampoAsociadosDni
+					+ " VARCHAR(10) NOT NULL PRIMARY KEY, " + nombreCampoAsociadosNombre + " VARCHAR(30) NOT NULL)");
 		} else
 			throw new SinConexionException();
 	}
