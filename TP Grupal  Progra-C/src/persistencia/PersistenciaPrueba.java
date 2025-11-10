@@ -15,7 +15,7 @@ public class PersistenciaPrueba {
 		try {
 			bd.abrirConexion();
 			System.out.println("Se ha conectado con la base de datos");
-			//bd.crearTablaAsociados();
+			bd.crearTablaAsociados();
 			int base = 1;
 			int cant = 10;
 			

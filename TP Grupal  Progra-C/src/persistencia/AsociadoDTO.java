@@ -12,6 +12,9 @@ import modelo.Asociado;
 public class AsociadoDTO {
 	private String nombre, dni;
 
+	public AsociadoDTO() {
+	}
+	
 	public AsociadoDTO(String nombre, String dni) {
 		super();
 		this.nombre = nombre;

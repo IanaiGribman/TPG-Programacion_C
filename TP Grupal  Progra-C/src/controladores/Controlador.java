@@ -6,9 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-
 
 import Util.Acciones;
 import modelo.Ambulancia;
@@ -44,6 +44,8 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		this.moduloAsociados.addPropertyChangeListener(this);
 		//abro la conexion
 		this.moduloAsociados.abrirConexion();
+		//crea tabla si no existe
+		this.moduloAsociados.crearTablaAsociados();
 		//que el modelo le "pase" la lista de asociados a la vista
 		this.moduloAsociados.leerAsociados();
 		// que la ambulancia notifique el estado inicial
@@ -85,11 +87,10 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		case Acciones.INICIALIZAR: {
 			this.vista.displayWarning("Esta accion borrara la tabla de asociados (si existe) y la creara");
 			this.vista.vaciarListasAsoc();
-			this.moduloAsociados.crearTablaAsociados();
-			// despues veo bien para que no quede tan hardcodeado
-			this.moduloAsociados.agregarAsociado(new AsociadoDTO("Gojo Satoru", "99999999"));
-			this.moduloAsociados.agregarAsociado(new AsociadoDTO("Greta Thunberg", "88888888"));
-			this.moduloAsociados.agregarAsociado(new AsociadoDTO("Franco Colapinto", "55555555"));
+			this.moduloAsociados.reiniciarTablaAsociados();
+			Collection<AsociadoDTO> asociadosInicializacion = ManagerXMLInicializacion.leerAsociadosInicializacionXML("src/controladores/InicializacionConfig.xml");
+			for(AsociadoDTO asociado : asociadosInicializacion)
+				this.moduloAsociados.agregarAsociado(asociado);
 			break;
 		}
 		

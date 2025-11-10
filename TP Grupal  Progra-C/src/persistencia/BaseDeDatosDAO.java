@@ -125,12 +125,12 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	}
 
 	/**
-	 * Crea una tabla de asociados en la base de datos, si no se esta conectado lanza excepcion
+	 * Crea una tabla de asociados (si esta no existe) en la base de datos, si no se esta conectado lanza excepcion
 	 */
 	@Override
 	public void crearTablaAsociados() throws SQLException, SinConexionException {
 		if (conexion != null) {
-			conexion.createStatement().execute("CREATE TABLE " + nombreTablaAsociados + "(" + nombreCampoAsociadosDni
+			conexion.createStatement().execute("CREATE TABLE IF NOT EXISTS " + nombreTablaAsociados + "(" + nombreCampoAsociadosDni
 					+ " VARCHAR(10) NOT NULL PRIMARY KEY, " + nombreCampoAsociadosNombre + " VARCHAR(30) NOT NULL)");
 		} else
 			throw new SinConexionException();
