@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
@@ -34,6 +35,7 @@ public class ConfirmationPopUp extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         lblMensaje = new JLabel("", SwingConstants.CENTER);
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 18));
 
         // Panel inferior con el boton
         JPanel panelBotones = new JPanel();

@@ -159,6 +159,7 @@ public class JFramePrincipal extends JFrame implements IVista {
 	@Override
 	public void displayConfirmarInicializacion() {
 	ConfirmationPopUp cpu = new ConfirmationPopUp(this, controlador, Acciones.INICIALIZAR_CONFIRMADO);
-	cpu.mostrar("Atencion", "Esta accion borrara la tabla de asociados (si existe) y creara una nueva", "Confirmar", "Cancelar");
+	cpu.mostrar("Atencion", "<html>Esta accion borrara la tabla <br> de asociados (si existe) y creara <br> una nueva</html>", "Confirmar", "Cancelar");
 	}
+	
 }

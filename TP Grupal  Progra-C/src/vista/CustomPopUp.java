@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,7 +25,7 @@ public class CustomPopUp extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         lblMensaje = new JLabel("", SwingConstants.CENTER);
-        //lblMensaje.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 16));
 
         btnConfirmar = new JButton();
         btnConfirmar.addActionListener(e -> dispose()); //elimina la ventana al clickear
