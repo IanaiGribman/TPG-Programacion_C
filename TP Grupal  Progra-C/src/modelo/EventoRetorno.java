@@ -1,7 +1,7 @@
 package modelo;
 
-import Util.Acciones;
-import Util.Util;
+import util.Acciones;
+import util.Util;
 
 /**
  * Clase Sistema, corresponde al solicitante del retorno automatico de la Ambulancia a la clinica

@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 public class Acciones {
 	public static final String SIMULACION = "SIMULACION";

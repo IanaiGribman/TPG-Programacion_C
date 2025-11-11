@@ -29,8 +29,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Util.Acciones;
 import persistencia.AsociadoDTO;
+import util.Acciones;
 
 /**
  * Es la vista en la cual los usuarios manipulan a los asociados y configuran la simulacion
@@ -55,12 +55,12 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private static final String toolTipSimulacionVacia = "<html> <b> <font color='red'>" +
 															 "Error: " +
 														  "</font> </b> <b> <font color='black'> " +
-															 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+															 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
 														  "</font> </b> </html>";
 	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='red'>" +
 																	 "Error: " +
 																  "</font> </b> <b> <font color='black'> " +
-																	 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+																	 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
 																  "</font> </b> </html>";
 	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" +
 																	 "Error: " +
@@ -543,7 +543,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			AsociadoDTO asoc = this.asociadosPersistenciaJList.getSelectedValue();
 			if (asoc != null) {
 				if (this.asociadosSimulacionDLM.isEmpty())
-					this.textFieldDniEliminacion.setText(asoc.getDni()); //si no esta vacia no tiene sentido añadir el dni
+					this.textFieldDniEliminacion.setText(asoc.getDni()); //si no esta vacia no tiene sentido aï¿½adir el dni
 				this.revalidadBotonEliminar();
 				this.revalidarBotonAgregarSimulacion();
 			}

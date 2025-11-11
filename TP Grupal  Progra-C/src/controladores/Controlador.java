@@ -7,10 +7,10 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import Util.Acciones;
 import modelo.Ambulancia;
 import modelo.Asociado;
 import modelo.EventoRetorno;
@@ -18,6 +18,7 @@ import modelo.ModuloAsociados;
 import modelo.Operario;
 import modelo.Solicitante;
 import persistencia.AsociadoDTO;
+import util.Acciones;
 import vista.IVista;
 
 /**
@@ -28,8 +29,9 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 	private IVista vista;
 	private Ambulancia ambulancia;
 	private ModuloAsociados moduloAsociados;
-	//horrible depsues lo cambio
-	private int maxSolicitudes = 5;
+	private String direccionXMLInicializacion = "src/controladores/InicializacionConfig.xml";
+	private String direccionXMLSimulacion = "src/controladores/SimulacionConfig.xml";
+	
 	
 	
 	public Controlador(IVista vista, Ambulancia ambulancia, ModuloAsociados moduloAsociados) {
@@ -88,7 +90,7 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 			this.vista.displayWarning("Esta accion borrara la tabla de asociados (si existe) y la creara");
 			this.vista.vaciarListasAsoc();
 			this.moduloAsociados.reiniciarTablaAsociados();
-			Collection<AsociadoDTO> asociadosInicializacion = ManagerXMLInicializacion.leerAsociadosInicializacionXML("src/controladores/InicializacionConfig.xml");
+			Collection<AsociadoDTO> asociadosInicializacion = ManagerXMLInicializacion.leerAsociadosInicializacionXML(direccionXMLInicializacion);
 			for(AsociadoDTO asociado : asociadosInicializacion)
 				this.moduloAsociados.agregarAsociado(asociado);
 			break;
@@ -98,7 +100,7 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 			Random r = new Random();
 			vista.mostrarSimulacion();
 			this.ambulancia.activarSimulacion();
-			this.crearHilosAsociados(this.vista.getListaAsociadosSimulacion(), r);
+			this.crearHilosAsociados(this.vista.getListaAsociadosSimulacion());
 			this.crearHilo(new EventoRetorno(this.ambulancia));
 			break;
 		}
@@ -119,9 +121,13 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
         this.moduloAsociados.cerrarConexion();
     }
 	
-	protected void crearHilosAsociados(List<AsociadoDTO> lista, Random r) {
+	protected void crearHilosAsociados(List<AsociadoDTO> lista) {
+		ParametrosSimulacion parametrosSimulacion = ManagerXMLSimulacion.leerSimulacionXML(direccionXMLSimulacion);
+		int maxSolicitudes = parametrosSimulacion.getCantMaximaSolicitudes();
+		int minSolicitudes = parametrosSimulacion.getCantMinimaSolicitudes();
+		Iterator cantSolicitudes = new Random().ints(lista.size(), minSolicitudes, maxSolicitudes).iterator();
 		for (AsociadoDTO asocDTO: lista)
-			this.crearHilo(new Asociado(this.ambulancia, r.nextInt(this.maxSolicitudes), asocDTO));
+			this.crearHilo(new Asociado(this.ambulancia, (int)cantSolicitudes.next(), asocDTO));
 	}
 
 	protected void crearHilo(Solicitante solicitante) {

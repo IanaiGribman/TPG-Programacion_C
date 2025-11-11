@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_401" class="java.beans.XMLDecoder">
+ <object class="controladores.ParametrosSimulacion">
+  <void property="cantMaximaSolicitudes">
+   <int>10</int>
+  </void>
+  <void property="cantMinimaSolicitudes">
+   <int>5</int>
+  </void>
+ </object>
+</java>
