@@ -394,7 +394,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.BordeInicializacion = new JPanel();
 		this.BordeInicializacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Inicializacion BD", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));	
 		
-	    // Igual que en el panel de simulación
+	    // Igual que en el panel de simulacion
 	    GridBagLayout gbl_bordeInicializacion = new GridBagLayout();
 	    gbl_bordeInicializacion.columnWidths = new int[]{0, 0};
 	    gbl_bordeInicializacion.rowHeights = new int[]{0, 0};
@@ -410,7 +410,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	    gbc_panelInicializacion.insets = new Insets(5, 0, 5, 0);
 	    this.BordeInicializacion.add(this.panelInicializacion, gbc_panelInicializacion);
 
-	    // Igual que simulación: centrado y con espacios uniformes
+	    // Igual que simulacion: centrado y con espacios uniformes
 	    FlowLayout flowLayoutInicializacion = new FlowLayout(FlowLayout.CENTER, 10, 5);
 	    this.panelInicializacion.setLayout(flowLayoutInicializacion);
 
@@ -494,14 +494,14 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 
 	private void revalidarBotonSimulacion() {
 		if (this.asociadosSimulacionDLM.isEmpty())
-			this.actualizarBtn(this.btnSimular, false, this.toolTipSimulacionVacia);
+			this.actualizarBtn(this.btnSimular, false, toolTipSimulacionVacia);
 		else
 			this.actualizarBtn(this.btnSimular, true, "");
 	}
 	
 	private void revalidarBotonAgregarSimulacion() {
 		if (this.asociadosPersistenciaJList.isSelectionEmpty())
-			this.actualizarBtn(this.btnAgregarASimulacion,false, this.toolTipSeleccionPersistenciaVacia);
+			this.actualizarBtn(this.btnAgregarASimulacion,false, toolTipSeleccionPersistenciaVacia);
 		else {
 			AsociadoDTO asociado = this.asociadosPersistenciaJList.getSelectedValue();
 			if (this.estaEnSimulacion(asociado))
@@ -553,13 +553,13 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			if (e.getSource().equals(this.asociadosSimulacionJList)) {
 				//quito la seleccion en la otra lista
 				this.deseleccionarLista(asociadosPersistenciaJList);
-				this.revalidarBotonRegistrar();
-				this.revalidarBotonSimulacion();
 				
 				AsociadoDTO asoc = this.asociadosSimulacionJList.getSelectedValue();
 				if (asoc != null) {
 					this.removeAsociadoSimulacion(asoc);
 				}
+				this.revalidarBotonRegistrar();
+				this.revalidarBotonSimulacion();
 			}
 	}
 	
