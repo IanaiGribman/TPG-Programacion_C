@@ -59,6 +59,7 @@ public class VentanaSimulacion extends JPanel {
 	}
 
 	private void desactivarSeleccionJLists() {
+		this.verificarInvarianteDeClase();
 		llamadosNuevosJList.setSelectionModel(new DefaultListSelectionModel() {
 		    @Override
 		    public void setSelectionInterval(int index0, int index1) {} // No hace nada → no permite seleccionar
@@ -68,6 +69,16 @@ public class VentanaSimulacion extends JPanel {
 		    public void setSelectionInterval(int index0, int index1) {} // No hace nada → no permite seleccionar
 		});
 
+		
+	}
+
+	private void verificarInvarianteDeClase() {
+		assert this.llamadosAtendidosDLM != null;
+		assert this.llamadosAtendidosJList != null;
+		assert this.llamadosNuevosDLM != null;
+		assert this.llamadosNuevosJList != null;
+		assert this.btnFinalizar != null;
+		assert this.btnMantenimiento != null;
 		
 	}
 
@@ -232,16 +243,20 @@ public class VentanaSimulacion extends JPanel {
 	}
 	
 	public void configurarBotones() {
+		this.verificarInvarianteDeClase();
 		this.btnFinalizar.setActionCommand(Acciones.GESTION);
 		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
 	}
 	
 	public void aniadirLlamadoNuevo(Llamado llamado) {
+		this.verificarInvarianteDeClase();
+		assert llamado != null;
 		this.llamadosNuevosDLM.addElement(llamado);
 	}
 
 	public void retirarLlamadoNuevo(Solicitante solicitante) {
 		assert solicitante != null;
+		this.verificarInvarianteDeClase();
 		int i = 0;
 		while(!this.llamadosNuevosDLM.get(i).getSolicitante().equals(solicitante))
 			i++;
@@ -250,12 +265,14 @@ public class VentanaSimulacion extends JPanel {
 	}
 
 	public void informarCambioEstado(IEstado estadoAmbulancia) {
+		this.verificarInvarianteDeClase();
+		assert estadoAmbulancia != null;
 		this.labelEstadoAmbulancia.setText(estadoAmbulancia.toString());
 	}
 	
 	
-	public void addActionListener(ActionListener actionListener)
-	{
+	public void addActionListener(ActionListener actionListener){
+		this.verificarInvarianteDeClase();
 		this.btnFinalizar.addActionListener(actionListener);
 		this.btnMantenimiento.addActionListener(actionListener);
 	}

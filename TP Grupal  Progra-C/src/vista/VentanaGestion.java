@@ -663,6 +663,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 * Accion al recibir el evento del boton "Agregar Simulacion"
 	 */
 	private void AgregarASimulacion() {
+		this.verificarInvarianteDeClase();
 		assert asociadosPersistenciaJList.getSelectedValue() != null;
 		this.addAsociadoSimulacion(this.asociadosPersistenciaJList.getSelectedValue());
 		this.deseleccionarLista(asociadosPersistenciaJList);
@@ -675,6 +676,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 * Vacia las listas de persistencia y simulacion
 	 */
 	public void vaciarListas() {
+		this.verificarInvarianteDeClase();
 		this.asociadosPersistenciaDLM.clear();
 		this.asociadosSimulacionDLM.clear();
 		this.clearEliminacionTextFields();
