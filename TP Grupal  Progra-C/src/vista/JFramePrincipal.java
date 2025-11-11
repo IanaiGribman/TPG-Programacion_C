@@ -20,6 +20,7 @@ public class JFramePrincipal extends JFrame implements IVista {
 	private JPanel contentPane;
 	private VentanaGestion ventanaGestion;
 	private VentanaSimulacion ventanaSimulacion;
+	private ActionListener controlador;
 
 
 	/**
@@ -111,7 +112,8 @@ public class JFramePrincipal extends JFrame implements IVista {
 	public void setActionListener(ActionListener actionListener) {
 		assert actionListener != null: "el action listener no puede ser null";
 		this.ventanaGestion.setActionListener(actionListener);
-		this.ventanaSimulacion.setActionListener(actionListener);
+		this.ventanaSimulacion.addActionListener(actionListener);
+		this.controlador = actionListener;
 	}
 
 	@Override
@@ -152,5 +154,11 @@ public class JFramePrincipal extends JFrame implements IVista {
 	@Override
 	public List<AsociadoDTO> getListaAsociadosSimulacion() {
 		return this.ventanaGestion.getListaAsociadosSimulacion();
+	}
+
+	@Override
+	public void displayConfirmarInicializacion() {
+	ConfirmationPopUp cpu = new ConfirmationPopUp(this, controlador, Acciones.INICIALIZAR_CONFIRMADO);
+	cpu.mostrar("Atencion", "Esta accion borrara la tabla de asociados (si existe) y creara una nueva", "Confirmar", "Cancelar");
 	}
 }

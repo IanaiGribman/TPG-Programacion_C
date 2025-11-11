@@ -46,6 +46,7 @@ public interface IVista {
 	 * @param mensajeWarning
 	 */
 	public void displayWarning(String mensajeWarning);
+	public void displayConfirmarInicializacion();
 	
 	/**
 	 * devuelve lista con los asociados para la simulacion

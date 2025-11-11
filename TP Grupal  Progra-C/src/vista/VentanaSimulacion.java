@@ -2,16 +2,15 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -56,6 +55,20 @@ public class VentanaSimulacion extends JPanel {
 		this.hacerPanelSimulacion();
 		this.llamadosNuevosJList.setModel(llamadosNuevosDLM);
 		this.llamadosAtendidosJList.setModel(llamadosAtendidosDLM);
+		this.desactivarSeleccionJLists();
+	}
+
+	private void desactivarSeleccionJLists() {
+		llamadosNuevosJList.setSelectionModel(new DefaultListSelectionModel() {
+		    @Override
+		    public void setSelectionInterval(int index0, int index1) {} // No hace nada → no permite seleccionar
+		});
+		llamadosAtendidosJList.setSelectionModel(new DefaultListSelectionModel() {
+		    @Override
+		    public void setSelectionInterval(int index0, int index1) {} // No hace nada → no permite seleccionar
+		});
+
+		
 	}
 
 	private void hacerPanelSimulacion() {
@@ -113,7 +126,12 @@ public class VentanaSimulacion extends JPanel {
 		gbc_panelEstado.gridy = 0;
 		this.bordeEstado.add(this.panelEstado, gbc_panelEstado);
 		
-		this.labelEstadoAmbulancia = new JLabel("New label");
+		// Label estado
+		this.labelEstadoAmbulancia = new JLabel("");
+		labelEstadoAmbulancia.setFont(new Font("SansSerif", Font.BOLD, 22));
+		//"Helvetica"
+		//"Dialog"
+		//"SansSerif"
 		this.panelEstado.add(this.labelEstadoAmbulancia);
 		
 		this.bordeControl = new JPanel();
@@ -146,7 +164,7 @@ public class VentanaSimulacion extends JPanel {
 	}
 	
 	private void hacerPanelLlamados() {
-	    this.panelIzquierdo.setLayout(new GridLayout(1, 2, 0, 0)); // dos columnas (nuevos y atendidos), con un pequeño espacio entre ellas
+	    this.panelIzquierdo.setLayout(new GridLayout(1, 2, 0, 0)); // dos columnas (nuevos y atendidos), con un pequeÃ±o espacio entre ellas
 
 	    // === Panel borde para llamados nuevos ===
 	    panelLlamadosNuevosBorde = new JPanel();
@@ -236,7 +254,7 @@ public class VentanaSimulacion extends JPanel {
 	}
 	
 	
-	public void setActionListener(ActionListener actionListener)
+	public void addActionListener(ActionListener actionListener)
 	{
 		this.btnFinalizar.addActionListener(actionListener);
 		this.btnMantenimiento.addActionListener(actionListener);

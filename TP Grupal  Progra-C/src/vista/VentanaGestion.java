@@ -40,32 +40,42 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" +
 													   		"Error: " +
 													   "</font> </b> <b> <font color='black'> "  +
-															"complete ambos campos de texto" +
+															"Complete ambos campos de texto para registrar un asociado." +
 													   "</font> </b> </html>";
 	private static final String toolTipDniNumerico = "<html> <b> <font color='red'>" +
 													 "Error: " +
 												  "</font> </b> <b> <font color='black'> " +
-													 "el dni debe ser numerico" +
+													 "El dni debe ser numerico." +
 												  "</font> </b> </html>";
 	private static final String toolTipVaciaSimulacion = "<html> <b> <font color='red'>" +
 														 "Error: " +
 													  "</font> </b> <b> <font color='black'> " +
-														 "Debe vaciar la ventana de simulacion para eliminar un asociado" +
+														 "Debe vaciar la ventana de simulacion para eliminar un asociado." +
 													  "</font> </b> </html>";
+<<<<<<< HEAD
 	private static final String toolTipSimulacionVacia = "<html> <b> <font color='red'>" +
 															 "Error: " +
 														  "</font> </b> <b> <font color='black'> " +
 															 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
+=======
+	private static final String toolTipSimulacionVacia = "<html> <b> <font color='black'> " +
+															 "Añada asociados a la ventana de simulacion para empezar la simulacion." +
+>>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
 														  "</font> </b> </html>";
+<<<<<<< HEAD
 	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='red'>" +
 																	 "Error: " +
 																  "</font> </b> <b> <font color='black'> " +
 																	 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
+=======
+	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='black'> " +
+																	 "Seleccione un asociado en la ventana de persistencia para añadir a la simulacion." +
+>>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
 																  "</font> </b> </html>";
 	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" +
 																	 "Error: " +
 																  "</font> </b> <b> <font color='black'> " +
-																	 "El asociado ya se encuentra en simulacion" +
+																	 "El asociado seleccionado ya se encuentra en simulacion." +
 																  "</font> </b> </html>";
 
 	
@@ -148,7 +158,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnSimular.setActionCommand(Acciones.SIMULACION);	
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
-		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);
+		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR_CONSULTA);
 		
 		this.btnAgregarASimulacion.setActionCommand(Acciones.AGREGAR_SIMULACION);
 		this.btnAgregarASimulacion.addActionListener(this);
@@ -394,7 +404,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.BordeInicializacion = new JPanel();
 		this.BordeInicializacion.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Inicializacion BD", TitledBorder.LEADING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));	
 		
-	    // Igual que en el panel de simulaciÃ³n
+	    // Igual que en el panel de simulacion
 	    GridBagLayout gbl_bordeInicializacion = new GridBagLayout();
 	    gbl_bordeInicializacion.columnWidths = new int[]{0, 0};
 	    gbl_bordeInicializacion.rowHeights = new int[]{0, 0};
@@ -410,7 +420,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	    gbc_panelInicializacion.insets = new Insets(5, 0, 5, 0);
 	    this.BordeInicializacion.add(this.panelInicializacion, gbc_panelInicializacion);
 
-	    // Igual que simulaciÃ³n: centrado y con espacios uniformes
+	    // Igual que simulacion: centrado y con espacios uniformes
 	    FlowLayout flowLayoutInicializacion = new FlowLayout(FlowLayout.CENTER, 10, 5);
 	    this.panelInicializacion.setLayout(flowLayoutInicializacion);
 
@@ -494,14 +504,14 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	 
 	private void revalidarBotonSimulacion() {
 		if (this.asociadosSimulacionDLM.isEmpty())
-			this.actualizarBtn(this.btnSimular, false, this.toolTipSimulacionVacia);
+			this.actualizarBtn(this.btnSimular, false, toolTipSimulacionVacia);
 		else
 			this.actualizarBtn(this.btnSimular, true, "");
 	}
 	
 	private void revalidarBotonAgregarSimulacion() {
 		if (this.asociadosPersistenciaJList.isSelectionEmpty())
-			this.actualizarBtn(this.btnAgregarASimulacion,false, this.toolTipSeleccionPersistenciaVacia);
+			this.actualizarBtn(this.btnAgregarASimulacion,false, toolTipSeleccionPersistenciaVacia);
 		else {
 			AsociadoDTO asociado = this.asociadosPersistenciaJList.getSelectedValue();
 			if (this.estaEnSimulacion(asociado))
@@ -553,13 +563,13 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 			if (e.getSource().equals(this.asociadosSimulacionJList)) {
 				//quito la seleccion en la otra lista
 				this.deseleccionarLista(asociadosPersistenciaJList);
-				this.revalidarBotonRegistrar();
-				this.revalidarBotonSimulacion();
 				
 				AsociadoDTO asoc = this.asociadosSimulacionJList.getSelectedValue();
 				if (asoc != null) {
 					this.removeAsociadoSimulacion(asoc);
 				}
+				this.revalidarBotonRegistrar();
+				this.revalidarBotonSimulacion();
 			}
 	}
 	

@@ -86,14 +86,18 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 			break;
 		}
 		
-		case Acciones.INICIALIZAR: {
-			this.vista.displayWarning("Esta accion borrara la tabla de asociados (si existe) y la creara");
+		case Acciones.INICIALIZAR_CONSULTA: {
+			this.vista.displayConfirmarInicializacion();
+			break;
+		}
+		case Acciones.INICIALIZAR_CONFIRMADO:{
 			this.vista.vaciarListasAsoc();
 			this.moduloAsociados.reiniciarTablaAsociados();
 			Collection<AsociadoDTO> asociadosInicializacion = ManagerXMLInicializacion.leerAsociadosInicializacionXML(direccionXMLInicializacion);
 			for(AsociadoDTO asociado : asociadosInicializacion)
 				this.moduloAsociados.agregarAsociado(asociado);
 			break;
+			
 		}
 		
 		case Acciones.SIMULACION: {

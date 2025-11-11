@@ -1,4 +1,4 @@
-package util;
+package Util;
 
 public class Acciones {
 	public static final String SIMULACION = "SIMULACION";
@@ -6,7 +6,8 @@ public class Acciones {
 	public static final String ELIMINAR = "ELIMINAR";
 	public static final String CARGAR = "CARGAR";
 	public static final String GUARDAR = "GUARDAR";
-	public static final String INICIALIZAR = "INICIALIZAR";
+	public static final String INICIALIZAR_CONSULTA = "INI_CONSULTA";
+	public static final String INICIALIZAR_CONFIRMADO = "INI_CONFIRMA";
 	
 	public static final String MANTENIMIENTO = "MANTENIMIENTO";
 	public static final String GESTION = "GESTION";
