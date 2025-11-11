@@ -82,13 +82,13 @@
     </void>
    </object>
   </void>
-    <void method="add">
+   <void method="add">
    <object class="persistencia.AsociadoDTO">
     <void property="dni">
-     <string>4</string>
+     <string>37349541</string>
     </void>
     <void property="nombre">
-     <string>NOMBRE GENERICO 4</string>
+     <string>Yoshikage Kira</string>
     </void>
    </object>
   </void>
