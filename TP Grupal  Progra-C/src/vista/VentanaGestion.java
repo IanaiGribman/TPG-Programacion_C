@@ -144,7 +144,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		this.btnSimular.setActionCommand(Acciones.SIMULACION);	
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);		
-		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR);
+		this.btnInicializar.setActionCommand(Acciones.INICIALIZAR_CONSULTA);
 		
 		this.btnAgregarASimulacion.setActionCommand(Acciones.AGREGAR_SIMULACION);
 		this.btnAgregarASimulacion.addActionListener(this);

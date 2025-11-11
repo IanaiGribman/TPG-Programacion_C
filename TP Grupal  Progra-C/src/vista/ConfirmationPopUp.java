@@ -27,7 +27,7 @@ public class ConfirmationPopUp extends JDialog {
      */
     public ConfirmationPopUp(JFrame padre, String ActionCommandConfirmar) {
         super(padre, true); // true = modal
-        setSize(400, 200);
+        setSize(600, 300);
         setLocationRelativeTo(padre);
         getContentPane().setLayout(new BorderLayout());
         
