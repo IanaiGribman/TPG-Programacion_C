@@ -40,32 +40,28 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" +
 													   		"Error: " +
 													   "</font> </b> <b> <font color='black'> "  +
-															"complete ambos campos de texto" +
+															"Complete ambos campos de texto para registrar un asociado." +
 													   "</font> </b> </html>";
 	private static final String toolTipDniNumerico = "<html> <b> <font color='red'>" +
 													 "Error: " +
 												  "</font> </b> <b> <font color='black'> " +
-													 "el dni debe ser numerico" +
+													 "El dni debe ser numerico." +
 												  "</font> </b> </html>";
 	private static final String toolTipVaciaSimulacion = "<html> <b> <font color='red'>" +
 														 "Error: " +
 													  "</font> </b> <b> <font color='black'> " +
-														 "Debe vaciar la ventana de simulacion para eliminar un asociado" +
+														 "Debe vaciar la ventana de simulacion para eliminar un asociado." +
 													  "</font> </b> </html>";
-	private static final String toolTipSimulacionVacia = "<html> <b> <font color='red'>" +
-															 "Error: " +
-														  "</font> </b> <b> <font color='black'> " +
-															 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+	private static final String toolTipSimulacionVacia = "<html> <b> <font color='black'> " +
+															 "Añada asociados a la ventana de simulacion para empezar la simulacion." +
 														  "</font> </b> </html>";
-	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='red'>" +
-																	 "Error: " +
-																  "</font> </b> <b> <font color='black'> " +
-																	 "Debe añadir asociados a la ventana de simulacion para empezar la simulacion" +
+	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='black'> " +
+																	 "Seleccione un asociado en la ventana de persistencia para añadir a la simulacion." +
 																  "</font> </b> </html>";
 	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" +
 																	 "Error: " +
 																  "</font> </b> <b> <font color='black'> " +
-																	 "El asociado ya se encuentra en simulacion" +
+																	 "El asociado seleccionado ya se encuentra en simulacion." +
 																  "</font> </b> </html>";
 
 	
