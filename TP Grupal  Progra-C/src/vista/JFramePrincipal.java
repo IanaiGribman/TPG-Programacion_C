@@ -111,7 +111,7 @@ public class JFramePrincipal extends JFrame implements IVista {
 	public void setActionListener(ActionListener actionListener) {
 		assert actionListener != null: "el action listener no puede ser null";
 		this.ventanaGestion.setActionListener(actionListener);
-		this.ventanaSimulacion.setActionListener(actionListener);
+		this.ventanaSimulacion.addActionListener(actionListener);
 	}
 
 	@Override

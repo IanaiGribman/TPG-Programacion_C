@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -125,7 +126,12 @@ public class VentanaSimulacion extends JPanel {
 		gbc_panelEstado.gridy = 0;
 		this.bordeEstado.add(this.panelEstado, gbc_panelEstado);
 		
-		this.labelEstadoAmbulancia = new JLabel("New label");
+		// Label estado
+		this.labelEstadoAmbulancia = new JLabel("");
+		labelEstadoAmbulancia.setFont(new Font("SansSerif", Font.BOLD, 22));
+		//"Helvetica"
+		//"Dialog"
+		//"SansSerif"
 		this.panelEstado.add(this.labelEstadoAmbulancia);
 		
 		this.bordeControl = new JPanel();
@@ -248,7 +254,7 @@ public class VentanaSimulacion extends JPanel {
 	}
 	
 	
-	public void setActionListener(ActionListener actionListener)
+	public void addActionListener(ActionListener actionListener)
 	{
 		this.btnFinalizar.addActionListener(actionListener);
 		this.btnMantenimiento.addActionListener(actionListener);
