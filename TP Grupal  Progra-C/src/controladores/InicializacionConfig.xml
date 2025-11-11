@@ -55,20 +55,20 @@
   <void method="add">
    <object class="persistencia.AsociadoDTO">
     <void property="dni">
-     <string>1</string>
+     <string>3</string>
     </void>
     <void property="nombre">
-     <string>NOMBRE GENERICO</string>
+     <string>Tutankamon</string>
     </void>
    </object>
   </void>
   <void method="add">
    <object class="persistencia.AsociadoDTO">
     <void property="dni">
-     <string>2</string>
+     <string>1</string>
     </void>
     <void property="nombre">
-     <string>NOMBRE GENERICO 2</string>
+     <string>Adan</string>
     </void>
    </object>
   </void>
