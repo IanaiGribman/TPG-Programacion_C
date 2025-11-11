@@ -6,7 +6,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +20,7 @@ import modelo.Operario;
 import modelo.Solicitante;
 import persistencia.AsociadoDTO;
 import util.Acciones;
+import util.Util;
 import vista.IVista;
 
 /**
@@ -93,9 +95,11 @@ public class Controlador extends WindowAdapter implements ActionListener, Proper
 		case Acciones.INICIALIZAR_CONFIRMADO:{
 			this.vista.vaciarListasAsoc();
 			this.moduloAsociados.reiniciarTablaAsociados();
-			Collection<AsociadoDTO> asociadosInicializacion = ManagerXMLInicializacion.leerAsociadosInicializacionXML(direccionXMLInicializacion);
-			for(AsociadoDTO asociado : asociadosInicializacion)
-				this.moduloAsociados.agregarAsociado(asociado);
+			ArrayList<AsociadoDTO> asociadosInicializacion = new ArrayList<>(ManagerXMLInicializacion.leerAsociadosInicializacionXML(direccionXMLInicializacion));
+			Collections.shuffle(asociadosInicializacion);
+			int tope = Util.numeroAleatorio(3, 7);
+			for (int i = 0; i<asociadosInicializacion.size() && i<tope; i++)
+				this.moduloAsociados.agregarAsociado(asociadosInicializacion.get(i));
 			break;
 			
 		}

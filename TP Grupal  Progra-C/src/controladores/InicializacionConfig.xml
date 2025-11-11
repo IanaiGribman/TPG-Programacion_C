@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="1.8.0_401" class="java.beans.XMLDecoder">
  <object class="java.util.ArrayList">
+ 
   <void method="add">
    <object class="persistencia.AsociadoDTO">
     <void property="dni">
@@ -31,5 +32,66 @@
     </void>
    </object>
   </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>12349876</string>
+    </void>
+    <void property="nombre">
+     <string>Buzz LightYear</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>77744671</string>
+    </void>
+    <void property="nombre">
+     <string>Super Mario</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>1</string>
+    </void>
+    <void property="nombre">
+     <string>NOMBRE GENERICO</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>2</string>
+    </void>
+    <void property="nombre">
+     <string>NOMBRE GENERICO 2</string>
+    </void>
+   </object>
+  </void>
+    <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>3</string>
+    </void>
+    <void property="nombre">
+     <string>NOMBRE GENERICO 3</string>
+    </void>
+   </object>
+  </void>
+    <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>4</string>
+    </void>
+    <void property="nombre">
+     <string>NOMBRE GENERICO 4</string>
+    </void>
+   </object>
+  </void>
+  
  </object>
 </java>
