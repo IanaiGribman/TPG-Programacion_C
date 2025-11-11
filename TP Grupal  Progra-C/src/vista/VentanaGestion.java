@@ -52,25 +52,12 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 													  "</font> </b> <b> <font color='black'> " +
 														 "Debe vaciar la ventana de simulacion para eliminar un asociado." +
 													  "</font> </b> </html>";
-<<<<<<< HEAD
-	private static final String toolTipSimulacionVacia = "<html> <b> <font color='red'>" +
-															 "Error: " +
-														  "</font> </b> <b> <font color='black'> " +
-															 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
-=======
+
 	private static final String toolTipSimulacionVacia = "<html> <b> <font color='black'> " +
-															 "Añada asociados a la ventana de simulacion para empezar la simulacion." +
->>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
+															 "Aï¿½ada asociados a la ventana de simulacion para empezar la simulacion." +
 														  "</font> </b> </html>";
-<<<<<<< HEAD
-	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='red'>" +
-																	 "Error: " +
-																  "</font> </b> <b> <font color='black'> " +
-																	 "Debe aï¿½adir asociados a la ventana de simulacion para empezar la simulacion" +
-=======
 	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='black'> " +
-																	 "Seleccione un asociado en la ventana de persistencia para añadir a la simulacion." +
->>>>>>> branch 'main' of https://github.com/IanaiGribman/TPG-Programacion_C.git
+																	 "Seleccione un asociado en la ventana de persistencia para aï¿½adir a la simulacion." +
 																  "</font> </b> </html>";
 	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" +
 																	 "Error: " +
