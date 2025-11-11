@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ public class Util {
 	private static Random random = new Random();
 	
 	public static void tiempoMuerto() throws InterruptedException{
-		Thread.sleep(5000 + random.nextInt(5000));
+		Thread.sleep(1000 + random.nextInt(1000));
 	}
 	
 	

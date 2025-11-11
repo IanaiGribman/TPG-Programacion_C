@@ -1,8 +1,8 @@
 package modelo;
 
 import persistencia.AsociadoDTO;
-import Util.Acciones;
-import Util.Util;
+import util.Acciones;
+import util.Util;
 
 public class Asociado extends Solicitante implements IPersona
 {

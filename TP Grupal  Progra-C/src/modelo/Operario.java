@@ -1,7 +1,7 @@
 package modelo;
 
-import Util.Acciones;
-import Util.Util;
+import util.Acciones;
+import util.Util;
 
 /**
  *  Clase hija de Solicitante, es uno de los que puede pedir el recurso compartido

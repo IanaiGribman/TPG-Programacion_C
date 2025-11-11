@@ -19,7 +19,7 @@ public class Main {
 				try {
 					String direccionArchivo = "src/persistencia/BaseDeDatosConfig.xml";
 					ParametrosBaseDeDatos parametros = ManagerXMLConfig.leerParametrosXML(direccionArchivo);
-					BaseDeDatosDAO bd = new BaseDeDatosDAO(parametros);
+					IBaseDeDatos bd = new BaseDeDatosDAO(parametros);
 					JFramePrincipal vista = new JFramePrincipal();
 					Ambulancia ambulancia = new Ambulancia();
 					ModuloAsociados ma = new ModuloAsociados(bd);

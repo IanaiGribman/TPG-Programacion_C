@@ -19,10 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import Util.Acciones;
 import modelo.Llamado;
 import modelo.Solicitante;
 import patrones.state.IEstado;
+import util.Acciones;
 
 public class VentanaSimulacion extends JPanel {
 	private DefaultListModel<Llamado> llamadosNuevosDLM = new DefaultListModel<>();

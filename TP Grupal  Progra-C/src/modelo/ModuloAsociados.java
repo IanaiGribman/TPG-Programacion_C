@@ -2,10 +2,10 @@ package modelo;
 
 import java.util.List;
 
-import Util.Acciones;
 import patrones.observer.ObservableAbstracto;
 import persistencia.AsociadoDTO;
 import persistencia.IBaseDeDatos;
+import util.Acciones;
 
 public class ModuloAsociados extends ObservableAbstracto {
 	private IBaseDeDatos dao;

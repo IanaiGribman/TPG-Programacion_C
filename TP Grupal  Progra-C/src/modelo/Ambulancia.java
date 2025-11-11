@@ -1,10 +1,10 @@
 package modelo;
 
-import Util.Acciones;
 import patrones.observer.ObservableAbstracto;
 import patrones.state.EstadoDisponible;
 import patrones.state.EstadoRegresaSinPaciente;
 import patrones.state.IEstado;
+import util.Acciones;
 
 public class Ambulancia extends ObservableAbstracto {
 	IEstado estado; // representa estado actual de la ambulancia
@@ -58,11 +58,9 @@ public class Ambulancia extends ObservableAbstracto {
 	}
 	
 	public synchronized void retornoAutomatico(EventoRetorno evt) throws InterruptedException {
-		this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(evt, "traslado a clinica"));
-		while(!(this.estado instanceof EstadoDisponible || this.estado instanceof EstadoRegresaSinPaciente))
-			wait();
+		//this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(evt, "traslado a clinica"));
 		this.estado.retorno();
-		this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
+		//this.firePropertyChange(Acciones.QUITAR_LLAMADO, null, evt);
 	}
 
 	public boolean isSimulacionActiva() {
