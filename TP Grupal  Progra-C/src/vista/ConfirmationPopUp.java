@@ -20,7 +20,12 @@ public class ConfirmationPopUp extends JDialog {
     private JPanel panelConfirmar;
     private JPanel panelCancelar;
 
-    public ConfirmationPopUp(JFrame padre, ActionListener actionListenerConfirmar,String ActionCommandConfirmar) {
+    /**
+     * 
+     * @param padre posicion relativa al padre
+     * @param ActionCommandConfirmar el action comman de confirmar
+     */
+    public ConfirmationPopUp(JFrame padre, String ActionCommandConfirmar) {
         super(padre, true); // true = modal
         setSize(400, 200);
         setLocationRelativeTo(padre);
@@ -49,19 +54,39 @@ public class ConfirmationPopUp extends JDialog {
         this.panelConfirmar.add(this.btnConfirmar);
         this.btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(e -> dispose()); //elimina la ventana al clickear
-        btnConfirmar.addActionListener(actionListenerConfirmar);
         btnConfirmar.setActionCommand(ActionCommandConfirmar);
 
         getContentPane().add(lblMensaje, BorderLayout.CENTER);
         getContentPane().add(panelBotones, BorderLayout.SOUTH);
 
     }
+    public ConfirmationPopUp(JFrame padre, ActionListener actionListenerConfirmar,String ActionCommandConfirmar) {	
+    	this(padre,ActionCommandConfirmar);
+    	this.addActionListenerConfirmar(actionListenerConfirmar);
+    }
+    
 
+    public void addActionListenerConfirmar(ActionListener actionListenerConfirmar) {
+        btnConfirmar.addActionListener(actionListenerConfirmar);
+	}
+    
     /**
+     * este metodo no se usa pero para mas personalizacion
+     * @param actionListenerCancelar action listener del boton cancelar
+     */
+    public void addActionListenerCancelar(ActionListener actionListenerCancelar) {
+    	btnCancelar.addActionListener(actionListenerCancelar);
+    }
+    
+    public void setActionCommandCancelar(String actionCommand) {
+    	btnCancelar.setActionCommand(actionCommand);
+    }
+	/**
      * Muestra el pop-up con los parámetros especificados.
      * @param titulo Título del cuadro de dialogo
      * @param mensaje Texto del mensaje a mostrar
-     * @param textoBoton Texto del boton de confirmacion
+     * @param textoBotonConfirmar Texto del boton de confirmacion
+     * @param textoBotonCancelar Texto del boton cancelar
      */
     public void mostrar(String titulo, String mensaje, String textoBotonConfirmar, String textoBotonCancelar) {
         setTitle(titulo);
