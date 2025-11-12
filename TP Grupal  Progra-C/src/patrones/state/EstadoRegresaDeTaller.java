@@ -11,18 +11,21 @@ public class EstadoRegresaDeTaller implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {} // permanece regresando del taller
+	public boolean atencionADomicilio() {
+		return false;
+	} 
 	
-	public void trasladoAClinica() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta regresando del taller");
+	public boolean trasladoAClinica() {
+		return false;
 	}
 	
-	public void retorno() {
-		this.ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
+	public boolean retorno() {
+		ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
+		return true;
 	}
 	
-	public void mantenimiento() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento. la ambulancia esta regresando del taller");
+	public boolean mantenimiento() {
+		return false;
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
-package modelo;
+package modelo.simulacion;
 
+import modelo.Ambulancia;
+import modelo.IPersona;
 import persistencia.AsociadoDTO;
 import util.Acciones;
 import util.Util;
@@ -31,19 +33,26 @@ public class Asociado extends Solicitante implements IPersona
 	public void run() {
 		try {
 			int i = 0;
+			Llamado llamado;
 			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
-				//Util.tiempoMuerto();
 				if (traslado) {
-					//Util.tiempoMuerto();
-					this.ambulancia.solicitarTraslado(this);
+					llamado = new Llamado(this, "traslado a clinica");
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+					Util.tiempoMuerto();
+					this.ambulancia.solicitarTrasladoAClinica(getNombre());
 				}
 				else {
-					//Util.tiempoMuerto();
-					this.ambulancia.solicitarAtencionDomicilio(this);
+					llamado = new Llamado(this, "atencion a domicilio");
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+					Util.tiempoMuerto();
+					this.ambulancia.solicitarAtencionADomicilio(getNombre());
 				}
-				
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
 				Util.tiempoMuerto(); // tiempo entre solicitudes	
 				i++;
 			}

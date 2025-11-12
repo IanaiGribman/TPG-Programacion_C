@@ -10,20 +10,23 @@ public class EstadoRegresaSinPaciente implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {
-		this.ambulancia.setEstado(new EstadoAtiendeDomicilio(this.ambulancia));
+	public boolean atencionADomicilio() {
+		ambulancia.setEstado(new EstadoAtiendeDomicilio(this.ambulancia));
+		return true;
 	}
 	
-	public void trasladoAClinica() {
-		this.ambulancia.setEstado(new EstadoTrasladaPaciente(this.ambulancia));
+	public boolean trasladoAClinica() {
+		ambulancia.setEstado(new EstadoTrasladaPaciente(this.ambulancia));
+		return true;
 	}
 	
-	public void retorno() {
-		this.ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
+	public boolean retorno() {
+		ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
+		return true;
 	}
 	
-	public void mantenimiento() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta regresando");
+	public boolean mantenimiento() {
+		return false;
 	}
 	
 	@Override

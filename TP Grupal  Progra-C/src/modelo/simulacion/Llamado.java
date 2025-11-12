@@ -1,4 +1,4 @@
-package modelo;
+package modelo.simulacion;
 
 public class Llamado {
 	private Solicitante solicitante;

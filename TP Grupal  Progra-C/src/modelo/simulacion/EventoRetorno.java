@@ -1,5 +1,6 @@
-package modelo;
+package modelo.simulacion;
 
+import modelo.Ambulancia;
 import util.Acciones;
 import util.Util;
 
@@ -20,11 +21,17 @@ public class EventoRetorno extends Solicitante {
 	@Override
 	public void run() {
 		try {
+			Llamado llamado;
 			while (this.ambulancia.isSimulacionActiva())
 			{
-				this.firePropertyChange(Acciones.NUEVO_LLAMADO, null, new Llamado(this, "retorno a clinica"));
 				Util.tiempoMuerto();
-				this.ambulancia.retornoAutomatico(this);
+				llamado = new Llamado(this, "retorno a clinica");
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+				Util.tiempoMuerto();
+				this.ambulancia.solicitarRetorno(getNombre());
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
 				Util.tiempoMuerto();
 			}
 		} catch (InterruptedException e) {

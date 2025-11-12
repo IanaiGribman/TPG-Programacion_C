@@ -11,18 +11,21 @@ public class EstadoAtiendeDomicilio implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {} // permanece atendiendo a dom
-	
-	public void trasladoAClinica() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, se esta atendiendo un domicilio");
+	public boolean atencionADomicilio() {
+		return false;
 	}
 	
-	public void retorno() {
-		this.ambulancia.setEstado(new EstadoRegresaSinPaciente(this.ambulancia));
+	public boolean trasladoAClinica() {
+		return false;
 	}
 	
-	public void mantenimiento() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, se esta atendiendo un domicilio");
+	public boolean retorno() {
+		ambulancia.setEstado(new EstadoRegresaSinPaciente(ambulancia));
+		return true;
+	}
+	
+	public boolean mantenimiento() {
+		return false;
 	}
 
 	@Override
