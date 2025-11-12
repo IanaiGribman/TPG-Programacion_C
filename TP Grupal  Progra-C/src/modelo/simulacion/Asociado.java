@@ -32,28 +32,16 @@ public class Asociado extends Solicitante implements IPersona
 	public void run() {
 		try {
 			int i = 0;
-			Llamado llamado;
 			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
 				if (traslado) {
-					llamado = new Llamado(this, "traslado a clinica");
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
 					Util.tiempoMuerto();
-					this.ambulancia.solicitarTrasladoAClinica(getNombre());
+					this.ambulancia.solicitarTrasladoAClinica(this);
 				}
 				else {
-					llamado = new Llamado(this, "atencion a domicilio");
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
 					Util.tiempoMuerto();
-					this.ambulancia.solicitarAtencionADomicilio(getNombre());
-				}
-				
-				if (this.ambulancia.isSimulacionActiva()) {
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+					this.ambulancia.solicitarAtencionADomicilio(this);
 				}
 				Util.tiempoMuerto(); // tiempo entre solicitudes	
 				i++;

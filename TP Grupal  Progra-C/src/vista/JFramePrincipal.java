@@ -113,12 +113,12 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	// =====METODOS IMPLEMENTADOS DE IVistaSimulacion=====
 	
 	@Override
-	public void agregarLlamadoNuevo(Llamado llamado) {
+	public void agregarLlamadoNuevoEspera(Llamado llamado) {
 		ventanaSimulacion.aniadirLlamadoNuevo(llamado);
 	}
 	
 	@Override
-	public void quitarLlamado(Llamado llamado) {
+	public void quitarLlamadoEspera(Llamado llamado) {
 		ventanaSimulacion.retirarLlamadoNuevo(llamado);
 	}
 	

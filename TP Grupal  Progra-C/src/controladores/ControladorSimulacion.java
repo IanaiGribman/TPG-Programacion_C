@@ -85,15 +85,18 @@ public class ControladorSimulacion implements Observer {
 		
 		case Acciones.NUEVO_LLAMADO: {
 			Llamado llamado = (Llamado) notif.getNuevoValor();
-			vista.agregarLlamadoNuevo(llamado);
+			vista.agregarLlamadoNuevoEspera(llamado);
 			break;
 		}
 		
 		case Acciones.QUITAR_LLAMADO: {
 			Llamado llamado = (Llamado) notif.getNuevoValor();
-			vista.quitarLlamado(llamado);
+			vista.quitarLlamadoEspera(llamado);
 			break;
 		}	
+		case Acciones.PONER_ATENDIDOS: {
+			break;
+		}
 		}
 		
 	}

@@ -15,13 +15,14 @@ public interface IVistaSimulacion {
 	 * Muestra en la vista un nuevo llamado/solicitud de un solicitante al modelo (ambulancia)
 	 * @param llamado del solicitante
 	 */
-	public void agregarLlamadoNuevo(Llamado llamado);
+	public void agregarLlamadoNuevoEspera(Llamado llamado);
 	
 	/**
 	 *  Quita de la vista un llamado que anteriormente era nuevo pero ya ha sido atendido
 	 * @param llamado
 	 */
-	public void quitarLlamado(Llamado llamado);
+	public void quitarLlamadoEspera(Llamado llamado);
+	public void agregarLlamadoAtendidos(Llamado llamado);
 	
 	/**
 	 * Muestra el nuevo estado de la ambulancia
