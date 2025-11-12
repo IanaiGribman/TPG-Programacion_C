@@ -1,10 +1,8 @@
 package controladores;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 import modelo.Ambulancia;
 import modelo.simulacion.Asociado;
@@ -17,7 +15,6 @@ import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 import util.Acciones;
 import util.Util;
-import vista.IVistaSimulacion;
 
 /**
  * Observa a la ambulancia y a los hilos y gestiona la vista de acuerdo a sus notificaciones.
@@ -88,15 +85,18 @@ public class ControladorSimulacion implements Observer {
 		
 		case Acciones.NUEVO_LLAMADO: {
 			Llamado llamado = (Llamado) notif.getNuevoValor();
-			vista.agregarLlamadoNuevo(llamado);
+			vista.agregarLlamadoNuevoEspera(llamado);
 			break;
 		}
 		
 		case Acciones.QUITAR_LLAMADO: {
 			Llamado llamado = (Llamado) notif.getNuevoValor();
-			vista.quitarLlamado(llamado);
+			vista.quitarLlamadoEspera(llamado);
 			break;
 		}	
+		case Acciones.PONER_ATENDIDOS: {
+			break;
+		}
 		}
 		
 	}

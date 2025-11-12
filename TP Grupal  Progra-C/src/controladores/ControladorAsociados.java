@@ -10,7 +10,6 @@ import persistencia.IBaseDeDatos;
 import persistencia.excepciones.NoEliminadoException;
 import persistencia.excepciones.SinConexionException;
 import util.Util;
-import vista.IVistaAsociados;
 
 public class ControladorAsociados {
 	IBaseDeDatos dao;
