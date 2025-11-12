@@ -10,29 +10,48 @@ public class EstadoDisponible implements IEstado{
 		super();
 		this.ambulancia = ambulancia;
 	}
-
-	public boolean atencionADomicilio() {
+	
+	@Override
+	public void atencionADomicilio() {
 		ambulancia.setEstado(new EstadoAtiendeDomicilio(this.ambulancia));
-		return true;
 	}
 	
-	public boolean trasladoAClinica() {
+	@Override
+	public void trasladoAClinica() {
 		ambulancia.setEstado(new EstadoTrasladaPaciente(this.ambulancia));
-		return true;
 	}
 	
-	public boolean retorno() {
-		return true;  // permanece disponible
-	}
+	@Override
+	public void retorno() {}
 	
-	public boolean mantenimiento() {
+	@Override
+	public void mantenimiento() {
 		ambulancia.setEstado(new EstadoEnTaller(this.ambulancia));
-		return true;
 	}
 	
 	@Override
 	public String toString() {
 		return "Disponible";
+	}
+
+	@Override
+	public boolean puedeAtencionADomicilio() {
+		return true;
+	}
+
+	@Override
+	public boolean puedeTrasladoAClinica() {
+		return true;
+	}
+
+	@Override
+	public boolean puedeRetorno() {
+		return true;
+	}
+
+	@Override
+	public boolean puedeMantenimiento() {
+		return true;
 	}
 
 }

@@ -11,26 +11,43 @@ public class EstadoAtiendeDomicilio implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public boolean atencionADomicilio() {
-		return false;
-	}
+	@Override
+	public void atencionADomicilio() {}
 	
-	public boolean trasladoAClinica() {
-		return false;
-	}
+	@Override
+	public void trasladoAClinica() {}
 	
-	public boolean retorno() {
+	@Override
+	public void retorno() {
 		ambulancia.setEstado(new EstadoRegresaSinPaciente(ambulancia));
-		return true;
 	}
 	
-	public boolean mantenimiento() {
-		return false;
-	}
+	@Override
+	public void mantenimiento() {}
 
 	@Override
 	public String toString() {
 		return "Atendiendo a domicilio";
+	}
+
+	@Override
+	public boolean puedeAtencionADomicilio() {
+		return false;
+	}
+
+	@Override
+	public boolean puedeTrasladoAClinica() {
+		return false;
+	}
+
+	@Override
+	public boolean puedeRetorno() {
+		return true;
+	}
+
+	@Override
+	public boolean puedeMantenimiento() {
+		return false;
 	}
 	
 	

@@ -24,35 +24,51 @@ public class Ambulancia extends Observable {
 	}
 	
 	public synchronized void solicitarAtencionADomicilio(String nombreSolicitante) throws InterruptedException {
-		while (this.simulacionActiva && !this.estado.atencionADomicilio()) {
+		if (this.simulacionActiva && !this.estado.puedeAtencionADomicilio()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
-			wait();
 		}
+		
+		while (this.simulacionActiva && !this.estado.puedeAtencionADomicilio())
+			wait();
+		
+		this.estado.atencionADomicilio();
 	}
 	
 	public synchronized void solicitarTrasladoAClinica(String nombreSolicitante) throws InterruptedException {
-		while (this.simulacionActiva && !this.estado.trasladoAClinica()) {
+		if (this.simulacionActiva && !this.estado.puedeTrasladoAClinica()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
-			wait();
 		}
+		
+		while (this.simulacionActiva && !this.estado.puedeTrasladoAClinica())
+			wait();
+		
+		this.estado.trasladoAClinica();
 	}
 	
 	public synchronized void solicitarRetorno(String nombreSolicitante) throws InterruptedException {
-		while (this.simulacionActiva && !this.estado.retorno()) {
+		if (this.simulacionActiva && !this.estado.puedeRetorno()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
-			wait();
 		}
+		
+		while (this.simulacionActiva && !this.estado.puedeRetorno())
+			wait();
+		
+		this.estado.retorno();
 	}
 	
 	public synchronized void solicitarMantenimiento(String nombreSolicitante) throws InterruptedException {
-		while (this.simulacionActiva && !this.estado.mantenimiento()) {
+		if (this.simulacionActiva && !this.estado.puedeMantenimiento()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
-			wait();
 		}
+		
+		while (this.simulacionActiva && !this.estado.puedeMantenimiento())
+			wait();
+		
+		this.estado.mantenimiento();
 	}
 	
 	public synchronized void finalizarSimulacion() {

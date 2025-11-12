@@ -10,27 +10,44 @@ public class EstadoRegresaDeTaller implements IEstado{
 		super();
 		this.ambulancia = ambulancia;
 	}
-
-	public boolean atencionADomicilio() {
-		return false;
-	} 
 	
-	public boolean trasladoAClinica() {
-		return false;
-	}
+	@Override
+	public void atencionADomicilio() {} 
 	
-	public boolean retorno() {
+	@Override
+	public void trasladoAClinica() {}
+	
+	@Override
+	public void retorno() {
 		ambulancia.setEstado(new EstadoDisponible(this.ambulancia));
-		return true;
 	}
 	
-	public boolean mantenimiento() {
-		return false;
-	}
+	@Override
+	public void mantenimiento() {}
 	
 	@Override
 	public String toString() {
 		return "Regresando del taller";
+	}
+
+	@Override
+	public boolean puedeAtencionADomicilio() {
+		return false;
+	}
+
+	@Override
+	public boolean puedeTrasladoAClinica() {
+		return false;
+	}
+
+	@Override
+	public boolean puedeRetorno() {
+		return true;
+	}
+
+	@Override
+	public boolean puedeMantenimiento() {
+		return false;
 	}
 
 }
