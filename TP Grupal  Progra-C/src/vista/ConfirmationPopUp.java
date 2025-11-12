@@ -24,7 +24,7 @@ public class ConfirmationPopUp extends JDialog {
     /**
      * 
      * @param padre posicion relativa al padre
-     * @param ActionCommandConfirmar el action comman de confirmar
+     * @param ActionCommandConfirmar el action command de confirmar
      */
     public ConfirmationPopUp(JFrame padre, String ActionCommandConfirmar) {
         super(padre, true); // true = modal
