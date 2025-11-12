@@ -10,16 +10,21 @@ public class EstadoEnTaller implements IEstado{
 		this.ambulancia = ambulancia;
 	}
 
-	public void atencionADomicilio() {} // permanece en taller
-	
-	public void trasladoAClinica() {
-		this.ambulancia.informarSolicitudAnulada("No es posible realizar la solicitud en este momento, la ambulancia esta en el taller");
+	public boolean atencionADomicilio() {
+		return false;
 	}
 	
-	public void retorno() {} // permanece en taller
+	public boolean trasladoAClinica() {
+		return false;
+	}
 	
-	public void mantenimiento() {
-		this.ambulancia.setEstado(new EstadoRegresaDeTaller(this.ambulancia));
+	public boolean retorno() {
+		return false;
+	}
+	
+	public boolean mantenimiento() {
+		ambulancia.setEstado(new EstadoRegresaDeTaller(this.ambulancia));
+		return true;
 	}
 	
 	@Override

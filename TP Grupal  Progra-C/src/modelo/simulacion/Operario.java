@@ -1,5 +1,6 @@
-package modelo;
+package modelo.simulacion;
 
+import modelo.Ambulancia;
 import util.Acciones;
 import util.Util;
 
@@ -22,8 +23,13 @@ public class Operario extends Solicitante {
 	public void run() {
 		try {
 			if (this.ambulancia.isSimulacionActiva()) {
-				//Util.tiempoMuerto(); // espera entre intentos de pedir mantenimiento
-				this.ambulancia.solicitarMantenimiento(this);
+				Llamado llamado = new Llamado(this, "retorno a clinica");
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+				Util.tiempoMuerto();
+				this.ambulancia.solicitarMantenimiento(getNombre());
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
 			}
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();

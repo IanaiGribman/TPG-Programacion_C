@@ -19,8 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import modelo.Llamado;
-import modelo.Solicitante;
+import modelo.simulacion.Llamado;
+import modelo.simulacion.Solicitante;
 import patrones.state.IEstado;
 import util.Acciones;
 
@@ -254,14 +254,11 @@ public class VentanaSimulacion extends JPanel {
 		this.llamadosNuevosDLM.addElement(llamado);
 	}
 
-	public void retirarLlamadoNuevo(Solicitante solicitante) {
-		assert solicitante != null;
-		this.verificarInvarianteDeClase();
-		int i = 0;
-		while(!this.llamadosNuevosDLM.get(i).getSolicitante().equals(solicitante))
-			i++;
-		this.llamadosAtendidosDLM.addElement(this.llamadosNuevosDLM.get(i));
-		this.llamadosNuevosDLM.remove(i);
+	public void retirarLlamadoNuevo(Llamado llamado) {
+		assert llamado != null;
+		
+		this.llamadosNuevosDLM.removeElement(llamado);
+		this.llamadosAtendidosDLM.addElement(llamado);
 	}
 
 	public void informarCambioEstado(IEstado estadoAmbulancia) {

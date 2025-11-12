@@ -1,6 +1,6 @@
 package persistencia;
 
-import modelo.Asociado;
+import modelo.simulacion.Asociado;
 
 
 /**

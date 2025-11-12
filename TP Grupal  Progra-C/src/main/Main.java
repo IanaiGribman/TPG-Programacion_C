@@ -3,8 +3,9 @@ package main;
 import java.awt.EventQueue;
 
 import controladores.Controlador;
+import controladores.ControladorAsociados;
+import controladores.ControladorSimulacion;
 import modelo.Ambulancia;
-import modelo.ModuloAsociados;
 import persistencia.BaseDeDatosDAO;
 import persistencia.IBaseDeDatos;
 import persistencia.ManagerXMLConfig;
@@ -22,9 +23,10 @@ public class Main {
 					IBaseDeDatos bd = new BaseDeDatosDAO(parametros);
 					JFramePrincipal vista = new JFramePrincipal();
 					Ambulancia ambulancia = new Ambulancia();
-					ModuloAsociados ma = new ModuloAsociados(bd);
-					new Controlador(vista, ambulancia, ma);
 					
+					ControladorAsociados ca = new ControladorAsociados(bd, vista);
+					ControladorSimulacion cs = new ControladorSimulacion(ambulancia, vista);
+					Controlador contr = new Controlador(cs, ca, vista);
 					vista.setVisible(true);
 
 				} catch (Exception e) {
