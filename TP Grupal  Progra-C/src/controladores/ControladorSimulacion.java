@@ -16,6 +16,7 @@ import modelo.simulacion.Solicitante;
 import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 import util.Acciones;
+import util.Util;
 import vista.IVistaSimulacion;
 
 /**
@@ -108,9 +109,9 @@ public class ControladorSimulacion implements Observer {
 		ParametrosSimulacion parametrosSimulacion = ManagerXMLSimulacion.leerSimulacionXML(direccionXMLSimulacion);
 		int maxSolicitudes = parametrosSimulacion.getCantMaximaSolicitudes();
 		int minSolicitudes = parametrosSimulacion.getCantMinimaSolicitudes();
-		Iterator cantSolicitudes = new Random().ints(lista.size(), minSolicitudes, maxSolicitudes).iterator();
-		for (AsociadoDTO asocDTO: lista) 
-			this.crearHilo(new Asociado(this.ambulancia, (int)cantSolicitudes.next(), asocDTO));
+	
+		for (AsociadoDTO asocDTO: lista)
+			this.crearHilo(new Asociado(ambulancia, Util.numeroAleatorio(minSolicitudes, maxSolicitudes), asocDTO));
 	}
 
 	/**

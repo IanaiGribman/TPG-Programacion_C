@@ -54,12 +54,13 @@ public class ControladorAsociados {
 
 		try {
 			dao.agregarAsociado(asoc);
+			vista.agregarAsociadoPermanencia(asoc);
 		} catch (SQLException e) {
-			vista.displayError("Ocurrio un error tratando de agregar un asociado");
+			vista.displayError("Error: Ya existe un asociado con ese dni.");
 		} catch (SinConexionException e) {
 			vista.displayError(e.getMessage());
 		}
-		vista.agregarAsociadoPermanencia(asoc);
+		
 
 	}
 
