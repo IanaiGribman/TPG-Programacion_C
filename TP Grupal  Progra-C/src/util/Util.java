@@ -9,6 +9,10 @@ public class Util {
 		Thread.sleep(1000 + random.nextInt(1000));
 	}
 	
+	public static void tiempoMuerto(int tiempo) throws InterruptedException{
+		Thread.sleep(tiempo);
+	}
+	
 	public static int numeroAleatorio(int base, int max) {
 		return base + random.nextInt(max-base);
 	}
