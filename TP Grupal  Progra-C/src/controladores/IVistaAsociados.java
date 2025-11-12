@@ -1,4 +1,4 @@
-package vista;
+package controladores;
 
 import java.util.List;
 

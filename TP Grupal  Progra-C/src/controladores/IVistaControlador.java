@@ -1,4 +1,4 @@
-package vista;
+package controladores;
 
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;

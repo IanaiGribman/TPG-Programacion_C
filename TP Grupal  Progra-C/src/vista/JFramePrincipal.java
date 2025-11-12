@@ -7,6 +7,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controladores.IVistaAsociados;
+import controladores.IVistaControlador;
+import controladores.IVistaSimulacion;
 import modelo.simulacion.Llamado;
 import patrones.state.IEstado;
 import persistencia.AsociadoDTO;

@@ -13,6 +13,7 @@ import persistencia.excepciones.SinConexionException;
 
 /**
  * Clase que es el DAO concreto para la base de datos usada (?)
+ * Inv: parametros != null
  */
 public class BaseDeDatosDAO implements IBaseDeDatos {
 	private ParametrosBaseDeDatos parametros;
