@@ -75,10 +75,10 @@
     <void method="add">
    <object class="persistencia.AsociadoDTO">
     <void property="dni">
-     <string>3</string>
+     <string>37195310</string>
     </void>
     <void property="nombre">
-     <string>NOMBRE GENERICO 3</string>
+     <string>Dan Dingle</string>
     </void>
    </object>
   </void>
@@ -89,6 +89,26 @@
     </void>
     <void property="nombre">
      <string>Yoshikage Kira</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>37631029</string>
+    </void>
+    <void property="nombre">
+     <string>Saitama</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="persistencia.AsociadoDTO">
+    <void property="dni">
+     <string>25423621</string>
+    </void>
+    <void property="nombre">
+     <string>Rulombo</string>
     </void>
    </object>
   </void>
