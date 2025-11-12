@@ -28,8 +28,11 @@ public class Operario extends Solicitante {
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
 				Util.tiempoMuerto();
 				this.ambulancia.solicitarMantenimiento(getNombre());
-				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				
+				if (this.ambulancia.isSimulacionActiva()) {
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				}
 			}
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();

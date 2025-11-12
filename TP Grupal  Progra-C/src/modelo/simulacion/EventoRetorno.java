@@ -30,8 +30,12 @@ public class EventoRetorno extends Solicitante {
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
 				Util.tiempoMuerto();
 				this.ambulancia.solicitarRetorno(getNombre());
-				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				
+				if (this.ambulancia.isSimulacionActiva()) {
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				}
+				
 				Util.tiempoMuerto();
 			}
 		} catch (InterruptedException e) {

@@ -51,8 +51,11 @@ public class Asociado extends Solicitante implements IPersona
 					Util.tiempoMuerto();
 					this.ambulancia.solicitarAtencionADomicilio(getNombre());
 				}
-				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				
+				if (this.ambulancia.isSimulacionActiva()) {
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				}
 				Util.tiempoMuerto(); // tiempo entre solicitudes	
 				i++;
 			}
