@@ -1,6 +1,5 @@
 package modelo.simulacion;
 
-import modelo.Ambulancia;
 import util.Acciones;
 import util.Util;
 

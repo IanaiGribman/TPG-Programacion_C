@@ -1,6 +1,6 @@
 package patrones.state;
 
-import modelo.Ambulancia;
+import modelo.simulacion.Ambulancia;
 
 public class EstadoTrasladaPaciente implements IEstado{
 	

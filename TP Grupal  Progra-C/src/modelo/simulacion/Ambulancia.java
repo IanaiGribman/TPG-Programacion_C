@@ -1,8 +1,7 @@
-package modelo;
+package modelo.simulacion;
 
 import java.util.Observable;
 
-import modelo.simulacion.NotificacionSimulacion;
 import patrones.state.EstadoDisponible;
 import patrones.state.IEstado;
 import util.Acciones;

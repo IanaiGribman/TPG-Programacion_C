@@ -19,6 +19,10 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	private ParametrosBaseDeDatos parametros;
 	private Connection conexion;
 
+	
+	private void validarInvariantes() {
+		assert parametros != null: "Invariante de parametros no nulos incumplida";
+	}
 	/**
 	 * Empieza desconectada a la base de datos *
 	 * 
@@ -26,8 +30,8 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 *                   pre: parametros != null
 	 */
 	public BaseDeDatosDAO(ParametrosBaseDeDatos parametros) {// Es correcto? o deberia pasar parametro por parametro?
-		assert parametros != null : "No se puede tener una base de datos sin un objeto de parametros";
 		this.parametros = parametros;
+		validarInvariantes();
 	}
 
 	/**
@@ -98,6 +102,7 @@ public class BaseDeDatosDAO implements IBaseDeDatos {
 	 */
 	@Override
 	public void abrirConexion() throws SQLException {
+		validarInvariantes();
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {

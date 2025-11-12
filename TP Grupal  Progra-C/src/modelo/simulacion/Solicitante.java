@@ -2,7 +2,6 @@ package modelo.simulacion;
 
 import java.util.Observable;
 
-import modelo.Ambulancia;
 import modelo.INombrable;
 
 /**

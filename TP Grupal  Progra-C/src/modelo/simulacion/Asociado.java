@@ -1,6 +1,5 @@
 package modelo.simulacion;
 
-import modelo.Ambulancia;
 import modelo.IPersona;
 import persistencia.AsociadoDTO;
 import util.Acciones;
