@@ -20,7 +20,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import modelo.simulacion.Llamado;
-import modelo.simulacion.Solicitante;
 import patrones.state.IEstado;
 import util.Acciones;
 
@@ -34,7 +33,6 @@ public class VentanaSimulacion extends JPanel {
 	private JPanel panelSimulacion;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
-	private JPanel bordeIzquierdo;
 	private JPanel panelEstado;
 	private JPanel panelControl;
 	private JPanel bordeEstado;
@@ -58,6 +56,9 @@ public class VentanaSimulacion extends JPanel {
 		this.desactivarSeleccionJLists();
 	}
 
+	/**
+	 * este metodo hace que no se puedan seleccionar las JList
+	 */
 	private void desactivarSeleccionJLists() {
 		this.verificarInvarianteDeClase();
 		llamadosNuevosJList.setSelectionModel(new DefaultListSelectionModel() {
