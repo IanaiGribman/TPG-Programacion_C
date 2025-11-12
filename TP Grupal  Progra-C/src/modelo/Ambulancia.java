@@ -24,7 +24,7 @@ public class Ambulancia extends Observable {
 	}
 	
 	public synchronized void solicitarAtencionADomicilio(String nombreSolicitante) throws InterruptedException {
-		if (this.simulacionActiva && !this.estado.puedeAtencionADomicilio()) {
+		if (!this.estado.puedeAtencionADomicilio()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
 		}
@@ -36,7 +36,7 @@ public class Ambulancia extends Observable {
 	}
 	
 	public synchronized void solicitarTrasladoAClinica(String nombreSolicitante) throws InterruptedException {
-		if (this.simulacionActiva && !this.estado.puedeTrasladoAClinica()) {
+		if (!this.estado.puedeTrasladoAClinica()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
 		}
@@ -48,7 +48,7 @@ public class Ambulancia extends Observable {
 	}
 	
 	public synchronized void solicitarRetorno(String nombreSolicitante) throws InterruptedException {
-		if (this.simulacionActiva && !this.estado.puedeRetorno()) {
+		if (!this.estado.puedeRetorno()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
 		}
@@ -60,7 +60,7 @@ public class Ambulancia extends Observable {
 	}
 	
 	public synchronized void solicitarMantenimiento(String nombreSolicitante) throws InterruptedException {
-		if (this.simulacionActiva && !this.estado.puedeMantenimiento()) {
+		if (!this.estado.puedeMantenimiento()) {
 			setChanged();
 			notifyObservers(new NotificacionSimulacion(Acciones.INFORMAR, "No se puede cumplir la solicitud de " + nombreSolicitante));
 		}
