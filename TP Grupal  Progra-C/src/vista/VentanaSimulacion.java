@@ -18,16 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import modelo.simulacion.Llamado;
-import patrones.state.IEstado;
 import util.Acciones;
 
 public class VentanaSimulacion extends JPanel {
-	private DefaultListModel<Llamado> llamadosNuevosDLM = new DefaultListModel<>();
-	private JList<Llamado> llamadosNuevosJList = new JList<>();
-	private DefaultListModel<Llamado> llamadosAtendidosDLM = new DefaultListModel<>();
-	private JList<Llamado> llamadosAtendidosJList = new JList<>();
+	private DefaultListModel<String> llamadosNuevosDLM = new DefaultListModel<>();
+	private JList<String> llamadosNuevosJList = new JList<>();
+	private DefaultListModel<String> llamadosAtendidosDLM = new DefaultListModel<>();
+	private JList<String> llamadosAtendidosJList = new JList<>();
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panelSimulacion;
@@ -249,23 +246,34 @@ public class VentanaSimulacion extends JPanel {
 		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
 	}
 	
-	public void aniadirLlamadoNuevo(Llamado llamado) {
+	public void aniadirLlamadoNuevo(String llamado) {
 		this.verificarInvarianteDeClase();
 		assert llamado != null;
 		this.llamadosNuevosDLM.addElement(llamado);
 	}
 
-	public void retirarLlamadoNuevo(Llamado llamado) {
+	public void retirarLlamadoNuevo(String llamado) {
 		assert llamado != null;
 		
-		this.llamadosNuevosDLM.removeElement(llamado);
+		int i = 0;
+		int n = this.llamadosNuevosDLM.size();
+		
+		while (i < n  && !(llamadosNuevosDLM.get(i) == llamado)) //esta comparacion es porque si lo hago con equals 
+																//hay problema si dos personas tienen el mismo nombre
+																//despues mira a los asociados
+			i++;
+		if (i < n)
+			this.llamadosNuevosDLM.remove(i);
+	}
+	
+	public void aniadirLlamadoAtendidos(String llamado) {
 		this.llamadosAtendidosDLM.addElement(llamado);
 	}
 
-	public void informarCambioEstado(IEstado estadoAmbulancia) {
+	public void informarCambioEstado(String estadoAmbulancia) {
 		this.verificarInvarianteDeClase();
 		assert estadoAmbulancia != null;
-		this.labelEstadoAmbulancia.setText(estadoAmbulancia.toString());
+		this.labelEstadoAmbulancia.setText(estadoAmbulancia);
 	}
 	
 	

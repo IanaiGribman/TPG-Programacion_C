@@ -22,18 +22,15 @@ public class Operario extends Solicitante {
 	public void run() {
 		try {
 			if (this.ambulancia.isSimulacionActiva()) {
-				Llamado llamado = new Llamado(this, "retorno a clinica");
+				String mensaje = this.getNombre() + " solicita retorno a clinica";
 				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 				Util.tiempoMuerto();
 				this.ambulancia.solicitarMantenimiento(this);
-				
-				if (this.ambulancia.isSimulacionActiva()) {
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO, llamado));//no necesita nuevo valor, podria hacerse una clase padre de notificacion que no tenga un valor, solo una accion/mensaje
-				}
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, mensaje));
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO));//no necesita nuevo valor, podria hacerse una clase padre de notificacion que no tenga un valor, solo una accion/mensaje
 			}
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();

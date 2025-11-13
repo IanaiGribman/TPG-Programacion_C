@@ -5,17 +5,22 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.SwingUtilities;
+
 import controladores.IVistaSimulacion;
-import patrones.state.IEstado;
 import util.Acciones;
 
+/**
+ * Observa a los hilos y a la ambulancia. Gestiona a la vista para que refleje los cambios notificados
+ */
 public class OjoSimulacion implements Observer {
 	private Observable ambulancia;
+	private Observable eventoRetorno;
 	private IVistaSimulacion vista;
 	private ModuloSimulacion moduloSimulacion;
 	private List<Solicitante> solicitantesActivos;
 
-	public OjoSimulacion(Observable ambulancia, IVistaSimulacion vista, ModuloSimulacion moduloSimulacion) {
+	public OjoSimulacion(Ambulancia ambulancia, IVistaSimulacion vista, ModuloSimulacion moduloSimulacion) {
 		super();
 		this.ambulancia = ambulancia;
 		ambulancia.addObserver(this);
@@ -28,34 +33,43 @@ public class OjoSimulacion implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o == this.ambulancia) {
 			NotificacionSimulacion notif = (NotificacionSimulacion) arg;
+			vista.cambiarEstado(notif.getMensaje());
+
+		} 
+		else if (o == this.eventoRetorno) {
 			
+			NotificacionSimulacion notif = (NotificacionSimulacion) arg;
 			switch (notif.getNombreAccion()) {
-				case Acciones.ESTADO: {
-					IEstado estado = (IEstado) notif.getNuevoValor();
-					vista.cambiarEstado(estado);
-					break;
-				}
-	
-				case Acciones.INFORMAR: {
-					String mensaje = (String) notif.getNuevoValor();
-					vista.displayInfo(mensaje);
-					break;
-				}
+			case Acciones.NUEVO_LLAMADO: {
+				vista.agregarLlamadoNuevoEspera(notif.getMensaje());
+				break;
 			}
-		} else if (this.solicitantesActivos.contains(o)) {
+
+			case Acciones.QUITAR_LLAMADO: {
+			    vista.quitarLlamadoEspera(notif.getMensaje());
+			    vista.agregarLlamadoAtendidos(notif.getMensaje());
+				break;
+			}
+			
+			case Acciones.NO_HAY_HILOS: {
+			    vista.habilitarBotonGestion();
+				break;
+			}
+			}
+		}
+		else if (this.solicitantesActivos.contains(o)) {
 			Solicitante soli = (Solicitante) o;
 			NotificacionSimulacion notif = (NotificacionSimulacion) arg;
 			
 			switch (notif.getNombreAccion()) {
 				case Acciones.NUEVO_LLAMADO: {
-					Llamado llamado = (Llamado) notif.getNuevoValor();
-					vista.agregarLlamadoNuevoEspera(llamado);
+					vista.agregarLlamadoNuevoEspera(notif.getMensaje());
 					break;
 				}
 	
 				case Acciones.QUITAR_LLAMADO: {
-					Llamado llamado = (Llamado) notif.getNuevoValor();
-					vista.quitarLlamadoEspera(llamado);
+				    vista.quitarLlamadoEspera(notif.getMensaje());
+				    vista.agregarLlamadoAtendidos(notif.getMensaje());
 					break;
 				}
 				
@@ -77,6 +91,13 @@ public class OjoSimulacion implements Observer {
 		solicitante.deleteObserver(this);//ya no lo observo mas, no esta en la lista
 		this.solicitantesActivos.remove(solicitante);
 		if(this.solicitantesActivos.isEmpty())
-			this.moduloSimulacion.finalizarSimulacion();
+			this.moduloSimulacion.finHilos();;
 	}
+	
+	//esto es solamente para que se muestre el retorno automatico en la vista
+	public void agregarEventoRetorno(EventoRetorno evt) {
+		this.eventoRetorno = evt;
+		evt.addObserver(this);
+	}
+	
 }

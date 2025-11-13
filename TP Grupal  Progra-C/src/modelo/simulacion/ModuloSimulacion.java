@@ -9,14 +9,12 @@ import persistencia.AsociadoDTO;
 import util.Util;
 
 /**
- * Observa a la ambulancia y a los hilos y gestiona la vista de acuerdo a sus
- * notificaciones. Tambien crea los hilos y es responsable de activar o
+ * Crea los hilos y es responsable de activar o
  * desactivar la simulacion
  */
 public class ModuloSimulacion {
 	private Ambulancia ambulancia;
 	private IVistaSimulacion vista;
-	// TODO modificar esta direccion
 	private String direccionXMLSimulacion = "src/controladores/SimulacionConfig.xml";
 	private OjoSimulacion ojoSimulacion;
 
@@ -40,10 +38,14 @@ public class ModuloSimulacion {
 
 		assert lista != null : "la lista de asociados DTO no debe ser null";
 
-		vista.cambiarEstado(ambulancia.getEstado());
+		vista.cambiarEstado(ambulancia.getEstado().toString());
 		this.ambulancia.activarSimulacion();
 		this.crearHilosAsociados(lista);
-		this.crearHilo(new EventoRetorno(this.ambulancia));
+		EventoRetorno evt = new EventoRetorno(this.ambulancia);
+		
+		//no
+		this.ojoSimulacion.agregarEventoRetorno(evt);
+		this.crearHilo(evt);
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class ModuloSimulacion {
 	public void crearHiloOperario() {
 		Solicitante operario = new Operario(this.ambulancia);
 		this.ojoSimulacion.agregarSolicitanteLista(operario);
-		this.crearHilo(new Operario(this.ambulancia));
+		this.crearHilo(operario);
 	}
 
 	/**
@@ -60,6 +62,14 @@ public class ModuloSimulacion {
 	 */
 	public void finalizarSimulacion() {
 		this.ambulancia.finalizarSimulacion();
+		vista.deshabilitarBotonMantenimiento();
+	}
+	
+	/**
+	 * Pone en false el flag que indica que hay hilos (ademas del retorno automatico) que utilizan la ambulancia
+	 */
+	public void finHilos() {
+		this.ambulancia.finHilosActivos();;
 	}
 	
 	/**
@@ -80,11 +90,12 @@ public class ModuloSimulacion {
 	}
 
 	/**
-	 * Dado un solicitante, le agrega el observador/ojo, crea el hilo y lo inicia
+	 * Dado un solicitante, crea el hilo y lo inicia
 	 * 
 	 * @param solicitante
 	 */
 	protected void crearHilo(Solicitante solicitante) {
 		new Thread(solicitante).start();
 	}
+	
 }

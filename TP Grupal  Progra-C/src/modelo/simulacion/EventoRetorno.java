@@ -20,23 +20,22 @@ public class EventoRetorno extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			Llamado llamado;
-			while (this.ambulancia.isSimulacionActiva())
+			String mensaje;
+			while (this.ambulancia.hayHilosActivos())
 			{
 				Util.tiempoMuerto();
-				llamado = new Llamado(this, "retorno a clinica");
+				mensaje = this.getNombre() +  " solicita retorno a clinica";
 				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 				Util.tiempoMuerto();
 				this.ambulancia.solicitarRetorno(this);
-				
-				if (this.ambulancia.isSimulacionActiva()) {
-					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
-				}
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, mensaje));
 				
 				Util.tiempoMuerto();
 			}
+			this.setChanged();
+			this.notifyObservers(new NotificacionSimulacion(Acciones.NO_HAY_HILOS));
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}

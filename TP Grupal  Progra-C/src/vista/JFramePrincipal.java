@@ -10,8 +10,6 @@ import javax.swing.JPanel;
 import controladores.IVistaAsociados;
 import controladores.IVistaControlador;
 import controladores.IVistaSimulacion;
-import modelo.simulacion.Llamado;
-import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 import util.Acciones;
 
@@ -113,17 +111,22 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	// =====METODOS IMPLEMENTADOS DE IVistaSimulacion=====
 	
 	@Override
-	public void agregarLlamadoNuevoEspera(Llamado llamado) {
+	public void agregarLlamadoNuevoEspera(String llamado) {
 		ventanaSimulacion.aniadirLlamadoNuevo(llamado);
 	}
 	
 	@Override
-	public void quitarLlamadoEspera(Llamado llamado) {
+	public void quitarLlamadoEspera(String llamado) {
 		ventanaSimulacion.retirarLlamadoNuevo(llamado);
 	}
 	
 	@Override
-	public void cambiarEstado(IEstado estado) {
+	public void agregarLlamadoAtendidos(String llamado) {
+		ventanaSimulacion.aniadirLlamadoAtendidos(llamado);
+	}
+	
+	@Override
+	public void cambiarEstado(String estado) {
 		ventanaSimulacion.informarCambioEstado(estado);
 	}
 	
@@ -137,6 +140,20 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		return this.ventanaGestion.getListaAsociadosSimulacion();
 	}
 	
+	// esto cuando no hay hilos activos
+	@Override
+	public void habilitarBotonGestion() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	// esto cuando se apreta finalizar. este y el de arriba son invocados por modulo simulacion
+	@Override
+	public void deshabilitarBotonMantenimiento() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	// =====METODOS AUXILIARES=====
 	
 	protected void displayPopUp(String titulo, String mensaje, String textoBoton) {
@@ -144,9 +161,4 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		cpu.mostrar(titulo, mensaje, textoBoton);
 	}
 
-	@Override
-	public void agregarLlamadoAtendidos(Llamado llamado) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -9,7 +9,7 @@ import modelo.simulacion.ModuloSimulacion;
 import util.Acciones;
 
 public class Controlador extends WindowAdapter implements ActionListener {
-	private ModuloSimulacion controladorSimulacion;
+	private ModuloSimulacion moduloSimulacion;
 	private ControladorAsociados controladorAsociados;
 	private IVistaControlador vista;
 	
@@ -21,7 +21,7 @@ public class Controlador extends WindowAdapter implements ActionListener {
 		assert controladorAsociados != null;
 		assert vista != null;
 		
-		this.controladorSimulacion = controladorSimulacion;
+		this.moduloSimulacion = controladorSimulacion;
 		this.controladorAsociados = controladorAsociados;
 		this.vista = vista;
 		vista.setActionListener(this);
@@ -39,7 +39,7 @@ public class Controlador extends WindowAdapter implements ActionListener {
 		switch(e.getActionCommand()) {
 		
 		case Acciones.GESTION: {
-			controladorSimulacion.finalizarSimulacion();
+			moduloSimulacion.finalizarSimulacion();
 			break;
 		}
 		
@@ -67,12 +67,12 @@ public class Controlador extends WindowAdapter implements ActionListener {
 		case Acciones.SIMULACION: {
 			controladorAsociados.cerrarConexion();
 			vista.mostrarSimulacion();
-			controladorSimulacion.iniciarSimulacion();
+			moduloSimulacion.iniciarSimulacion();
 			break;
 		}
 		
 		case Acciones.MANTENIMIENTO: {
-			controladorSimulacion.crearHiloOperario();
+			moduloSimulacion.crearHiloOperario();
 			break;
 		}
 		}

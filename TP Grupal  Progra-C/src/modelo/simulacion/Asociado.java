@@ -35,28 +35,28 @@ public class Asociado extends Solicitante implements IPersona
 			while (this.ambulancia.isSimulacionActiva() && i < this.cantSolicitudes)
 			{
 				boolean traslado = Math.random() < 0.5; // elegir tipo de solicitud (50/50)
-				Llamado llamado = null;
 				Util.tiempoMuerto();
+				String mensaje = this.nombre;
 				if (traslado) {
-					llamado = new Llamado(this, "traslado a clinica");
+					mensaje += " solicita traslado a clinica";
 					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 					this.ambulancia.solicitarTrasladoAClinica(this);
 				}
 				else {
-					llamado = new Llamado(this, "atencion a domicilio");
+					mensaje += " solicita atencion a domicilio";
 					this.setChanged();
-					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
+					this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 					this.ambulancia.solicitarAtencionADomicilio(this);
 				}
 				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, mensaje));
 				Util.tiempoMuerto(); // tiempo entre solicitudes	
 				i++;
 			}
 			
 			this.setChanged();
-			this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO, null));//hay que hacer la clase padre como en operario
+			this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO));//hay que hacer la clase padre como en operario
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}

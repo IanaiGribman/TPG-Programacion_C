@@ -2,8 +2,6 @@ package controladores;
 
 import java.util.List;
 
-import modelo.simulacion.Llamado;
-import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
 /**
@@ -15,20 +13,25 @@ public interface IVistaSimulacion {
 	 * Muestra en la vista un nuevo llamado/solicitud de un solicitante al modelo (ambulancia)
 	 * @param llamado del solicitante
 	 */
-	public void agregarLlamadoNuevoEspera(Llamado llamado);
+	public void agregarLlamadoNuevoEspera(String mensaje);
 	
 	/**
 	 *  Quita de la vista un llamado que anteriormente era nuevo pero ya ha sido atendido
 	 * @param llamado
 	 */
-	public void quitarLlamadoEspera(Llamado llamado);
-	public void agregarLlamadoAtendidos(Llamado llamado);
+	public void quitarLlamadoEspera(String llamado);
+	
+	/**
+	 * Muestra en la vista un llamadado que ya fue atendido
+	 * @param llamado
+	 */
+	public void agregarLlamadoAtendidos(String llamado);
 	
 	/**
 	 * Muestra el nuevo estado de la ambulancia
 	 * @param estado nuevo de la ambulancia
 	 */
-	public void cambiarEstado(IEstado estado);
+	public void cambiarEstado(String estado);
 	
 	/**
 	 * Muestra un mensaje informativo
@@ -41,4 +44,14 @@ public interface IVistaSimulacion {
 	 * @return 
 	 */
 	public List<AsociadoDTO> getListaAsociadosSimulacion();
+	
+	/**
+	 *Habilita el boton para volver a la seccion de gestion
+	 */
+	public void habilitarBotonGestion();
+	
+	/**
+	 * Deshabilita el boton para hacer mantenimiento
+	 */
+	public void deshabilitarBotonMantenimiento();
 }
