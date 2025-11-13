@@ -5,16 +5,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import modelo.simulacion.ModuloSimulacion;
 import util.Acciones;
 
 public class Controlador extends WindowAdapter implements ActionListener {
-	private ControladorSimulacion controladorSimulacion;
+	private ModuloSimulacion controladorSimulacion;
 	private ControladorAsociados controladorAsociados;
 	private IVistaControlador vista;
 	
 	
 	
-	public Controlador(ControladorSimulacion controladorSimulacion, ControladorAsociados controladorAsociados,
+	public Controlador(ModuloSimulacion controladorSimulacion, ControladorAsociados controladorAsociados,
 			IVistaControlador vista) {
 		assert controladorSimulacion != null;
 		assert controladorAsociados != null;

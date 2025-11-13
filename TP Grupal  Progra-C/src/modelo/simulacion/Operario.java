@@ -26,11 +26,13 @@ public class Operario extends Solicitante {
 				this.setChanged();
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, llamado));
 				Util.tiempoMuerto();
-				this.ambulancia.solicitarMantenimiento(getNombre());
+				this.ambulancia.solicitarMantenimiento(this);
 				
 				if (this.ambulancia.isSimulacionActiva()) {
 					this.setChanged();
 					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, llamado));
+					this.setChanged();
+					this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO, llamado));//no necesita nuevo valor, podria hacerse una clase padre de notificacion que no tenga un valor, solo una accion/mensaje
 				}
 			}
 		} catch(InterruptedException e) {

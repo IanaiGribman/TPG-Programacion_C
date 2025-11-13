@@ -143,4 +143,10 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		CustomPopUp cpu = new CustomPopUp(this);
 		cpu.mostrar(titulo, mensaje, textoBoton);
 	}
+
+	@Override
+	public void agregarLlamadoAtendidos(Llamado llamado) {
+		// TODO Auto-generated method stub
+		
+	}
 }

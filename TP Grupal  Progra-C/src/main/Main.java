@@ -4,8 +4,8 @@ import java.awt.EventQueue;
 
 import controladores.Controlador;
 import controladores.ControladorAsociados;
-import controladores.ControladorSimulacion;
 import modelo.simulacion.Ambulancia;
+import modelo.simulacion.ModuloSimulacion;
 import persistencia.BaseDeDatosDAO;
 import persistencia.IBaseDeDatos;
 import persistencia.ManagerXMLConfig;
@@ -25,7 +25,7 @@ public class Main {
 					Ambulancia ambulancia = new Ambulancia();
 					
 					ControladorAsociados ca = new ControladorAsociados(bd, vista);
-					ControladorSimulacion cs = new ControladorSimulacion(ambulancia, vista);
+					ModuloSimulacion cs = new ModuloSimulacion(ambulancia, vista);
 					Controlador contr = new Controlador(cs, ca, vista);
 					vista.setVisible(true);
 
