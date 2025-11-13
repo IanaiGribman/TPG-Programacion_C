@@ -147,7 +147,7 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		
 	}
 	
-	// esto cuando se apreta finalizar. este y el de arriba son invocados por modulo simulacion
+	// esto cuando se apreta finalizar
 	@Override
 	public void deshabilitarBotonMantenimiento() {
 		// TODO Auto-generated method stub
