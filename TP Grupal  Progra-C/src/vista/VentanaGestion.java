@@ -638,6 +638,8 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 	 * @param lista de asociadosDTO
 	 */
 	public void cargarListaAsociados(List<AsociadoDTO> lista) {
+		this.verificarInvarianteDeClase();
+		asociadosPersistenciaDLM.clear();
 		for (AsociadoDTO asoc : lista)
 			this.asociadosPersistenciaDLM.addElement(asoc);
 	}

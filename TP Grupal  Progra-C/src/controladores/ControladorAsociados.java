@@ -29,17 +29,27 @@ public class ControladorAsociados {
 	 */
 	public void iniciar() {
 		try {
-			dao.abrirConexion();
-			dao.crearTablaAsociados();
+			this.abrirConexion();
 			List<AsociadoDTO> lista = dao.leerAsociados();
 			assert lista != null : "la lista de asociados de la BD no debe ser null";
 			vista.cargarListaAsociados(lista);
+		} catch (SQLException e) {
+			vista.displayError("Ocurrio un error tratando de leer a los asociados de la base de datos");
+		} catch (SinConexionException e) {
+			vista.displayError(e.getMessage());
+		}
+
+	}
+
+	public void abrirConexion() {
+		try {
+			dao.abrirConexion();
+			dao.crearTablaAsociados();
 		} catch (SQLException e) {
 			vista.displayError("Ocurrio un error tratando de conectarse a la base de datos");
 		} catch (SinConexionException e) {
 			vista.displayError(e.getMessage());
 		}
-
 	}
 
 	/**
@@ -59,7 +69,6 @@ public class ControladorAsociados {
 		} catch (SinConexionException e) {
 			vista.displayError(e.getMessage());
 		}
-		
 
 	}
 
@@ -90,29 +99,28 @@ public class ControladorAsociados {
 		vista.vaciarListasAsoc();
 		try {
 			dao.reiniciarTablaAsociados();
-			
-			//esta parte del codigo lee a los asociados del XML de inicializacion y carga un numero aleatorio de ellos en la base de datos (entre 3 y 7)
+
+			// esta parte del codigo lee a los asociados del XML de inicializacion y carga
+			// un numero aleatorio de ellos en la base de datos (entre 3 y 7)
 			ArrayList<AsociadoDTO> asociadosInicializacion = new ArrayList<>(
 					ManagerXMLInicializacion.leerAsociadosInicializacionXML(direccionXMLInicializacion));
 			Collections.shuffle(asociadosInicializacion);
 			int tope = Util.numeroAleatorio(3, 7);
 			for (int i = 0; i < asociadosInicializacion.size() && i < tope; i++)
 				dao.agregarAsociado(asociadosInicializacion.get(i));
-			
+
 			List<AsociadoDTO> lista = dao.leerAsociados();
 
 			assert lista != null : "la lista de asociados de la BD no debe ser null";
 
 			vista.cargarListaAsociados(lista);
 		} catch (SQLException e) {
-			vista.displayError("Ocurrio un error en la base de datos"); //no es muy descriptivo pero no se que otra cosa podria decir
+			vista.displayError("Ocurrio un error en la base de datos"); // no es muy descriptivo pero no se que otra
+																		// cosa podria decir
 		} catch (SinConexionException e) {
 			vista.displayError(e.getMessage());
 		}
 
-		
-
-		
 	}
 
 	/**
@@ -127,4 +135,5 @@ public class ControladorAsociados {
 			vista.displayError(e.getMessage());
 		}
 	}
+
 }

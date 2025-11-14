@@ -47,8 +47,8 @@ public class Controlador extends WindowAdapter implements ActionListener {
 		case Acciones.VOLVER_A_GESTION:{
 			if(moduloSimulacion.sePuedeVolver()) {
 				vista.mostrarGestion();
-				controladorAsociados.iniciar();
-				System.out.println("volver");
+				controladorAsociados.abrirConexion(); 
+				System.out.println("volver");//TODO remove
 			}
 			break;
 		}
