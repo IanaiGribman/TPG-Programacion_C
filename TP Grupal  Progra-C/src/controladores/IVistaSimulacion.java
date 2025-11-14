@@ -31,7 +31,7 @@ public interface IVistaSimulacion {
 	 * Muestra el nuevo estado de la ambulancia
 	 * @param estado nuevo de la ambulancia
 	 */
-	public void cambiarEstado(String estado);
+	public void cambiarEstadoAmbulancia(String estado);
 	
 	/**
 	 * Muestra un mensaje informativo

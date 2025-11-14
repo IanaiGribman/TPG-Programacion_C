@@ -39,7 +39,7 @@ public class ModuloSimulacion {
 
 		assert lista != null : "la lista de asociados DTO no debe ser null";
 
-		vista.cambiarEstado(ambulancia.getEstado().toString());
+		vista.cambiarEstadoAmbulancia(ambulancia.getEstado().toString());
 		this.ambulancia.activarSimulacion();
 		this.crearHilosAsociados(lista);
 		EventoRetorno evt = new EventoRetorno(this.ambulancia);
@@ -64,7 +64,6 @@ public class ModuloSimulacion {
 	 */
 	public void finalizarSimulacion() {
 		this.ambulancia.finalizarSimulacion();
-		vista.cambiarEstadoBotonMantenimiento(false);
 		vista.cambiarEstadoBotonFinalizar(false);
 	}
 	

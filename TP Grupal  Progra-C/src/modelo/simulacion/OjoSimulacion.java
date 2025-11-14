@@ -33,7 +33,7 @@ public class OjoSimulacion implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o == this.ambulancia) {
 			NotificacionSimulacion notif = (NotificacionSimulacion) arg;
-			vista.cambiarEstado(notif.getMensaje());
+			vista.cambiarEstadoAmbulancia(notif.getMensaje());
 
 		} 
 		else if (o == this.eventoRetorno) {
@@ -53,6 +53,8 @@ public class OjoSimulacion implements Observer {
 			
 			case Acciones.NO_HAY_HILOS: {
 			    vista.cambiarEstadoBotonVolver(true);
+			    vista.cambiarEstadoBotonMantenimiento(false);
+			    vista.cambiarEstadoBotonFinalizar(false);
 			    moduloSimulacion.setSePuedeVolver(true);
 				break;
 			}

@@ -127,7 +127,7 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	}
 	
 	@Override
-	public void cambiarEstado(String estado) {
+	public void cambiarEstadoAmbulancia(String estado) {
 		ventanaSimulacion.informarCambioEstado(estado);
 	}
 	
