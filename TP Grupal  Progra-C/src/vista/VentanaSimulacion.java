@@ -70,6 +70,7 @@ public class VentanaSimulacion extends JPanelExtendido{
 		this.llamadosAtendidosJList.setModel(llamadosAtendidosDLM);
 		this.desactivarSeleccionJLists();
 		configurarBotones();
+		this.inicializarValores();
 	}
 
 	/**
@@ -267,10 +268,6 @@ public class VentanaSimulacion extends JPanelExtendido{
 		this.btnFinalizar.setActionCommand(Acciones.FINALIZAR_SIMULACION);
 		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
 		this.btnVolver.setActionCommand(Acciones.VOLVER_A_GESTION);
-		
-		this.cambiarEstadoBotonFinalizar(true);
-		this.cambiarEstadoBotonMantenimiento(true);
-		this.cambiarEstadoBotonVolver(false);
 	}
 	
 	public void aniadirLlamadoNuevo(String llamado) {
@@ -330,6 +327,19 @@ public class VentanaSimulacion extends JPanelExtendido{
 			this.actualizarBtn(btnFinalizar, true, "");
 		else
 			this.actualizarBtn(btnFinalizar, false, toolTipFinalizarDesactivado);
+	}
+
+	public void inicializarValores() {
+		this.verificarInvarianteDeClase();
+		this.cambiarEstadoBotonFinalizar(true);
+		this.cambiarEstadoBotonMantenimiento(true);
+		this.cambiarEstadoBotonVolver(false);
+		this.llamadosAtendidosDLM.clear();
+		this.llamadosNuevosDLM.clear();
+		this.labelEstadoAmbulancia.setText("");
+		
+		revalidate();
+		
 	}
 
 

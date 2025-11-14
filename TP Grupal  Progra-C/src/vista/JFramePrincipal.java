@@ -26,8 +26,8 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	 * Create the frame.
 	 */
 	public JFramePrincipal() {
-		ventanaSimulacion = new VentanaSimulacion();
 		ventanaGestion = new VentanaGestion();
+		ventanaSimulacion = new VentanaSimulacion();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 900, 600);
 	}
@@ -37,7 +37,7 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	@Override
 	public void mostrarGestion() {
 		this.setTitle("Gestion de socios");
-		this.contentPane = ventanaGestion;
+		this.contentPane = ventanaGestion; 
 		setContentPane(this.contentPane);
 		this.revalidate();
 	}
@@ -46,6 +46,7 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 	public void mostrarSimulacion() {
 		this.setTitle("Simulacion");
 		this.contentPane = ventanaSimulacion;
+		ventanaSimulacion.inicializarValores();
 		setContentPane(this.contentPane);
 		this.revalidate();
 	}
