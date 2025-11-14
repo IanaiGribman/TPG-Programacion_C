@@ -1,16 +1,15 @@
 package util;
 
 public class Acciones {
+	//Action commands de la gestion
 	public static final String SIMULACION = "SIMULACION";
 	public static final String REGISTRAR = "REGISTRAR";
 	public static final String ELIMINAR = "ELIMINAR";
-	public static final String CARGAR = "CARGAR";
-	public static final String GUARDAR = "GUARDAR";
-	public static final String INICIALIZAR_CONSULTA = "INI_CONSULTA";
-	public static final String INICIALIZAR_CONFIRMADO = "INI_CONFIRMA";
+	public static final String INICIALIZAR_CONSULTA = "INI_CONSULTA"; //pregunta si se quiere inicializar
+	public static final String INICIALIZAR_CONFIRMADO = "INI_CONFIRMA"; //se confirma que se quiere inicializar
 	
+	//Action commands de la simulacion
 	public static final String MANTENIMIENTO = "MANTENIMIENTO";
-
 	public static final String FINALIZAR_SIMULACION = "FINALIZAR";
 	public static final String VOLVER_A_GESTION = "VOLVER";
 	
