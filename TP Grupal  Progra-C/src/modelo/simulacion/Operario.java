@@ -22,7 +22,7 @@ public class Operario extends Solicitante {
 	public void run() {
 		try {
 			if (this.ambulancia.isSimulacionActiva()) {
-				String mensaje = this.getNombre() + " solicita retorno a clinica";
+				String mensaje = this.getNombre() + " solicita mantenimiento";
 				this.setChanged();
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 				Util.tiempoMuerto();

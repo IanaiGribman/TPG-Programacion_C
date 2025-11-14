@@ -91,7 +91,7 @@ public class OjoSimulacion implements Observer {
 		solicitante.deleteObserver(this);//ya no lo observo mas, no esta en la lista
 		this.solicitantesActivos.remove(solicitante);
 		if(this.solicitantesActivos.isEmpty())
-			this.moduloSimulacion.finHilos();;
+			this.moduloSimulacion.finHilos();
 	}
 	
 	//esto es solamente para que se muestre el retorno automatico en la vista

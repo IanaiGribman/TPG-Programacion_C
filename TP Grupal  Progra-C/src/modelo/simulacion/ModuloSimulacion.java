@@ -69,7 +69,7 @@ public class ModuloSimulacion {
 	 * Pone en false el flag que indica que hay hilos (ademas del retorno automatico) que utilizan la ambulancia
 	 */
 	public void finHilos() {
-		this.ambulancia.finHilosActivos();;
+		this.ambulancia.finHilosActivos();
 	}
 	
 	/**
