@@ -36,7 +36,7 @@ import util.Acciones;
  * Es la vista en la cual los usuarios manipulan a los asociados y configuran la
  * simulacion
  */
-public class VentanaGestion extends JPanel implements KeyListener, ListSelectionListener, ActionListener {
+public class VentanaGestion extends JPanelExtendido implements KeyListener, ListSelectionListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final String toolTipCompleteAmbos = "<html> <b> <font color='red'>" + "Error: "
 			+ "</font> </b> <b> <font color='black'> " + "Complete ambos campos de texto para registrar un asociado."
@@ -133,7 +133,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 
 	}
 
-	private void configurarBotones() {
+	protected void configurarBotones() {
 		this.btnSimular.setActionCommand(Acciones.SIMULACION);
 		this.btnRegistrar.setActionCommand(Acciones.REGISTRAR);
 		this.btnEliminar.setActionCommand(Acciones.ELIMINAR);
@@ -689,7 +689,7 @@ public class VentanaGestion extends JPanel implements KeyListener, ListSelection
 		return Collections.list(this.asociadosSimulacionDLM.elements());
 	}
 
-	private void verificarInvarianteDeClase() {
+	protected void verificarInvarianteDeClase() {
 		assert this.asociadosPersistenciaDLM != null;
 		assert this.asociadosPersistenciaJList != null;
 		assert this.asociadosSimulacionDLM != null;

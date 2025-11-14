@@ -10,7 +10,8 @@ public class Acciones {
 	public static final String INICIALIZAR_CONFIRMADO = "INI_CONFIRMA";
 	
 	public static final String MANTENIMIENTO = "MANTENIMIENTO";
-	public static final String GESTION = "GESTION";
+	public static final String FINALIZAR_SIMULACION = "FINALIZAR";
+	public static final String VOLVER_A_GESTION = "VOLVER";
 	
 	public static final String ERROR = "ERROR";
 	public static final String NUEVO_LLAMADO = "NUEVO_LLAMADO";

@@ -19,8 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import util.Acciones;
+import javax.swing.SwingConstants;
 
-public class VentanaSimulacion extends JPanel {
+public class VentanaSimulacion extends JPanelExtendido {
 	private DefaultListModel<String> llamadosNuevosDLM = new DefaultListModel<>();
 	private JList<String> llamadosNuevosJList = new JList<>();
 	private DefaultListModel<String> llamadosAtendidosDLM = new DefaultListModel<>();
@@ -44,6 +45,7 @@ public class VentanaSimulacion extends JPanel {
 	JScrollPane scrollPaneLlamadosAtendidos;
 	
 	private JLabel labelEstadoAmbulancia;
+	private JButton btnVolver;
 
 	public VentanaSimulacion() {
 		setLayout(new BorderLayout(0, 0));
@@ -51,6 +53,7 @@ public class VentanaSimulacion extends JPanel {
 		this.llamadosNuevosJList.setModel(llamadosNuevosDLM);
 		this.llamadosAtendidosJList.setModel(llamadosAtendidosDLM);
 		this.desactivarSeleccionJLists();
+		configurarBotones();
 	}
 
 	/**
@@ -70,14 +73,14 @@ public class VentanaSimulacion extends JPanel {
 		
 	}
 
-	private void verificarInvarianteDeClase() {
+	protected void verificarInvarianteDeClase() {
 		assert this.llamadosAtendidosDLM != null;
 		assert this.llamadosAtendidosJList != null;
 		assert this.llamadosNuevosDLM != null;
 		assert this.llamadosNuevosJList != null;
 		assert this.btnFinalizar != null;
 		assert this.btnMantenimiento != null;
-		
+		assert this.btnVolver != null;		
 	}
 
 	private void hacerPanelSimulacion() {
@@ -169,7 +172,10 @@ public class VentanaSimulacion extends JPanel {
 		
 		this.btnFinalizar = new JButton("Finalizar");
 		this.panelControl.add(this.btnFinalizar);
-		configurarBotones();
+		
+		this.btnVolver = new JButton("Volver");
+		this.btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
+		this.panelControl.add(this.btnVolver);
 	}
 	
 	private void hacerPanelLlamados() {
@@ -240,10 +246,11 @@ public class VentanaSimulacion extends JPanel {
 	    panelLlamadosAtendidos.add(scrollPaneLlamadosAtendidos, BorderLayout.CENTER);
 	}
 	
-	public void configurarBotones() {
+	protected void configurarBotones() {
 		this.verificarInvarianteDeClase();
-		this.btnFinalizar.setActionCommand(Acciones.GESTION);
+		this.btnFinalizar.setActionCommand(Acciones.FINALIZAR_SIMULACION);
 		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
+		this.btnVolver.setActionCommand(Acciones.VOLVER_A_GESTION);
 	}
 	
 	public void aniadirLlamadoNuevo(String llamado) {

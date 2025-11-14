@@ -38,7 +38,7 @@ public class Controlador extends WindowAdapter implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
 		
-		case Acciones.GESTION: {
+		case Acciones.FINALIZAR_SIMULACION: {
 			moduloSimulacion.finalizarSimulacion();
 			break;
 		}
