@@ -17,6 +17,7 @@ public class ModuloSimulacion {
 	private IVistaSimulacion vista;
 	private String direccionXMLSimulacion = "src/controladores/SimulacionConfig.xml";
 	private OjoSimulacion ojoSimulacion;
+	private boolean sePuedeVolver;
 
 	public ModuloSimulacion(Ambulancia ambulancia, IVistaSimulacion vista) {
 		assert ambulancia != null : "la referencia a la ambulancia no debe ser null";
@@ -46,6 +47,7 @@ public class ModuloSimulacion {
 		//no
 		this.ojoSimulacion.agregarEventoRetorno(evt);
 		this.crearHilo(evt);
+		sePuedeVolver = false;
 	}
 
 	/**
@@ -70,6 +72,14 @@ public class ModuloSimulacion {
 	 */
 	public void finHilos() {
 		this.ambulancia.finHilosActivos();
+	}
+	
+	public void finDeTodo() {
+		sePuedeVolver = true;
+	}
+	
+	public boolean sePuedeVolver() {
+		return sePuedeVolver;
 	}
 	
 	/**

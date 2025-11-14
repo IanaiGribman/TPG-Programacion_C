@@ -11,6 +11,7 @@ public class Acciones {
 	
 	public static final String MANTENIMIENTO = "MANTENIMIENTO";
 	public static final String GESTION = "GESTION";
+	public static final String VOLVER = "VOLVER";
 	
 	public static final String ERROR = "ERROR";
 	public static final String NUEVO_LLAMADO = "NUEVO_LLAMADO";
