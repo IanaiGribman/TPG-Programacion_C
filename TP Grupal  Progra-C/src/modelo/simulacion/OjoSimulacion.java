@@ -53,6 +53,7 @@ public class OjoSimulacion implements Observer {
 			
 			case Acciones.NO_HAY_HILOS: {
 			    vista.cambiarEstadoBotonVolver(true);
+			    moduloSimulacion.setSePuedeVolver(true);
 				break;
 			}
 			}
@@ -75,11 +76,6 @@ public class OjoSimulacion implements Observer {
 				
 				case Acciones.QUITAR_SOLICITANTE_ACTIVO: {
 					this.sacarSolicitanteLista(soli);
-					break;
-				}
-				
-				case Acciones.NO_HAY_HILOS:{
-					this.moduloSimulacion.finDeTodo();
 					break;
 				}
 			}

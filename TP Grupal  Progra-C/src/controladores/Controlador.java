@@ -36,6 +36,7 @@ public class Controlador extends WindowAdapter implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getActionCommand());
 		switch(e.getActionCommand()) {
 		
 		case Acciones.FINALIZAR_SIMULACION: {
@@ -47,6 +48,7 @@ public class Controlador extends WindowAdapter implements ActionListener {
 			if(moduloSimulacion.sePuedeVolver()) {
 				vista.mostrarGestion();
 				controladorAsociados.iniciar();
+				System.out.println("volver");
 			}
 			break;
 		}

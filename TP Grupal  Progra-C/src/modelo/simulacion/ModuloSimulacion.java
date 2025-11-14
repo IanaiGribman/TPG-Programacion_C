@@ -75,11 +75,12 @@ public class ModuloSimulacion {
 		this.ambulancia.finHilosActivos();
 	}
 	
-	public void finDeTodo() {
-		sePuedeVolver = true;
+	public void setSePuedeVolver(boolean sePuedeVolver) {
+		this.sePuedeVolver = sePuedeVolver;
 	}
 	
 	public boolean sePuedeVolver() {
+		System.out.println(sePuedeVolver);
 		return sePuedeVolver;
 	}
 	
