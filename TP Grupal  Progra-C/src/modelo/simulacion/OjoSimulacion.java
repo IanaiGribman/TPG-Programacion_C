@@ -77,6 +77,11 @@ public class OjoSimulacion implements Observer {
 					this.sacarSolicitanteLista(soli);
 					break;
 				}
+				
+				case Acciones.NO_HAY_HILOS:{
+					this.moduloSimulacion.finDeTodo();
+					break;
+				}
 			}
 		}
 
