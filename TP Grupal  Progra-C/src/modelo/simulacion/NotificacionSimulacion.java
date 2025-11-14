@@ -13,7 +13,7 @@ public class NotificacionSimulacion {
 	}
 	
 	public NotificacionSimulacion(String nombreAccion) {
-		this(nombreAccion, null);//no salta el aserto si el mensaje es null?
+		this(nombreAccion, "");
 	}
 
 	public String getNombreAccion() {
