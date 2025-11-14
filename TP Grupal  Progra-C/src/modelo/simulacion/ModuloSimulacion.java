@@ -64,7 +64,8 @@ public class ModuloSimulacion {
 	 */
 	public void finalizarSimulacion() {
 		this.ambulancia.finalizarSimulacion();
-		vista.deshabilitarBotonMantenimiento();
+		vista.cambiarEstadoBotonMantenimiento(false);
+		vista.cambiarEstadoBotonFinalizar(false);
 	}
 	
 	/**

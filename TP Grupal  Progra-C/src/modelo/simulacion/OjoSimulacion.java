@@ -52,7 +52,7 @@ public class OjoSimulacion implements Observer {
 			}
 			
 			case Acciones.NO_HAY_HILOS: {
-			    vista.habilitarBotonGestion();
+			    vista.cambiarEstadoBotonVolver(true);
 				break;
 			}
 			}

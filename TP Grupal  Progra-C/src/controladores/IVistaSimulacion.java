@@ -46,12 +46,18 @@ public interface IVistaSimulacion {
 	public List<AsociadoDTO> getListaAsociadosSimulacion();
 	
 	/**
-	 *Habilita el boton para volver a la seccion de gestion
+	 *Habilita/desabilita el boton para volver a la seccion de gestion
 	 */
-	public void habilitarBotonGestion();
+	public void cambiarEstadoBotonVolver(boolean activo);
 	
 	/**
-	 * Deshabilita el boton para hacer mantenimiento
+	 *Habilita/desabilita el boton para solicitar mantenimiento
 	 */
-	public void deshabilitarBotonMantenimiento();
+	public void cambiarEstadoBotonMantenimiento(boolean activo);
+	
+	/**
+	 *Habilita/desabilita el boton para finalizar la simulacion
+	 */
+	public void cambiarEstadoBotonFinalizar(boolean activo);
+
 }

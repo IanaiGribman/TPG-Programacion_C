@@ -140,25 +140,27 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		return this.ventanaGestion.getListaAsociadosSimulacion();
 	}
 	
-	// esto cuando no hay hilos activos
-	@Override
-	public void habilitarBotonGestion() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	// esto cuando se apreta finalizar
-	@Override
-	public void deshabilitarBotonMantenimiento() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	// =====METODOS AUXILIARES=====
 	
 	protected void displayPopUp(String titulo, String mensaje, String textoBoton) {
 		CustomPopUp cpu = new CustomPopUp(this);
 		cpu.mostrar(titulo, mensaje, textoBoton);
+	}
+
+	@Override
+	public void cambiarEstadoBotonVolver(boolean activo) {
+		ventanaSimulacion.cambiarEstadoBotonVolver(activo);
+	}
+
+	@Override
+	public void cambiarEstadoBotonMantenimiento(boolean activo) {
+		ventanaSimulacion.cambiarEstadoBotonMantenimiento(activo);
+	}
+
+	@Override
+	public void cambiarEstadoBotonFinalizar(boolean activo) {
+		ventanaSimulacion.cambiarEstadoBotonFinalizar(activo);
 	}
 
 }

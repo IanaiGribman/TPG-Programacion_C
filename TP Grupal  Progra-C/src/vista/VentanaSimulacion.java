@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -16,18 +17,33 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import util.Acciones;
-import javax.swing.SwingConstants;
 
-public class VentanaSimulacion extends JPanelExtendido {
+import persistencia.AsociadoDTO;
+import util.Acciones;
+
+public class VentanaSimulacion extends JPanelExtendido{
+	private static final String toolTipVolverDesactivado = "<html> <b> <font color='black'> " 
+			+ "La simulacion debe terminar para poder volver."
+			+ "</font> </b> </html>";
+	private static final String toolTipMantenimientoDesactivado = "<html> <b> <font color='black'> " 
+			+ "Ya no se aceptan nuevas solicitudes."
+			+ "</font> </b> </html>";
+	private static final String toolTipFinalizarDesactivado = "<html> <b> <font color='black'> " 
+			+ "La simulacion ya esta finalizada."
+			+ "</font> </b> </html>";
+	
+	
+	
 	private DefaultListModel<String> llamadosNuevosDLM = new DefaultListModel<>();
 	private JList<String> llamadosNuevosJList = new JList<>();
 	private DefaultListModel<String> llamadosAtendidosDLM = new DefaultListModel<>();
 	private JList<String> llamadosAtendidosJList = new JList<>();
 
 	private static final long serialVersionUID = 1L;
+	
 	private JPanel panelSimulacion;
 	private JPanel panelIzquierdo;
 	private JPanel panelDerecho;
@@ -251,6 +267,10 @@ public class VentanaSimulacion extends JPanelExtendido {
 		this.btnFinalizar.setActionCommand(Acciones.FINALIZAR_SIMULACION);
 		this.btnMantenimiento.setActionCommand(Acciones.MANTENIMIENTO);
 		this.btnVolver.setActionCommand(Acciones.VOLVER_A_GESTION);
+		
+		this.cambiarEstadoBotonFinalizar(true);
+		this.cambiarEstadoBotonMantenimiento(true);
+		this.cambiarEstadoBotonVolver(false);
 	}
 	
 	public void aniadirLlamadoNuevo(String llamado) {
@@ -290,5 +310,29 @@ public class VentanaSimulacion extends JPanelExtendido {
 		this.btnMantenimiento.addActionListener(actionListener);
 		this.btnVolver.addActionListener(actionListener);
 	}
+
+	public void cambiarEstadoBotonVolver(boolean activo) {
+		if (activo)
+			this.actualizarBtn(btnVolver, true, "");
+		else
+			this.actualizarBtn(btnVolver, false, toolTipVolverDesactivado);
+	}
+
+	public void cambiarEstadoBotonMantenimiento(boolean activo) {
+		if (activo)
+			this.actualizarBtn(btnMantenimiento, true, "");
+		else
+			this.actualizarBtn(btnMantenimiento, false, toolTipMantenimientoDesactivado);
+	}
+
+	public void cambiarEstadoBotonFinalizar(boolean activo) {
+		if (activo)
+			this.actualizarBtn(btnFinalizar, true, "");
+		else
+			this.actualizarBtn(btnFinalizar, false, toolTipFinalizarDesactivado);
+	}
+
+
+
 
 }
