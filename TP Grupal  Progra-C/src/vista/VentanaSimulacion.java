@@ -288,7 +288,7 @@ public class VentanaSimulacion extends JPanelExtendido {
 		this.verificarInvarianteDeClase();
 		this.btnFinalizar.addActionListener(actionListener);
 		this.btnMantenimiento.addActionListener(actionListener);
-		this.btnFinalizar.addActionListener(actionListener);
+		this.btnVolver.addActionListener(actionListener);
 	}
 
 }
