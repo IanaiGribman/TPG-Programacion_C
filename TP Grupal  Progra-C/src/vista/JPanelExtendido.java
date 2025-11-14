@@ -1,5 +1,6 @@
 package vista;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public abstract class JPanelExtendido extends JPanel {
@@ -8,6 +9,18 @@ public abstract class JPanelExtendido extends JPanel {
 
 	protected abstract void configurarBotones();
 	protected abstract void verificarInvarianteDeClase();
+	
+	/**
+	 * 
+	 * @param boton boton a actualizar su estado
+	 * @param activar true si queres habilitar, false desabilitar
+	 * @param mensajeToolTip mensaje que se quiere que se muestre o "" si no se quiere mensaje
+	 */
+	protected void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
+		assert boton != null;
+		boton.setEnabled(activar);
+		boton.setToolTipText(mensajeToolTip);
+	}
 	
 
 }

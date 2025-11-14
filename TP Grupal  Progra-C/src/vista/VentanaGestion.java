@@ -530,12 +530,6 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		return this.asociadosSimulacionDLM.contains(asociado);
 	}
 
-	public void actualizarBtn(JButton boton, boolean activar, String mensajeToolTip) {
-		assert boton != null;
-		boton.setEnabled(activar);
-		boton.setToolTipText(mensajeToolTip);
-	}
-
 	/**
 	 * Realiza acciones en base a la seleccion de un elemento en alguna lista JList
 	 */
