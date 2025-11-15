@@ -79,7 +79,6 @@ public class ModuloSimulacion {
 	}
 	
 	public boolean sePuedeVolver() {
-		System.out.println(sePuedeVolver);
 		return sePuedeVolver;
 	}
 	

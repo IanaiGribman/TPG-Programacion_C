@@ -21,7 +21,7 @@ public class Operario extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			if (this.ambulancia.isSimulacionActiva()) {
+			if (this.ambulancia.hayHilosActivos()) {
 				String mensaje = this.getNombre() + " solicita mantenimiento";
 				this.setChanged();
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
