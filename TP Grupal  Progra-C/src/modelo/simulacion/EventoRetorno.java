@@ -36,8 +36,8 @@ public class EventoRetorno extends Solicitante {
 				llamarAmbulancia();
 				Util.tiempoMuerto();
 			}
-			llamarAmbulancia();
-			llamarAmbulancia();//una para regresar sin paciente (por las dudas) y la otra para terminar y estar disponible
+			//llamarAmbulancia();
+			//llamarAmbulancia();//una para regresar sin paciente (por las dudas) y la otra para terminar y estar disponible
 			this.setChanged();
 			this.notifyObservers(new NotificacionSimulacion(Acciones.NO_HAY_HILOS));
 		} catch (InterruptedException e) {

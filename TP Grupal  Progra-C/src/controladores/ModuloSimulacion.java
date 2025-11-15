@@ -1,10 +1,12 @@
-package modelo.simulacion;
+package controladores;
 
 import java.util.List;
 
-import controladores.IVistaSimulacion;
-import controladores.ManagerXMLSimulacion;
-import controladores.ParametrosSimulacion;
+import modelo.simulacion.Ambulancia;
+import modelo.simulacion.Asociado;
+import modelo.simulacion.EventoRetorno;
+import modelo.simulacion.Operario;
+import modelo.simulacion.Solicitante;
 import persistencia.AsociadoDTO;
 import util.Util;
 
@@ -38,13 +40,13 @@ public class ModuloSimulacion {
 		List<AsociadoDTO> lista = vista.getListaAsociadosSimulacion();
 
 		assert lista != null : "la lista de asociados DTO no debe ser null";
-
+		this.ambulancia.setEstadoDisponible();
 		vista.cambiarEstadoAmbulancia(ambulancia.getEstado().toString());
 		this.ambulancia.activarSimulacion();
 		this.crearHilosAsociados(lista);
 		EventoRetorno evt = new EventoRetorno(this.ambulancia);
 		
-		//no
+		//no lo pone en la lista de solicitantes del ojo
 		this.ojoSimulacion.agregarEventoRetorno(evt);
 		this.crearHilo(evt);
 		sePuedeVolver = false;

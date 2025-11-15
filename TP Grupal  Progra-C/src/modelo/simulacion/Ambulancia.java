@@ -15,7 +15,7 @@ public class Ambulancia extends Observable {
 	private boolean hayHilosActivos;
 	
 	public Ambulancia() {
-		this.estado = new EstadoDisponible(this); // estado inicial de la ambulancia
+		this.hayHilosActivos = false;
 		this.simulacionActiva = false;
 	}
 	
@@ -87,5 +87,12 @@ public class Ambulancia extends Observable {
 	
 	public IEstado getEstado() {
 		return estado;
+	}
+	
+	/**
+	 * Pone el estado de la ambulacion como disponible
+	 */
+	public void setEstadoDisponible() {
+		this.estado = new EstadoDisponible(this);
 	}
 }

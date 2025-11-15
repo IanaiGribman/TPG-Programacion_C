@@ -1,4 +1,4 @@
-package modelo.simulacion;
+package controladores;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,10 @@ import java.util.Observer;
 
 import javax.swing.SwingUtilities;
 
-import controladores.IVistaSimulacion;
+import modelo.simulacion.Ambulancia;
+import modelo.simulacion.EventoRetorno;
+import modelo.simulacion.NotificacionSimulacion;
+import modelo.simulacion.Solicitante;
 import util.Acciones;
 
 /**

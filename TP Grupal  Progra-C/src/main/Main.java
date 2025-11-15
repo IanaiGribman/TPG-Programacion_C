@@ -4,8 +4,8 @@ import java.awt.EventQueue;
 
 import controladores.Controlador;
 import controladores.ControladorAsociados;
+import controladores.ModuloSimulacion;
 import modelo.simulacion.Ambulancia;
-import modelo.simulacion.ModuloSimulacion;
 import persistencia.BaseDeDatosDAO;
 import persistencia.IBaseDeDatos;
 import persistencia.ManagerXMLConfig;
