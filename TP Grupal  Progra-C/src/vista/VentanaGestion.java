@@ -50,7 +50,7 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 	private static final String toolTipSimulacionVacia = "<html> <b> <font color='black'> "
 			+ "A�ada asociados a la ventana de simulacion para empezar la simulacion." + "</font> </b> </html>";
 	private static final String toolTipSeleccionPersistenciaVacia = "<html> <b> <font color='black'> "
-			+ "Seleccione un asociado en la ventana de persistencia para a�adir a la simulacion."
+			+ "Seleccione un asociado en la ventana de persistencia para incluir en la simulacion."
 			+ "</font> </b> </html>";
 	private static final String toolTipSeEncuentraEnSimulacion = "<html> <b> <font color='red'>" + "Error: "
 			+ "</font> </b> <b> <font color='black'> " + "El asociado seleccionado ya se encuentra en simulacion."

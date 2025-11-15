@@ -164,4 +164,9 @@ public class JFramePrincipal extends JFrame implements IVistaControlador, IVista
 		ventanaSimulacion.cambiarEstadoBotonFinalizar(activo);
 	}
 
+	@Override
+	public void cambiarEstadoBotonMantenimiento(boolean activo, String motivo) {
+		ventanaSimulacion.cambiarEstadoBotonMantenimiento(activo,motivo);
+	}
+
 }

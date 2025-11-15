@@ -21,17 +21,19 @@ public class Operario extends Solicitante {
 	@Override
 	public void run() {
 		try {
-			if (this.ambulancia.hayHilosActivos()) {
+			//if (this.ambulancia.hayHilosActivos()) {
 				String mensaje = this.getNombre() + " solicita mantenimiento";
 				this.setChanged();
 				this.notifyObservers(new NotificacionSimulacion(Acciones.NUEVO_LLAMADO, mensaje));
 				Util.tiempoMuerto();
 				this.ambulancia.solicitarMantenimiento(this);
 				this.setChanged();
-				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO, mensaje));
+				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_LLAMADO_NUEVOS_LLAMADOS, mensaje));
+				this.setChanged();
+				this.notifyObservers(new NotificacionSimulacion(Acciones.OPERARIO_ATENDIDO));
 				this.setChanged();
 				this.notifyObservers(new NotificacionSimulacion(Acciones.QUITAR_SOLICITANTE_ACTIVO));//no necesita nuevo valor, podria hacerse una clase padre de notificacion que no tenga un valor, solo una accion/mensaje
-			}
+			//}
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}

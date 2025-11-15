@@ -54,6 +54,7 @@ public class ModuloSimulacion {
 	 * Crea un hilo de operario y lo inicia
 	 */
 	public void crearHiloOperario() {
+		vista.cambiarEstadoBotonMantenimiento(false, IVistaSimulacion.OPERARIO_REPETIDO); //TODO
 		Solicitante operario = new Operario(this.ambulancia);
 		this.ojoSimulacion.agregarSolicitanteLista(operario);
 		this.crearHilo(operario);

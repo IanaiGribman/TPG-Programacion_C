@@ -45,7 +45,7 @@ public class OjoSimulacion implements Observer {
 				break;
 			}
 
-			case Acciones.QUITAR_LLAMADO: {
+			case Acciones.QUITAR_LLAMADO_NUEVOS_LLAMADOS: {
 			    vista.quitarLlamadoEspera(notif.getMensaje());
 			    vista.agregarLlamadoAtendidos(notif.getMensaje());
 				break;
@@ -70,7 +70,7 @@ public class OjoSimulacion implements Observer {
 					break;
 				}
 	
-				case Acciones.QUITAR_LLAMADO: {
+				case Acciones.QUITAR_LLAMADO_NUEVOS_LLAMADOS: {
 				    vista.quitarLlamadoEspera(notif.getMensaje());
 				    vista.agregarLlamadoAtendidos(notif.getMensaje());
 					break;
@@ -79,6 +79,12 @@ public class OjoSimulacion implements Observer {
 				case Acciones.QUITAR_SOLICITANTE_ACTIVO: {
 					this.sacarSolicitanteLista(soli);
 					break;
+				}
+				case Acciones.OPERARIO_ATENDIDO: {
+					if (!this.moduloSimulacion.sePuedeVolver())
+						this.vista.cambiarEstadoBotonMantenimiento(true);
+					else
+						this.vista.cambiarEstadoBotonMantenimiento(false,IVistaSimulacion.FIN_SIMULACION);
 				}
 			}
 		}

@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import controladores.IVistaSimulacion;
 import persistencia.AsociadoDTO;
 import util.Acciones;
 
@@ -30,6 +31,9 @@ public class VentanaSimulacion extends JPanelExtendido{
 			+ "</font> </b> </html>";
 	private static final String toolTipMantenimientoDesactivado = "<html> <b> <font color='black'> " 
 			+ "Ya no se aceptan nuevas solicitudes."
+			+ "</font> </b> </html>";
+	private static final String toolTipMantenimientoRepetido = "<html> <b> <font color='black'> " 
+			+ "Solo se puede solicitar un mantenimiento a la vez ."
 			+ "</font> </b> </html>";
 	private static final String toolTipFinalizarDesactivado = "<html> <b> <font color='black'> " 
 			+ "La simulacion ya esta finalizada."
@@ -320,6 +324,22 @@ public class VentanaSimulacion extends JPanelExtendido{
 			this.actualizarBtn(btnMantenimiento, true, "");
 		else
 			this.actualizarBtn(btnMantenimiento, false, toolTipMantenimientoDesactivado);
+	}
+	public void cambiarEstadoBotonMantenimiento(boolean activo, String motivo) {
+		switch (motivo) {
+		case IVistaSimulacion.FIN_SIMULACION:{
+			this.actualizarBtn(btnMantenimiento, false, toolTipMantenimientoDesactivado);
+			break;
+		}
+		case IVistaSimulacion.OPERARIO_REPETIDO:{
+			this.actualizarBtn(btnMantenimiento, false, toolTipMantenimientoRepetido);
+			break;
+		}
+		default:{
+			this.actualizarBtn(btnMantenimiento, activo, "");
+		}
+		}
+		
 	}
 
 	public void cambiarEstadoBotonFinalizar(boolean activo) {
