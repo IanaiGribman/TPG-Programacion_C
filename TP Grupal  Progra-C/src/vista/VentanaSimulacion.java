@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -22,13 +21,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import controladores.IVistaSimulacion;
-import persistencia.AsociadoDTO;
 import util.Acciones;
 
 public class VentanaSimulacion extends JPanelExtendido{
-	private static final String toolTipVolverDesactivado = "<html> <b> <font color='black'> " 
+	private static final String toolTipVolverDesactivado = "<html> <b> <i> <font color='black'> " 
 			+ "La simulacion debe terminar para poder volver."
-			+ "</font> </b> </html>";
+			+ "</font> </i> </b> </html>";
 	private static final String toolTipMantenimientoDesactivado = "<html> <b> <font color='black'> " 
 			+ "Ya no se aceptan nuevas solicitudes."
 			+ "</font> </b> </html>";
@@ -94,6 +92,9 @@ public class VentanaSimulacion extends JPanelExtendido{
 		
 	}
 
+	/**
+	 * verifica que los elementos interactuables no sean nulos
+	 */
 	protected void verificarInvarianteDeClase() {
 		assert this.llamadosAtendidosDLM != null;
 		assert this.llamadosAtendidosJList != null;
@@ -267,6 +268,9 @@ public class VentanaSimulacion extends JPanelExtendido{
 	    panelLlamadosAtendidos.add(scrollPaneLlamadosAtendidos, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * setea los action commands
+	 */
 	protected void configurarBotones() {
 		this.verificarInvarianteDeClase();
 		this.btnFinalizar.setActionCommand(Acciones.FINALIZAR_SIMULACION);
@@ -274,12 +278,20 @@ public class VentanaSimulacion extends JPanelExtendido{
 		this.btnVolver.setActionCommand(Acciones.VOLVER_A_GESTION);
 	}
 	
+	/**
+	 * 
+	 * @param llamado lo agrega a la lista de llamados nuevos
+	 */
 	public void aniadirLlamadoNuevo(String llamado) {
 		this.verificarInvarianteDeClase();
 		assert llamado != null;
 		this.llamadosNuevosDLM.addElement(llamado);
 	}
 
+	/**
+	 * 
+	 * @param llamado lo remueve de la lista de llamados
+	 */
 	public void retirarLlamadoNuevo(String llamado) {
 		assert llamado != null;
 		
@@ -294,17 +306,28 @@ public class VentanaSimulacion extends JPanelExtendido{
 			this.llamadosNuevosDLM.remove(i);
 	}
 	
+	/**
+	 * 
+	 * @param llamado lo agrega a la lista de llamados atendidos
+	 */
 	public void aniadirLlamadoAtendidos(String llamado) {
 		this.llamadosAtendidosDLM.addElement(llamado);
 	}
 
+	/**
+	 * 
+	 * @param estadoAmbulancia estado a representar el la seccion de estado de la ambulancia
+	 */
 	public void informarCambioEstado(String estadoAmbulancia) {
 		this.verificarInvarianteDeClase();
 		assert estadoAmbulancia != null;
 		this.labelEstadoAmbulancia.setText(estadoAmbulancia);
 	}
 	
-	
+	/**
+	 * 
+	 * @param actionListener quien va a escuchar a los botones
+	 */
 	public void addActionListener(ActionListener actionListener){
 		this.verificarInvarianteDeClase();
 		this.btnFinalizar.addActionListener(actionListener);
@@ -312,6 +335,10 @@ public class VentanaSimulacion extends JPanelExtendido{
 		this.btnVolver.addActionListener(actionListener);
 	}
 
+	/**
+	 * habilita o desabilita el boton setteando el toolTip correspondiente
+	 * @param activo activado/desactivado
+	 */
 	public void cambiarEstadoBotonVolver(boolean activo) {
 		if (activo)
 			this.actualizarBtn(btnVolver, true, "");
@@ -319,12 +346,21 @@ public class VentanaSimulacion extends JPanelExtendido{
 			this.actualizarBtn(btnVolver, false, toolTipVolverDesactivado);
 	}
 
+	/**
+	 * habilita o desabilita el boton setteando el toolTip correspondiente
+	 * @param activo activado/desactivado
+	 */
 	public void cambiarEstadoBotonMantenimiento(boolean activo) {
 		if (activo)
 			this.actualizarBtn(btnMantenimiento, true, "");
 		else
 			this.actualizarBtn(btnMantenimiento, false, toolTipMantenimientoDesactivado);
 	}
+	/**
+	 * habilita o desabilita el boton setteando el toolTip correspondiente 
+	 * @param activo activado/desactivado
+	 * @param motivo decide que toolTip se va a seleccionar
+	 */
 	public void cambiarEstadoBotonMantenimiento(boolean activo, String motivo) {
 		switch (motivo) {
 		case IVistaSimulacion.FIN_SIMULACION:{
@@ -342,6 +378,10 @@ public class VentanaSimulacion extends JPanelExtendido{
 		
 	}
 
+	/**
+	 * habilita o desabilita el boton setteando el toolTip correspondiente
+	 * @param activo activado/desactivado
+	 */
 	public void cambiarEstadoBotonFinalizar(boolean activo) {
 		if (activo)
 			this.actualizarBtn(btnFinalizar, true, "");
@@ -349,6 +389,9 @@ public class VentanaSimulacion extends JPanelExtendido{
 			this.actualizarBtn(btnFinalizar, false, toolTipFinalizarDesactivado);
 	}
 
+	/**
+	 * prepara la ventana para una nueva simulacion
+	 */
 	public void inicializarValores() {
 		this.verificarInvarianteDeClase();
 		this.cambiarEstadoBotonFinalizar(true);
@@ -357,12 +400,9 @@ public class VentanaSimulacion extends JPanelExtendido{
 		this.llamadosAtendidosDLM.clear();
 		this.llamadosNuevosDLM.clear();
 		this.labelEstadoAmbulancia.setText("");
-		
 		revalidate();
-		
 	}
 
 
-
-
 }
+

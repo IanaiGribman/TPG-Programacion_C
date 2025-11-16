@@ -427,6 +427,10 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		return gbc;
 	}
 
+	/**
+	 * 
+	 * @return asociadoDTO que se desea registrar
+	 */
 	public AsociadoDTO getAsociado() {
 		this.verificarInvarianteDeClase();
 		assert textFieldNombre.getText() != "";
@@ -438,12 +442,19 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		return nuevo;
 	}
 
+	/**
+	 * 
+	 * @return el dni a eliminar de la bd
+	 */
 	public String getDNI() {
 		this.verificarInvarianteDeClase();
 		assert textFieldDniEliminacion.getText() != "";
 		return this.textFieldDniEliminacion.getText();
 	}
 
+	/**
+	 * vacia los textFields de registro y revalida el boton
+	 */
 	public void clearRegistroTextFields() {
 		this.verificarInvarianteDeClase();
 		this.textFieldNombre.setText("");
@@ -451,6 +462,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		this.revalidarBotonRegistrar();
 	}
 
+	/**
+	 * vacia los textfields de eliminacion y revalida el boton eliminar
+	 */
 	public void clearEliminacionTextFields() {
 		this.verificarInvarianteDeClase();
 		this.textFieldDniEliminacion.setText("");
@@ -465,6 +479,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 	public void keyTyped(KeyEvent arg0) {
 	}
 	
+	/**
+	 * verifica si se tiene que revalidar algun boton por interaccion del usuario
+	 */
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		assert arg0 != null;
@@ -476,6 +493,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		}
 	}
 
+	/**
+	 * verifica si se cumplen las condiciones para que el boton este activo, de no estarlo lo desactiva y asigna el toolTipText correspondiente
+	 */
 	private void revalidarBotonRegistrar() {
 		if (textFieldDniCreacion.getText().trim().isEmpty() || textFieldNombre.getText().trim().isEmpty()) {
 			actualizarBtn(this.btnRegistrar, false, VentanaGestion.toolTipCompleteAmbos);
@@ -489,6 +509,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		}
 	}
 
+	/**
+	 * verifica si se cumplen las condiciones para que el boton este activo, de no estarlo lo desactiva y asigna el toolTipText correspondiente
+	 */
 	private void revalidadBotonEliminar() {
 		this.verificarInvarianteDeClase();
 		if (!this.asociadosSimulacionDLM.isEmpty())
@@ -503,6 +526,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		}
 	}
 
+	/**
+	 * verifica si se cumplen las condiciones para que el boton este activo, de no estarlo lo desactiva y asigna el toolTipText correspondiente
+	 */
 	private void revalidarBotonSimulacion() {
 		this.verificarInvarianteDeClase();
 		if (this.asociadosSimulacionDLM.isEmpty())
@@ -511,6 +537,9 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 			this.actualizarBtn(this.btnSimular, true, "");
 	}
 
+	/**
+	 * verifica si se cumplen las condiciones para que el boton este activo, de no estarlo lo desactiva y asigna el toolTipText correspondiente
+	 */
 	private void revalidarBotonAgregarSimulacion() {
 		this.verificarInvarianteDeClase();
 		if (this.asociadosPersistenciaJList.isSelectionEmpty())
@@ -681,10 +710,17 @@ public class VentanaGestion extends JPanelExtendido implements KeyListener, List
 		this.revalidarBotonAgregarSimulacion();
 	}
 
+	/**
+	 * 
+	 * @return una lista con los asociadosDTO que se van a querer simular
+	 */
 	public List<AsociadoDTO> getListaAsociadosSimulacion() {
 		return Collections.list(this.asociadosSimulacionDLM.elements());
 	}
 
+	/**
+	 * verifica que los componentes interactuables no sean nulos
+	 */
 	protected void verificarInvarianteDeClase() {
 		assert this.asociadosPersistenciaDLM != null;
 		assert this.asociadosPersistenciaJList != null;

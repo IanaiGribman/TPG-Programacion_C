@@ -2,7 +2,9 @@ package vista;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+/**
+ * clase con algunos metodos comunes para ambas ventanas
+ */
 public abstract class JPanelExtendido extends JPanel {
 
 	private static final long serialVersionUID = 1L;
