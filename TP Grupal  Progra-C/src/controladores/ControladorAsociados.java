@@ -11,6 +11,9 @@ import persistencia.excepciones.NoEliminadoException;
 import persistencia.excepciones.SinConexionException;
 import util.Util;
 
+/**
+ * Gestiona la BD (a traves del DAO) y la vista relacionada con los cambios en la BD
+ */
 public class ControladorAsociados {
 	IBaseDeDatos dao;
 	IVistaAsociados vista;

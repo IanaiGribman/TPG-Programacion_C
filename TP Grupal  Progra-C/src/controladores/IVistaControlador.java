@@ -10,6 +10,9 @@ import modelo.simulacion.Solicitante;
 import patrones.state.IEstado;
 import persistencia.AsociadoDTO;
 
+/**
+ * Define los metodos de la vista pertinentes al controlador general
+ */
 public interface IVistaControlador {	
 
 	/**

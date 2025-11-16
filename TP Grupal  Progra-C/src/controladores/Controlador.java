@@ -7,20 +7,24 @@ import java.awt.event.WindowEvent;
 
 import util.Acciones;
 
+/**
+ * Recibe los eventos producidos por los botones de la vista y delega las tareas a los controladores 
+ * especificos. Tambien recibe el evento de cierre de ventana.
+ */
 public class Controlador extends WindowAdapter implements ActionListener {
 	private ModuloSimulacion moduloSimulacion;
 	private ControladorAsociados controladorAsociados;
 	private IVistaControlador vista;
 	
 	
-	
-	public Controlador(ModuloSimulacion controladorSimulacion, ControladorAsociados controladorAsociados,
+
+	public Controlador(ModuloSimulacion moduloSimulacion, ControladorAsociados controladorAsociados,
 			IVistaControlador vista) {
-		assert controladorSimulacion != null;
+		assert moduloSimulacion != null;
 		assert controladorAsociados != null;
 		assert vista != null;
 		
-		this.moduloSimulacion = controladorSimulacion;
+		this.moduloSimulacion = moduloSimulacion;
 		this.controladorAsociados = controladorAsociados;
 		this.vista = vista;
 		vista.setActionListener(this);

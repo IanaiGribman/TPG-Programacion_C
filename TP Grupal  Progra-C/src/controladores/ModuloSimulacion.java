@@ -31,7 +31,7 @@ public class ModuloSimulacion {
 	}
 
 	/**
-	 * Pone en true el flag de simulacion del recurso compartido y crea los hilos al
+	 * Pone en true los flags de simulacion del recurso compartido, lo pone en disponible y crea los hilos al
 	 * iniciar la simulacion: hilos de los asociados y el de retorno a clinica
 	 * 
 	 * @param lista
@@ -71,12 +71,12 @@ public class ModuloSimulacion {
 	}
 	
 	/**
-	 * Pone en false el flag que indica que hay hilos (ademas del retorno automatico) que utilizan la ambulancia
+	 * Pone en false el flag que indica que hay hilos (distintos del retorno automatico) que utilizan la ambulancia
 	 */
 	public void finHilos() {
 		this.ambulancia.finHilosActivos();
 	}
-	
+
 	public void setSePuedeVolver(boolean sePuedeVolver) {
 		this.sePuedeVolver = sePuedeVolver;
 	}

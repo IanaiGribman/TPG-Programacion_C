@@ -1,5 +1,8 @@
 package patrones.state;
 
+/**
+ * Define los metodos que debe implementar cada estado
+ */
 public interface IEstado {
 	void atencionADomicilio();
 	void trasladoAClinica();

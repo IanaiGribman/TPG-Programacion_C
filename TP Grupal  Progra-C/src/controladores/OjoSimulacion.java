@@ -93,12 +93,20 @@ public class OjoSimulacion implements Observer {
 		}
 
 	}
-
+	
+	/**
+	 * Agrega un solicitante (debe ser un asociado o un operario) a la lista de asociados y agrega el observer a ellos
+	 * @param solicitante
+	 */
 	public void agregarSolicitanteLista(Solicitante solicitante) {
 		this.solicitantesActivos.add(solicitante);
 		solicitante.addObserver(this);
 	}
 	
+	/**
+	 * Saca el solicitante de la lista y lo deja de observar. Notifica si dicha lista quedo vacia luego de quitar un elemento
+	 * @param solicitante
+	 */
 	public void sacarSolicitanteLista(Solicitante solicitante) {
 		solicitante.deleteObserver(this);//ya no lo observo mas, no esta en la lista
 		this.solicitantesActivos.remove(solicitante);
@@ -106,7 +114,6 @@ public class OjoSimulacion implements Observer {
 			this.moduloSimulacion.finHilos();
 	}
 	
-	//esto es solamente para que se muestre el retorno automatico en la vista
 	public void agregarEventoRetorno(EventoRetorno evt) {
 		this.eventoRetorno = evt;
 		evt.addObserver(this);

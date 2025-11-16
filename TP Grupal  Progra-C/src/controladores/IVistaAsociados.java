@@ -4,6 +4,9 @@ import java.util.List;
 
 import persistencia.AsociadoDTO;
 
+/**
+ * Define los metodos de la vista relacionados a la gestion de asociados
+ */
 public interface IVistaAsociados {
 	
 	/**
