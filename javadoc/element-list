@@ -1,3 +1,4 @@
+controladores
 modelo
 modelo.atenciones
 modelo.espera
@@ -6,3 +7,9 @@ modelo.habitaciones
 modelo.medicos
 modelo.paciente
 modelo.registro
+modelo.simulacion
+patrones.state
+persistencia
+persistencia.excepciones
+util
+vista

@@ -41,8 +41,8 @@ public class CustomPopUp extends JDialog {
     }
 
     /**
-     * Muestra el pop-up con los parámetros especificados.
-     * @param titulo Título del cuadro de dialogo
+     * Muestra el pop-up con los parï¿½metros especificados.
+     * @param titulo Titulo del cuadro de dialogo
      * @param mensaje Texto del mensaje a mostrar
      * @param textoBoton Texto del boton de confirmacion
      */

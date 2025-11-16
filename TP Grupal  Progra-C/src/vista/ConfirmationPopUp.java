@@ -84,8 +84,8 @@ public class ConfirmationPopUp extends JDialog {
     	btnCancelar.setActionCommand(actionCommand);
     }
 	/**
-     * Muestra el pop-up con los parámetros especificados.
-     * @param titulo Título del cuadro de dialogo
+     * Muestra el pop-up con los parametros especificados.
+     * @param titulo Titulo del cuadro de dialogo
      * @param mensaje Texto del mensaje a mostrar
      * @param textoBotonConfirmar Texto del boton de confirmacion
      * @param textoBotonCancelar Texto del boton cancelar
