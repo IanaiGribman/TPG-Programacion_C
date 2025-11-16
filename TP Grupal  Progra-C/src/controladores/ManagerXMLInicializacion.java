@@ -9,6 +9,10 @@ import java.util.Collection;
 
 import persistencia.AsociadoDTO;
 
+/**
+ * Clase para la carga y lectura del archivo xml que contiene datos de asociados
+ * para la inicializacion de la BD
+ */
 public class ManagerXMLInicializacion {	
 	static public Collection<AsociadoDTO> leerAsociadosInicializacionXML(String direccionArchivoXMLConfig) {
 		Collection<AsociadoDTO> asociados = null;

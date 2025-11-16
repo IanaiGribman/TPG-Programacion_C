@@ -5,6 +5,10 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * Clase para la carga y lectura del archivo xml que contiene la cantidad minima y maxima de solicitudes
+ *que puede hacer un asociado a la ambulancia
+ */
 public class ManagerXMLSimulacion {	
 	static public ParametrosSimulacion leerSimulacionXML(String direccionArchivoXMLConfig) {
 		ParametrosSimulacion parametros = null;

@@ -1,5 +1,8 @@
 package controladores;
 
+/**
+ * Clase que contiene la cantidad maxima y minima de solicitudes que puede hacer un asociado
+ */
 public class ParametrosSimulacion {
 	private int cantMaximaSolicitudes;
 	private int cantMinimaSolicitudes;
