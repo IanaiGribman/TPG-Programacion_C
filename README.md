@@ -1,11 +1,9 @@
-#Trabajo Practico Grupal (Parte 1) - Programacion C 2025
-
-#Grupo: 5
-
-#Integrantes:
-	- Ianai Gribman
-	- Dante Gregorini
-	- Mateo Vazquez
-	- Valentina Acevedo
-	- Natasha Milosevic
+# TPG - Etapa II
+<b> Grupo: 5 </b>
+## Integrantes:
+<li> Ianai Gribman </li>
+<li> Dante Gregorini </li>
+<li> Mateo Vazquez </li>
+<li> Valentina Acevedo </li>
+<li> Natasha Milosevic </li>
 	
